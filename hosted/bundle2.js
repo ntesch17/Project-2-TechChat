@@ -1,49 +1,35 @@
-const handleChat = e => {
+const handleNote = e => {
   e.preventDefault();
   $("#domoMessage").animate({
     width: 'hide'
   }, 350);
 
-  if ($("#chatResponse").val() == '' || $("#chatName").val() == '') {
+  if ($("#noteResponse").val() == '') {
     handleError("RAWR! Chat fields are required.");
     return false;
   }
 
-  $("#submits").submit(function (e) {
-    $("#username").hide();
-    $("#chatUser").hide();
-  });
-  sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function () {
-    $("#username").hide();
-    $("#chatUser").hide();
+  sendAjax('POST', $("#noteForm").attr("action"), $("#noteForm").serialize(), function () {
     loadChatFromServer();
   });
   return false;
 };
 
-const ChatForm = props => {
+const NoteForm = props => {
   return /*#__PURE__*/React.createElement("form", {
-    id: "chatForm",
-    onSubmit: handleChat,
-    name: "chatForm",
-    action: "/chat",
+    id: "noteForm",
+    onSubmit: handleNote,
+    name: "noteForm",
+    action: "/note",
     method: "POST",
-    className: "chatForm"
+    className: "noteForm"
   }, /*#__PURE__*/React.createElement("label", {
-    id: "username",
-    htmlFor: "username"
-  }, "Enter a username: "), /*#__PURE__*/React.createElement("input", {
-    id: "chatUser",
+    htmlFor: "note"
+  }, "Enter a Note: "), /*#__PURE__*/React.createElement("input", {
+    id: "noteResponse",
     type: "text",
-    name: "username",
-    placeholder: "Enter Username"
-  }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "response"
-  }, "Enter a response: "), /*#__PURE__*/React.createElement("input", {
-    id: "chatResponse",
-    type: "text",
-    name: "response",
-    placeholder: "Enter Response"
+    name: "note",
+    placeholder: "Note Here"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
@@ -57,48 +43,46 @@ const ChatForm = props => {
 };
 
 const ChatList = function (props) {
-  if (props.chat.length === 0) {
+  if (props.note.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
-      className: "chatList"
+      className: "noteList"
     }, /*#__PURE__*/React.createElement("h3", {
-      className: "emptyChat"
-    }, "No Responses Yet!"));
+      className: "emptyNote"
+    }, "No Notes Yet!"));
   }
 
-  const chatNodes = props.chat.map(function (chat) {
+  const noteNodes = props.note.map(function (note) {
     return /*#__PURE__*/React.createElement("div", {
-      key: chat._id,
-      className: "chat"
+      key: note._id,
+      className: "note"
     }, /*#__PURE__*/React.createElement("img", {
       src: "/assets/img/domoface.jpeg",
       alt: "domo face",
       className: "domoFace"
     }), /*#__PURE__*/React.createElement("h3", {
-      className: "chatUser"
-    }, " User: ", chat.username, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "chatResponse"
-    }, " Response: ", chat.response, " "));
+      className: "noteResponse"
+    }, " Note: ", note.note, " "));
   });
   return /*#__PURE__*/React.createElement("div", {
-    className: "chatList"
-  }, chatNodes);
+    className: "noteList"
+  }, noteNodes);
 };
 
 const loadChatFromServer = () => {
-  sendAjax('GET', '/getChat', null, data => {
-    ReactDOM.render( /*#__PURE__*/React.createElement(ChatList, {
-      chat: data.chat
-    }), document.querySelector("#chat"));
+  sendAjax('GET', '/getNote', null, data => {
+    ReactDOM.render( /*#__PURE__*/React.createElement(NoteList, {
+      note: data.note
+    }), document.querySelector("#note"));
   });
 };
 
 const setup = function (csrf) {
-  ReactDOM.render( /*#__PURE__*/React.createElement(ChatForm, {
+  ReactDOM.render( /*#__PURE__*/React.createElement(NoteForm, {
     csrf: csrf
-  }), document.querySelector('#makeChat'));
-  ReactDOM.render( /*#__PURE__*/React.createElement(ChatList, {
-    chat: []
-  }), document.querySelector('#chat'));
+  }), document.querySelector('#makeNote'));
+  ReactDOM.render( /*#__PURE__*/React.createElement(NoteList, {
+    note: []
+  }), document.querySelector('#note'));
   setInterval(() => {
     loadChatFromServer();
   }, 100);

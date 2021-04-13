@@ -6,10 +6,11 @@
   "scripts": {
     "buildLoginBundle": "babel ./client/login ./client/helper --presets @babel/preset-react --out-file ./hosted/loginBundle.js",
     "buildAppBundle": "babel ./client/app ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle.js",
-    "buildApp2Bundle": "babel ./client/app2 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle2.js",
-    "build": "npm run buildLoginBundle && npm run buildAppBundle && npm run buildApp2Bundle",
+    "buildAppBundle2": "babel ./client/app2 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle2.js",
+    "build": "npm run buildLoginBundle && npm run buildAppBundle && npm run buildAppBundle2",
     "watchLoginBundle": "babel --watch ./client/helper --presets @babel/preset-react --out-file ./hosted/loginBundle.js",
     "watchAppBundle": "babel --watch ./client/app ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle.js",
+    "watchAppBundle": "babel --watch ./client/app2 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle2.js",
     "nodemon": "nodemon --watch ./server ./server/app.js",
     "start": "node ./server/app.js",
     "pretest": "eslint ./server --fix",

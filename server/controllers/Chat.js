@@ -13,7 +13,7 @@ const chatPage = (req, res) => {
       return res.status(400).json({ error: 'An error occurred.' });
     }
 
-    return res.render('app2', { csrfToken: req.csrfToken(), chat: docs });
+    return res.render('app', { csrfToken: req.csrfToken(), chat: docs });
   });
 };
 

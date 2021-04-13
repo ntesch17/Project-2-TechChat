@@ -1,106 +1,107 @@
-const handleDomo = e => {
+const handleChat = e => {
   e.preventDefault();
   $("#domoMessage").animate({
     width: 'hide'
   }, 350);
 
-  if ($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#domoRank").val() == '') {
-    handleError("RAWR! All fields are required.");
+  if ($("#chatResponse").val() == '' || $("#chatName").val() == '') {
+    handleError("RAWR! Chat fields are required.");
     return false;
   }
 
-  sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
-    loadDomosFromServer();
+  $("#submits").submit(function (e) {
+    $("#username").hide();
+    $("#chatUser").hide();
+  });
+  sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function () {
+    $("#username").hide();
+    $("#chatUser").hide();
+    loadChatFromServer();
   });
   return false;
 };
 
-const DomoForm = props => {
+const ChatForm = props => {
   return /*#__PURE__*/React.createElement("form", {
-    id: "domoForm",
-    onSubmit: handleDomo,
-    name: "domoForm",
-    action: "/maker",
+    id: "chatForm",
+    onSubmit: handleChat,
+    name: "chatForm",
+    action: "/chat",
     method: "POST",
-    className: "domoForm"
+    className: "chatForm"
   }, /*#__PURE__*/React.createElement("label", {
-    htmlFor: "name"
-  }, "Name: "), /*#__PURE__*/React.createElement("input", {
-    id: "domoName",
+    id: "username",
+    htmlFor: "username"
+  }, "Enter a username: "), /*#__PURE__*/React.createElement("input", {
+    id: "chatUser",
     type: "text",
-    name: "name",
-    placeholder: "Domo Name"
+    name: "username",
+    placeholder: "Enter Username"
   }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "age"
-  }, "Age: "), /*#__PURE__*/React.createElement("input", {
-    id: "domoAge",
+    htmlFor: "response"
+  }, "Enter a response: "), /*#__PURE__*/React.createElement("input", {
+    id: "chatResponse",
     type: "text",
-    name: "age",
-    placeholder: "Domo Age"
-  }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "rank"
-  }, "Rank: "), /*#__PURE__*/React.createElement("input", {
-    id: "domoRank",
-    type: "text",
-    name: "rank",
-    placeholder: "Domo Rank"
+    name: "response",
+    placeholder: "Enter Response"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
-    className: "makeDomoSubmit",
+    id: "submits",
+    className: "makeChatSubmit",
     type: "submit",
-    value: "Make Domo"
+    value: "Make Chat"
   }));
 };
 
-const DomoList = function (props) {
-  if (props.domos.length === 0) {
+const ChatList = function (props) {
+  if (props.chat.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
-      className: "domoList"
+      className: "chatList"
     }, /*#__PURE__*/React.createElement("h3", {
-      className: "emptyDomo"
-    }, "No Domos Yet"));
+      className: "emptyChat"
+    }, "No Responses Yet!"));
   }
 
-  const domoNodes = props.domos.map(function (domo) {
+  const chatNodes = props.chat.map(function (chat) {
     return /*#__PURE__*/React.createElement("div", {
-      key: domo._id,
-      className: "domo"
+      key: chat._id,
+      className: "chat"
     }, /*#__PURE__*/React.createElement("img", {
       src: "/assets/img/domoface.jpeg",
       alt: "domo face",
       className: "domoFace"
     }), /*#__PURE__*/React.createElement("h3", {
-      className: "domoName"
-    }, " Name: ", domo.name, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "domoAge"
-    }, " Age: ", domo.age, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "domoRank"
-    }, " Rank: ", domo.rank, " "));
+      className: "chatUser"
+    }, " User: ", chat.username, " "), /*#__PURE__*/React.createElement("h3", {
+      className: "chatResponse"
+    }, " Response: ", chat.response, " "));
   });
   return /*#__PURE__*/React.createElement("div", {
-    className: "domoList"
-  }, domoNodes, ",");
+    className: "chatList"
+  }, chatNodes);
 };
 
-const loadDomosFromServer = () => {
-  sendAjax('GET', '/getDomos', null, data => {
-    ReactDOM.render( /*#__PURE__*/React.createElement(DomoList, {
-      domos: data.domos
-    }), document.querySelector("#domos"));
+const loadChatFromServer = () => {
+  sendAjax('GET', '/getChat', null, data => {
+    ReactDOM.render( /*#__PURE__*/React.createElement(ChatList, {
+      chat: data.chat
+    }), document.querySelector("#chat"));
   });
 };
 
 const setup = function (csrf) {
-  ReactDOM.render( /*#__PURE__*/React.createElement(DomoForm, {
+  ReactDOM.render( /*#__PURE__*/React.createElement(ChatForm, {
     csrf: csrf
-  }), document.querySelector('#makeDomo'));
-  ReactDOM.render( /*#__PURE__*/React.createElement(DomoList, {
-    domos: []
-  }), document.querySelector('#domos'));
-  loadDomosFromServer();
+  }), document.querySelector('#makeChat'));
+  ReactDOM.render( /*#__PURE__*/React.createElement(ChatList, {
+    chat: []
+  }), document.querySelector('#chat'));
+  setInterval(() => {
+    loadChatFromServer();
+  }, 100);
 };
 
 const getToken = () => {
