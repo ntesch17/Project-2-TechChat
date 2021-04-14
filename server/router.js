@@ -8,12 +8,15 @@ const router = (app) => {
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
-  app.post('/change', mid.requiresSecure, mid.requiresLogout, controllers.Change.changeLogin);
+  app.get('/change', mid.requiresSecure, mid.requiresLogin, controllers.Change.changePage);
+  app.post('/change', mid.requiresSecure, mid.requiresLogin, controllers.Change.changeLogin);
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
   app.get('/note', mid.requiresLogin, controllers.Note.notePage);
   app.post('/note', mid.requiresLogin, controllers.Note.make);
   app.get('/chat', mid.requiresLogin, controllers.Chat.chatPage);
   app.post('/chat', mid.requiresLogin, controllers.Chat.make);
+  app.post('/chat', mid.requiresLogin, controllers.Chat.make);
+  app.delete('/deleteMessage', mid.requiresLogin, controllers.Chat.deleteMessage);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 

@@ -1,3 +1,5 @@
+let csrfToken;
+
 const handleChat = e => {
   e.preventDefault();
   $("#domoMessage").animate({
@@ -58,6 +60,12 @@ const ChatList = function (props) {
   }
 
   const chatNodes = props.chat.map(function (chat) {
+    const handleDelete = e => {
+      let xhr = new XMLHttpRequest();
+      xhr.open('DELETE', `/deleteMessage?_id=${chat._id}&_csrf=${csrfToken}`);
+      xhr.send();
+    };
+
     return /*#__PURE__*/React.createElement("div", {
       key: chat._id,
       className: "chat"
@@ -73,7 +81,8 @@ const ChatList = function (props) {
       id: "submitDelete",
       className: "makeDeleteSubmit",
       type: "submit",
-      value: "Delete Response"
+      value: "Delete Response",
+      onClick: handleDelete
     }), /*#__PURE__*/React.createElement("input", {
       id: "submits",
       className: "makeFriendSubmit",
@@ -102,20 +111,13 @@ const setup = function (csrf) {
     chat: []
   }), document.querySelector('#chat'));
   setInterval(() => {
-    // document.querySelector("#submitDelete").onclick(function(e) {
-    //     console.log('here');
-    //     chat.deleteOne({ size: 'large' }).then(function(){
-    //         console.log("Data deleted"); // Success
-    //     }).catch(function(error){
-    //         console.log(error); // Failure
-    //     });
-    //     });
     loadChatFromServer();
   }, 100);
 };
 
 const getToken = () => {
   sendAjax('GET', '/getToken', null, result => {
+    csrfToken = result.csrfToken;
     setup(result.csrfToken);
   });
 };

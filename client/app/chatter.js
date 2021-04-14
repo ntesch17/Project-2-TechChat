@@ -1,3 +1,5 @@
+let csrfToken;
+
 const handleChat = (e) => {
     e.preventDefault();
 
@@ -53,13 +55,20 @@ const ChatList = function(props){
         );
     }
 
+   
     const chatNodes = props.chat.map(function(chat) {
+        const handleDelete = (e) => {
+            let xhr = new XMLHttpRequest();
+            xhr.open('DELETE', `/deleteMessage?_id=${chat._id}&_csrf=${csrfToken}`);
+            xhr.send();
+        }
+
         return (
             <div key={chat._id} className="chat">
                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
                 <h3 className="chatUser"> User: {chat.username} </h3>
                 <h3 className="chatResponse"> Response: {chat.response} </h3>
-                <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" />
+                <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" onClick={handleDelete}/>
                 <input id='submits' className="makeFriendSubmit" type="submit" value="Add Friend!" />
             </div>
             
@@ -93,14 +102,6 @@ const setup = function(csrf){
         <ChatList chat={[]} />, document.querySelector('#chat'),
     );
     setInterval(() => {
-        // document.querySelector("#submitDelete").onclick(function(e) {
-        //     console.log('here');
-        //     chat.deleteOne({ size: 'large' }).then(function(){
-        //         console.log("Data deleted"); // Success
-        //     }).catch(function(error){
-        //         console.log(error); // Failure
-        //     });
-        //     });
         
         loadChatFromServer();
       }, 100);
@@ -108,6 +109,7 @@ const setup = function(csrf){
 
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
+       csrfToken = result.csrfToken; 
         setup(result.csrfToken);
     });
 };

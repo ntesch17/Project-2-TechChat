@@ -3,6 +3,10 @@ const models = require('../models');
 const { Change } = models;
 
 
+const changePage = (req, res) => {
+  res.render('changelogin', { csrfToken: req.csrfToken() });
+};
+
 const changeLogin = (request, response) => {
   const req = request;
   const res = response;
@@ -27,13 +31,13 @@ const changeLogin = (request, response) => {
       password: hash,
     };
 
-    const newAccount = new Account.AccountModel(accountData);
+    const newAccount = new Change.ChangeAccountModel(accountData);
 
     const savePromise = newAccount.save();
 
     savePromise.then(() => {
       req.session.account = Change.ChangeAccountModel.toAPI(newAccount);
-      res.json({ redirect: '/login' });
+      res.json({ redirect: '/change' });
     });
 
     savePromise.catch((err) => {
@@ -59,6 +63,6 @@ const getToken = (request, response) => {
   res.json(csrfJSON);
 };
 
-
+module.exports.changePage = changePage;
 module.exports.changeLogin = changeLogin;
 module.exports.getToken = getToken;
