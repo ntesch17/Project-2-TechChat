@@ -36,13 +36,13 @@ const NoteForm = props => {
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
     id: "submits",
-    className: "makeChatSubmit",
+    className: "makeNoteSubmit",
     type: "submit",
     value: "Make Chat"
   }));
 };
 
-const ChatList = function (props) {
+const NoteList = function (props) {
   if (props.note.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
       className: "noteList"
@@ -68,7 +68,7 @@ const ChatList = function (props) {
   }, noteNodes);
 };
 
-const loadChatFromServer = () => {
+const loadNoteFromServer = () => {
   sendAjax('GET', '/getNote', null, data => {
     ReactDOM.render( /*#__PURE__*/React.createElement(NoteList, {
       note: data.note
@@ -84,7 +84,7 @@ const setup = function (csrf) {
     note: []
   }), document.querySelector('#note'));
   setInterval(() => {
-    loadChatFromServer();
+    loadNoteFromServer();
   }, 100);
 };
 

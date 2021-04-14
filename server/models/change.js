@@ -3,23 +3,13 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-let AccountModel = {};
+let ChangeAccountModel = {};
 const iterations = 10000;
 const saltLength = 64;
 const keyLength = 64;
 
-const AccountSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    trim: true,
-    unique: true,
-    match: /^[A-Za-z0-9_\-.]{1,16}$/,
-  },
-
-  friendsList: {
-    type: String,
-  },
+const ChangeAccountSchema = new mongoose.Schema({
+  
 
   salt: {
     type: Buffer,
@@ -35,9 +25,9 @@ const AccountSchema = new mongoose.Schema({
   },
 });
 
-AccountSchema.statics.toAPI = (doc) => ({
+ChangeAccountSchema.statics.toAPI = (doc) => ({
   // _id is built into your mongo document and is guaranteed to be unique
-  username: doc.username,
+ 
   _id: doc._id,
 });
 
@@ -52,22 +42,22 @@ const validatePassword = (doc, password, callback) => {
   });
 };
 
-AccountSchema.statics.findByUsername = (name, callback) => {
-  const search = {
-    username: name,
-  };
+// ChangeAccountSchema.statics.findByUsername = (name, callback) => {
+//   const search = {
+//     username: name,
+//   };
 
-  return AccountModel.findOne(search, callback);
-};
+//   return AccountModel.findOne(search, callback);
+// };
 
-AccountSchema.statics.generateHash = (password, callback) => {
+ChangeAccountSchema.statics.generateHash = (password, callback) => {
   const salt = crypto.randomBytes(saltLength);
 
   crypto.pbkdf2(password, salt, iterations, keyLength, 'RSA-SHA512', (err, hash) => callback(salt, hash.toString('hex')));
 };
 
-AccountSchema.statics.authenticate = (username, password, callback) => {
-  AccountModel.findByUsername(username, (err, doc) => {
+ChangeAccountSchema.statics.authenticate = (username, password, callback) => {
+    ChangeAccountModel.findByUsername(username, (err, doc) => {
     if (err) {
       return callback(err);
     }
@@ -86,7 +76,7 @@ AccountSchema.statics.authenticate = (username, password, callback) => {
   });
 };
 
-AccountModel = mongoose.model('Account', AccountSchema);
+ChangeAccountModel = mongoose.model('Change', ChangeAccountSchema);
 
-module.exports.AccountModel = AccountModel;
-module.exports.AccountSchema = AccountSchema;
+module.exports.ChangeAccountModel = ChangeAccountModel;
+module.exports.ChangeAccountSchema = ChangeAccountSchema;

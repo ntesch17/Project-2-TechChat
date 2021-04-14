@@ -28,14 +28,14 @@ const NoteForm = (props) =>{
             <label htmlFor="note">Enter a Note: </label>
             <input id="noteResponse" type="text" name="note" placeholder="Note Here"/>
             <input type="hidden" name="_csrf" value={props.csrf} />
-            <input id='submits' className="makeChatSubmit" type="submit" value="Make Chat" />
+            <input id='submits' className="makeNoteSubmit" type="submit" value="Make Chat" />
 
         </form>
     );
 };
 
 
-const ChatList = function(props){
+const NoteList = function(props){
     if(props.note.length === 0) {
         return (
             <div className="noteList">
@@ -61,7 +61,7 @@ const ChatList = function(props){
     );
 };
 
-const loadChatFromServer = () => {
+const loadNoteFromServer = () => {
     sendAjax('GET', '/getNote', null, (data) => {
         ReactDOM.render(
             <NoteList note={data.note} />, document.querySelector("#note")
@@ -78,7 +78,7 @@ const setup = function(csrf){
         <NoteList note={[]} />, document.querySelector('#note'),
     );
     setInterval(() => {
-        loadChatFromServer();
+        loadNoteFromServer();
       }, 100);
 };
 

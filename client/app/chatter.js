@@ -3,19 +3,19 @@ const handleChat = (e) => {
 
     $("#domoMessage").animate({width:'hide'}, 350);
 
-    if($("#chatResponse").val() == '' || $("#chatName").val() == ''){
+    if($("#chatResponse").val() == ''){
         handleError("RAWR! Chat fields are required.");
         return false;
     }
 
-    $("#submits").submit(function(e) {
-        $("#username").hide();
-        $("#chatUser").hide();
-    });
+    // $("#submits").submit(function(e) {
+    //     $("#username").hide();
+    //     $("#chatUser").hide();
+    // });
 
     sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function() {
-        $("#username").hide();
-        $("#chatUser").hide();
+        // $("#username").hide();
+        // $("#chatUser").hide();
         loadChatFromServer();
     });
 
@@ -32,8 +32,8 @@ const ChatForm = (props) =>{
         method="POST"
         className="chatForm"
         >
-            <label id='username' htmlFor="username">Enter a username: </label>
-            <input id="chatUser" type="text" name="username" placeholder="Enter Username"/>
+            {/* <label id='username' htmlFor="username">Enter a username: </label>
+            <input id="chatUser" type="text" name="username" placeholder="Enter Username"/> */}
             <label htmlFor="response">Enter a response: </label>
             <input id="chatResponse" type="text" name="response" placeholder="Enter Response"/>
             <input type="hidden" name="_csrf" value={props.csrf} />
@@ -59,10 +59,15 @@ const ChatList = function(props){
                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
                 <h3 className="chatUser"> User: {chat.username} </h3>
                 <h3 className="chatResponse"> Response: {chat.response} </h3>
+                <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" />
+                <input id='submits' className="makeFriendSubmit" type="submit" value="Add Friend!" />
             </div>
+            
         );
         
     });
+
+    
     
     return (
         <div className="chatList">
@@ -88,6 +93,15 @@ const setup = function(csrf){
         <ChatList chat={[]} />, document.querySelector('#chat'),
     );
     setInterval(() => {
+        // document.querySelector("#submitDelete").onclick(function(e) {
+        //     console.log('here');
+        //     chat.deleteOne({ size: 'large' }).then(function(){
+        //         console.log("Data deleted"); // Success
+        //     }).catch(function(error){
+        //         console.log(error); // Failure
+        //     });
+        //     });
+        
         loadChatFromServer();
       }, 100);
 };

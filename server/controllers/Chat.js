@@ -24,7 +24,7 @@ const makeChat = (req, res) => {
 
   const chatData = {
     response: req.body.response,
-    username: req.body.username,
+    username: req.session.account.username,
     owner: req.session.account._id,
   };
 

@@ -9,13 +9,13 @@ const notePage = (req, res) => {
       return res.status(400).json({ error: 'An error occurred.' });
     }
 
-    return res.render('app2', { csrfToken: req.csrfToken(), chat: docs });
+    return res.render('app2', { csrfToken: req.csrfToken(), note: docs });
   });
 };
 
 const makeNote = (req, res) => {
-  if (!req.body.response) {
-    return res.status(400).json({ error: 'RAWR! A response is required' });
+  if (!req.body.note) {
+    return res.status(400).json({ error: 'RAWR! A note is required' });
   }
 
   const noteData = {
