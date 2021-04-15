@@ -1,5 +1,5 @@
 const FriendsList = function(props){
-    if(props.friend.length === 0) {
+    if(props.friends.length === 0) {
         return (
             <div className="friendsList">
                 <h3 className="emptyFriendsList">No Friends Yet</h3>
@@ -7,7 +7,7 @@ const FriendsList = function(props){
         );
     }
 
-    const friendNodes = props.friend.map(function(chat) {
+    const friendNodes = props.friend.map(function(friend) {
         return (
             <div key={friend._id} className="friend">
                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
@@ -25,6 +25,7 @@ const FriendsList = function(props){
     );
 };
 
+
 const loadFriendsFromServer = () => {
     console.log('here');
     sendAjax('GET', '/getFriendsList', null, (data) => {
@@ -39,9 +40,9 @@ const setup = function(csrf){
         <FriendsList friend={[]} />, document.querySelector('#friends'),
     );
 
-    setInterval(() => {
+    
         loadFriendsFromServer();
-      }, 100);
+
 };
 
 const getToken = () => {

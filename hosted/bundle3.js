@@ -7,10 +7,10 @@ const FriendsList = function (props) {
     }, "No Friends Yet"));
   }
 
-  const friendNodes = props.friend.map(function (chat) {
+  const friendNodes = props.friend.map(function (friend) {
     return /*#__PURE__*/React.createElement("div", {
       key: friend._id,
-      className: "chat"
+      className: "friend"
     }, /*#__PURE__*/React.createElement("img", {
       src: "/assets/img/domoface.jpeg",
       alt: "domo face",
@@ -37,9 +37,7 @@ const setup = function (csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(FriendsList, {
     friend: []
   }), document.querySelector('#friends'));
-  setInterval(() => {
-    loadFriendsFromServer();
-  }, 100);
+  loadFriendsFromServer();
 };
 
 const getToken = () => {

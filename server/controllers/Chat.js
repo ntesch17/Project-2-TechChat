@@ -5,6 +5,8 @@ const { Chat } = models;
 const { Account } = models;
 let friends = [];
 let friendPromises = [];
+
+
 const getAllChats = (req, res) => {
   Chat.ChatModel.find({}, (err, docs) => res.json({ chat: docs }));
 };
@@ -103,6 +105,8 @@ const getFriendsList = (req, res) => {
     }
   });
 }
+
+
 module.exports.chatPage = chatPage;
 module.exports.getChat = getAllChats;
 module.exports.make = makeChat;
