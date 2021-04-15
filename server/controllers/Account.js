@@ -90,8 +90,15 @@ const getToken = (request, response) => {
   res.json(csrfJSON);
 };
 
+const notFound = (req, res) => {
+  res.status(404).render('notFound', {
+      page: req.url,
+  });
+};
+
 module.exports.loginPage = loginPage;
 module.exports.login = login;
 module.exports.logout = logout;
 module.exports.signup = signup;
 module.exports.getToken = getToken;
+module.exports.notFound = notFound;

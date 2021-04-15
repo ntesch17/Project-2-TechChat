@@ -51,6 +51,20 @@ const getNote = (request, response) => {
     });
   };
 
+  
+const deleteNote = (req, res) => {
+  if(req.query._id){
+    Note.NoteModel.deleteOne({ _id: req.query._id }, (err) => {
+      console.log("Data deleted"); // Success
+
+      if(err){
+        console.log(err);
+      }
+    });
+  }
+}
+
 module.exports.notePage = notePage;
 module.exports.getNote = getNote;
 module.exports.make = makeNote;
+module.exports.deleteNote = deleteNote;

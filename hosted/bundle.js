@@ -9,15 +9,9 @@ const handleChat = e => {
   if ($("#chatResponse").val() == '') {
     handleError("RAWR! Chat fields are required.");
     return false;
-  } // $("#submits").submit(function(e) {
-  //     $("#username").hide();
-  //     $("#chatUser").hide();
-  // });
-
+  }
 
   sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function () {
-    // $("#username").hide();
-    // $("#chatUser").hide();
     loadChatFromServer();
   });
   return false;

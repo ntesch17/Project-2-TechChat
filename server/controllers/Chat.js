@@ -51,22 +51,39 @@ const deleteMessage = (req, res) => {
     Chat.ChatModel.deleteOne({ _id: req.query._id }, (err) => {
       console.log("Data deleted"); // Success
 
-      if(err){
+      if (err) {
         console.log(err);
+        return res.status(400).json({ error: 'An error occurred.' });
       }
     });
   }
 }
 
+const friendsPage = (req, res) => {
+  Account.AccountModel.findByUsername(req.session.account._id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred.' });
+    }
+
+    return res.render('app3', { csrfToken: req.csrfToken(), account: docs });
+  });
+};
 
 const getFriendsList = (req, res) => {
   Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
-    //Error handling
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred.' });
+    }
     let friends = [];
     let friendPromises = [];
     for(let i = 0; i < doc.friendsList.length; i++){
       friendPromises.push(AccountModel.findOne({ _id: doc.friendsList[i] }, (err, doc) => {
-        //error handling
+        if (err) {
+          console.log(err);
+          return res.status(400).json({ error: 'An error occurred.' });
+        }
         let friend = {
           username: doc.username,
           friendList: doc.friendsList,
@@ -78,9 +95,12 @@ const getFriendsList = (req, res) => {
   })
   Promise.all(friendsPromises).then(() => {
     //send friends array response
-    res.json({friends});
+    res.json({ redirect: '/friends' },{friends});
   }).catch((err) => {
-    //error handling
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred.' });
+    }
   });
 }
 module.exports.chatPage = chatPage;
@@ -88,3 +108,4 @@ module.exports.getChat = getAllChats;
 module.exports.make = makeChat;
 module.exports.deleteMessage = deleteMessage;
 module.exports.getFriendsList = getFriendsList;
+module.exports.friendsPage = friendsPage;

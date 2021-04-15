@@ -1,3 +1,5 @@
+let csrfToken;
+
 const handleNote = e => {
   e.preventDefault();
   $("#domoMessage").animate({
@@ -52,6 +54,12 @@ const NoteList = function (props) {
   }
 
   const noteNodes = props.note.map(function (note) {
+    const handleDelete = e => {
+      let xhr = new XMLHttpRequest();
+      xhr.open('DELETE', `/deleteNote?_id=${note._id}&_csrf=${csrfToken}`);
+      xhr.send();
+    };
+
     return /*#__PURE__*/React.createElement("div", {
       key: note._id,
       className: "note"
@@ -61,7 +69,13 @@ const NoteList = function (props) {
       className: "domoFace"
     }), /*#__PURE__*/React.createElement("h3", {
       className: "noteResponse"
-    }, " Note: ", note.note, " "));
+    }, " Note: ", note.note, " "), /*#__PURE__*/React.createElement("input", {
+      id: "submitDelete",
+      className: "makeDeleteSubmit",
+      type: "submit",
+      value: "Delete Note",
+      onClick: handleDelete
+    }));
   });
   return /*#__PURE__*/React.createElement("div", {
     className: "noteList"
@@ -90,6 +104,7 @@ const setup = function (csrf) {
 
 const getToken = () => {
   sendAjax('GET', '/getToken', null, result => {
+    csrfToken = result.csrfToken;
     setup(result.csrfToken);
   });
 };

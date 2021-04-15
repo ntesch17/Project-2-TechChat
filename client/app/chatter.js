@@ -10,14 +10,7 @@ const handleChat = (e) => {
         return false;
     }
 
-    // $("#submits").submit(function(e) {
-    //     $("#username").hide();
-    //     $("#chatUser").hide();
-    // });
-
     sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function() {
-        // $("#username").hide();
-        // $("#chatUser").hide();
         loadChatFromServer();
     });
 
@@ -34,8 +27,6 @@ const ChatForm = (props) =>{
         method="POST"
         className="chatForm"
         >
-            {/* <label id='username' htmlFor="username">Enter a username: </label>
-            <input id="chatUser" type="text" name="username" placeholder="Enter Username"/> */}
             <label htmlFor="response">Enter a response: </label>
             <input id="chatResponse" type="text" name="response" placeholder="Enter Response"/>
             <input type="hidden" name="_csrf" value={props.csrf} />

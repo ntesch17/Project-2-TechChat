@@ -1,3 +1,5 @@
+let csrfToken;
+
 const handleNote = (e) => {
     e.preventDefault();
 
@@ -45,10 +47,17 @@ const NoteList = function(props){
     }
 
     const noteNodes = props.note.map(function(note) {
+        const handleDelete = (e) => {
+            let xhr = new XMLHttpRequest();
+            xhr.open('DELETE', `/deleteNote?_id=${note._id}&_csrf=${csrfToken}`);
+            xhr.send();
+        }
+
         return (
             <div key={note._id} className="note">
                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
                 <h3 className="noteResponse"> Note: {note.note} </h3>
+                <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Note" onClick={handleDelete}/>
             </div>
         );
         
@@ -84,6 +93,7 @@ const setup = function(csrf){
 
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
+        csrfToken = result.csrfToken; 
         setup(result.csrfToken);
     });
 };
