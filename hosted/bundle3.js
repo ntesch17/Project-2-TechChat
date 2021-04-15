@@ -34,7 +34,7 @@ const loadFriendsFromServer = () => {
 };
 
 const setup = function (csrf) {
-  ReactDOM.render( /*#__PURE__*/React.createElement(FriendList, {
+  ReactDOM.render( /*#__PURE__*/React.createElement(FriendsList, {
     chat: []
   }), document.querySelector('#friends'));
   setInterval(() => {

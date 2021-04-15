@@ -2,7 +2,7 @@ const FriendsList = function(props){
     if(props.chat.length === 0) {
         return (
             <div className="friendsList">
-                <h3 className="emptyFriendsList">No Domos Yet</h3>
+                <h3 className="emptyFriendsList">No Friends Yet</h3>
             </div>
         );
     }
@@ -36,7 +36,7 @@ const loadFriendsFromServer = () => {
 
 const setup = function(csrf){
     ReactDOM.render(
-        <FriendList chat={[]} />, document.querySelector('#friends'),
+        <FriendsList chat={[]} />, document.querySelector('#friends'),
     );
 
     setInterval(() => {
