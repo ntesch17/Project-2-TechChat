@@ -1,5 +1,5 @@
 const FriendsList = function(props){
-    if(props.chat.length === 0) {
+    if(props.friend.length === 0) {
         return (
             <div className="friendsList">
                 <h3 className="emptyFriendsList">No Friends Yet</h3>
@@ -7,11 +7,11 @@ const FriendsList = function(props){
         );
     }
 
-    const friendNodes = props.chat.map(function(chat) {
+    const friendNodes = props.friend.map(function(chat) {
         return (
-            <div key={chat._id} className="chat">
+            <div key={friend._id} className="friend">
                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-                <h3 className="friendName"> Friend: {chat.friends} </h3>
+                <h3 className="friendName"> Friend: {friend.username} </h3>
             </div>
         );
     });
@@ -29,14 +29,14 @@ const loadFriendsFromServer = () => {
     console.log('here');
     sendAjax('GET', '/getFriendsList', null, (data) => {
         ReactDOM.render(
-            <FriendsList chat={data.chat} />, document.querySelector("#friends")
+            <FriendsList friend={data.friend} />, document.querySelector("#friends")
         );
     });
 };
 
 const setup = function(csrf){
     ReactDOM.render(
-        <FriendsList chat={[]} />, document.querySelector('#friends'),
+        <FriendsList friend={[]} />, document.querySelector('#friends'),
     );
 
     setInterval(() => {

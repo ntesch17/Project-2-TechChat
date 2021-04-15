@@ -1,5 +1,5 @@
 const FriendsList = function (props) {
-  if (props.chat.length === 0) {
+  if (props.friends.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
       className: "friendsList"
     }, /*#__PURE__*/React.createElement("h3", {
@@ -7,9 +7,9 @@ const FriendsList = function (props) {
     }, "No Friends Yet"));
   }
 
-  const friendNodes = props.chat.map(function (chat) {
+  const friendNodes = props.friend.map(function (chat) {
     return /*#__PURE__*/React.createElement("div", {
-      key: chat._id,
+      key: friend._id,
       className: "chat"
     }, /*#__PURE__*/React.createElement("img", {
       src: "/assets/img/domoface.jpeg",
@@ -17,7 +17,7 @@ const FriendsList = function (props) {
       className: "domoFace"
     }), /*#__PURE__*/React.createElement("h3", {
       className: "friendName"
-    }, " Friend: ", chat.friends, " "));
+    }, " Friend: ", friend.username, " "));
   });
   return /*#__PURE__*/React.createElement("div", {
     className: "friendsList"
@@ -28,14 +28,14 @@ const loadFriendsFromServer = () => {
   console.log('here');
   sendAjax('GET', '/getFriendsList', null, data => {
     ReactDOM.render( /*#__PURE__*/React.createElement(FriendsList, {
-      chat: data.chat
+      friend: data.friend
     }), document.querySelector("#friends"));
   });
 };
 
 const setup = function (csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(FriendsList, {
-    chat: []
+    friend: []
   }), document.querySelector('#friends'));
   setInterval(() => {
     loadFriendsFromServer();
