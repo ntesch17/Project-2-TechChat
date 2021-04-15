@@ -62,7 +62,7 @@ const ChatList = function (props) {
 
     const handleFriend = e => {
       let xhr = new XMLHttpRequest();
-      xhr.open('POST', `/deleteMessage?_id=${chat._id}&_csrf=${csrfToken}`);
+      xhr.open('POST', `/getFriendsList?_id=${chat._id}&_csrf=${csrfToken}`);
       xhr.send();
     };
 
