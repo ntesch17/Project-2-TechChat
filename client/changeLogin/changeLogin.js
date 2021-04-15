@@ -18,7 +18,7 @@ const handleChangeLogin = (e) => {
 
 
 
-const changeLoginWindow = (props) =>{
+const ChangeLoginWindow = (props) =>{
     return (
         <form id="changeLoginForm" name="changeLoginForm"
         onSubmit={handleChangeLogin}
@@ -32,7 +32,7 @@ const changeLoginWindow = (props) =>{
             <label htmlFor="newPass2">Password: </label>
             <input id="newPass2" type="password" name="newPass2" placeholder="Retype New Password"/>
             <input type="hidden" name="_csrf" value={props.csrf} />
-            <input className="formSubmit" type="submit" value="sign Up" />
+            <input className="formSubmit" type="submit" value="Change Password" />
 
         </form>
     );
@@ -40,19 +40,13 @@ const changeLoginWindow = (props) =>{
 
 const createChangeLoginWindow = (csrf) => {
     ReactDOM.render(
-        <changeLoginWindow csrf={csrf} />,
+        <ChangeLoginWindow csrf={csrf} />,
         document.querySelector("#content")
     );
 };
 
 const setup = (csrf) => {
-    const changeButton = document.querySelector("#changeButton");
     
-    changeButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        createChangeLoginWindow(csrf);
-        return false;
-    });
 
     createChangeLoginWindow(csrf); //default view
 };

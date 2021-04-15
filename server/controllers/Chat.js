@@ -3,7 +3,8 @@ const { AccountModel } = require('../models/Account');
 
 const { Chat } = models;
 const { Account } = models;
-
+let friends = [];
+let friendPromises = [];
 const getAllChats = (req, res) => {
   Chat.ChatModel.find({}, (err, docs) => res.json({ chat: docs }));
 };
@@ -76,8 +77,7 @@ const getFriendsList = (req, res) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred.' });
     }
-    let friends = [];
-    let friendPromises = [];
+   
     for(let i = 0; i < doc.friendsList.length; i++){
       friendPromises.push(AccountModel.findOne({ _id: doc.friendsList[i] }, (err, doc) => {
         if (err) {
@@ -93,9 +93,9 @@ const getFriendsList = (req, res) => {
       }));
     }
   })
-  Promise.all(friendsPromises).then(() => {
+  Promise.all(friendPromises).then(() => {
     //send friends array response
-    res.json({ redirect: '/friends' },{friends});
+    res.json({friends});
   }).catch((err) => {
     if (err) {
       console.log(err);

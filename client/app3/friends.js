@@ -29,7 +29,7 @@ const loadFriendsFromServer = () => {
     console.log('here');
     sendAjax('GET', '/getFriendsList', null, (data) => {
         ReactDOM.render(
-            <FriendList chat={data.chat} />, document.querySelector("#friends")
+            <FriendsList chat={data.chat} />, document.querySelector("#friends")
         );
     });
 };

@@ -6,6 +6,54 @@ const loginPage = (req, res) => {
   res.render('login', { csrfToken: req.csrfToken() });
 };
 
+const changePage = (req, res) => {
+  res.render('changelogin', { csrfToken: req.csrfToken() });
+};
+
+const changeLogin = (request, response) => {
+  const req = request;
+  const res = response;
+
+  // cast to strings to cover up some security flaws
+
+  req.body.newPass = `${req.body.newPass}`;
+  req.body.newPass2 = `${req.body.newPass2}`;
+
+  if ( !req.body.newPass || !req.body.newPass2) {
+    return res.status(400).json({ error: 'RAWR! All fields are required! ' });
+  }
+
+  if (req.body.newPass !== req.body.newPass2) {
+    return res.status(400).json({ error: 'RAWR! Passwords do not match!' });
+  }
+
+  return Account.AccountModel.generateHash2(req.body.newPass, (salt, hash) => {
+    const accountData = {
+      
+      salt,
+      password: hash,
+    };
+
+    const newAccount = new Account.AccountModel(accountData);
+
+    const savePromise = newAccount.save();
+
+    savePromise.then(() => {
+      req.session.account = Account.AccountModel.toAPI(newAccount);
+      res.json({ redirect: '/login' });
+    });
+
+    savePromise.catch((err) => {
+      console.log(err);
+
+    //   if (err.code === 11000) {
+    //     return res.status(400).json({ error: 'Username already in use.' });
+    //   }
+
+      return res.status(400).json({ error: 'An error occured!' });
+    });
+  });
+};
 const logout = (req, res) => {
   req.session.destroy();
   res.redirect('/');
@@ -102,3 +150,5 @@ module.exports.logout = logout;
 module.exports.signup = signup;
 module.exports.getToken = getToken;
 module.exports.notFound = notFound;
+module.exports.changePage = changePage;
+module.exports.changeLogin = changeLogin;

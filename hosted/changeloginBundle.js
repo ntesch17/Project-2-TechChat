@@ -14,7 +14,7 @@ const handleChangeLogin = e => {
   return false;
 };
 
-const changeLoginWindow = props => {
+const ChangeLoginWindow = props => {
   return /*#__PURE__*/React.createElement("form", {
     id: "changeLoginForm",
     name: "changeLoginForm",
@@ -43,23 +43,17 @@ const changeLoginWindow = props => {
   }), /*#__PURE__*/React.createElement("input", {
     className: "formSubmit",
     type: "submit",
-    value: "sign Up"
+    value: "Change Password"
   }));
 };
 
 const createChangeLoginWindow = csrf => {
-  ReactDOM.render( /*#__PURE__*/React.createElement("changeLoginWindow", {
+  ReactDOM.render( /*#__PURE__*/React.createElement(ChangeLoginWindow, {
     csrf: csrf
   }), document.querySelector("#content"));
 };
 
 const setup = csrf => {
-  const changeButton = document.querySelector("#changeButton");
-  changeButton.addEventListener("click", e => {
-    e.preventDefault();
-    createChangeLoginWindow(csrf);
-    return false;
-  });
   createChangeLoginWindow(csrf); //default view
 };
 

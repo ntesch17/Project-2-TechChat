@@ -27,7 +27,7 @@ const FriendsList = function (props) {
 const loadFriendsFromServer = () => {
   console.log('here');
   sendAjax('GET', '/getFriendsList', null, data => {
-    ReactDOM.render( /*#__PURE__*/React.createElement(FriendList, {
+    ReactDOM.render( /*#__PURE__*/React.createElement(FriendsList, {
       chat: data.chat
     }), document.querySelector("#friends"));
   });
