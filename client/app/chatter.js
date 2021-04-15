@@ -54,13 +54,19 @@ const ChatList = function(props){
             xhr.send();
         }
 
+        const handleFriend = (e) => {
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', `/deleteMessage?_id=${chat._id}&_csrf=${csrfToken}`);
+            xhr.send();
+        }
+
         return (
             <div key={chat._id} className="chat">
                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
                 <h3 className="chatUser"> User: {chat.username} </h3>
                 <h3 className="chatResponse"> Response: {chat.response} </h3>
                 <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" onClick={handleDelete}/>
-                <input id='submits' className="makeFriendSubmit" type="submit" value="Add Friend!" />
+                <input id='submits' className="makeFriendSubmit" type="submit" value="Add Friend!" onClick={handleFriend} />
             </div>
             
         );

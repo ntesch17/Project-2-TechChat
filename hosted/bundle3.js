@@ -4,7 +4,7 @@ const FriendsList = function (props) {
       className: "friendsList"
     }, /*#__PURE__*/React.createElement("h3", {
       className: "emptyFriendsList"
-    }, "No Domos Yet"));
+    }, "No Friends Yet"));
   }
 
   const friendNodes = props.chat.map(function (chat) {

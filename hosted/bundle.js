@@ -60,6 +60,12 @@ const ChatList = function (props) {
       xhr.send();
     };
 
+    const handleFriend = e => {
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST', `/deleteMessage?_id=${chat._id}&_csrf=${csrfToken}`);
+      xhr.send();
+    };
+
     return /*#__PURE__*/React.createElement("div", {
       key: chat._id,
       className: "chat"
@@ -81,7 +87,8 @@ const ChatList = function (props) {
       id: "submits",
       className: "makeFriendSubmit",
       type: "submit",
-      value: "Add Friend!"
+      value: "Add Friend!",
+      onClick: handleFriend
     }));
   });
   return /*#__PURE__*/React.createElement("div", {
