@@ -75,24 +75,29 @@ const friendsPage = (req, res) => {
 
 const makeFriend = (req, res) => {
   
-   
-   const friendData = {
-    friendsList: req.body.username,
-    owner: req.session.account._id,
-   };
+  Account.AccountModel.findOne( {_id: req.session.account._id}, (err, doc) => {
+    //Error Handling Here
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred.' });
+    }
 
-   const newFriend = new Account.AccountModel(friendData);
+    doc.friendsList.push(req.body.username);
+    const savePromise = doc.save();
 
-   const friendPromise = newFriend.save();
+    savePromise.then(() => {
+      res.json({ redirect: '/getFriendsList' });
+    });
+    savePromise.catch((err2) => {
+      if (err2) {
+        console.log(err2);
+        return res.status(400).json({ error: 'An error occurred.' });
+      }
+       
+    });
+});
 
-   friendPromise.then(() => res.json({ redirect: '/getFriendsList' }));
-
-   friendPromise.catch((err) => {
-     console.log(err);
-
-     return res.status(400).json({ error: 'An error occured.' });
-   });
-   return friendPromise;
+ 
 };
 
 const getFriendsList = (req, res) => {
