@@ -73,6 +73,28 @@ const friendsPage = (req, res) => {
   });
 };
 
+const makeFriend = (req, res) => {
+  
+   
+   const friendData = {
+    friendsList: req.session.account.username,
+    owner: req.session.account._id,
+   };
+
+   const newFriend = new Account.AccountModel(friendData);
+
+   const friendPromise = newFriend.save();
+
+   friendPromise.then(() => res.json({ redirect: '/getFriendsList' }));
+
+   friendPromise.catch((err) => {
+     console.log(err);
+
+     return res.status(400).json({ error: 'An error occured.' });
+   });
+   return friendPromise;
+};
+
 const getFriendsList = (req, res) => {
   Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
     if (err) {
@@ -113,3 +135,4 @@ module.exports.make = makeChat;
 module.exports.deleteMessage = deleteMessage;
 module.exports.getFriendsList = getFriendsList;
 module.exports.friendsPage = friendsPage;
+module.exports.makeFriend = makeFriend;

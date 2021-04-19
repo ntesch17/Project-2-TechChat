@@ -1,5 +1,5 @@
 const FriendsList = function (props) {
-  if (props.friends.length === 0) {
+  if (props.data.friends.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
       className: "friendsList"
     }, /*#__PURE__*/React.createElement("h3", {
@@ -7,7 +7,7 @@ const FriendsList = function (props) {
     }, "No Friends Yet"));
   }
 
-  const friendNodes = props.friend.map(function (friend) {
+  const friendNodes = props.data.friends.map(function () {
     return /*#__PURE__*/React.createElement("div", {
       key: friend._id,
       className: "friend"

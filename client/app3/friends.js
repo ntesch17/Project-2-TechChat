@@ -1,5 +1,5 @@
 const FriendsList = function(props){
-    if(props.friends.length === 0) {
+    if(props.data.friends.length === 0) {
         return (
             <div className="friendsList">
                 <h3 className="emptyFriendsList">No Friends Yet</h3>
@@ -7,7 +7,7 @@ const FriendsList = function(props){
         );
     }
 
-    const friendNodes = props.friend.map(function(friend) {
+    const friendNodes = props.data.friends.map(function() {
         return (
             <div key={friend._id} className="friend">
                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />

@@ -61,9 +61,10 @@ const ChatList = function (props) {
     };
 
     const handleFriend = e => {
+      let data = `username=${chat.username}&_csrf=${csrfToken}`;
       let xhr = new XMLHttpRequest();
-      xhr.open('POST', `/getFriendsList?_id=${chat._id}&_csrf=${csrfToken}`);
-      xhr.send();
+      xhr.open('POST', `/addFriend`);
+      xhr.send(data);
     };
 
     return /*#__PURE__*/React.createElement("div", {

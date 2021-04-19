@@ -6,7 +6,7 @@ const router = (app) => {
   app.get('/getNote', mid.requiresLogin, controllers.Note.getNote);
   app.get('/getChat', mid.requiresLogin, controllers.Chat.getChat);
   app.get('/getFriendsList', mid.requiresLogin, controllers.Chat.getFriendsList);
-  //app.post('/getFriendsList', mid.requiresLogin, controllers.Chat.makeFriend);
+  app.post('/addFriend', mid.requiresLogin, controllers.Chat.makeFriend);
   app.get('/friends', mid.requiresLogin, controllers.Chat.friendsPage);
 
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
@@ -22,8 +22,8 @@ const router = (app) => {
   app.post('/note', mid.requiresLogin, controllers.Note.make);
   app.get('/chat', mid.requiresLogin, controllers.Chat.chatPage);
   app.post('/chat', mid.requiresLogin, controllers.Chat.make);
-  app.get('/search', mid.requiresLogin, controllers.Search.chatPage);
-  app.post('/search', mid.requiresLogin, controllers.Search.make);
+  //app.get('/search', mid.requiresLogin, controllers.Search.chatPage);
+  //app.post('/search', mid.requiresLogin, controllers.Search.make);
 
 
   app.delete('/deleteMessage', mid.requiresLogin, controllers.Chat.deleteMessage);
