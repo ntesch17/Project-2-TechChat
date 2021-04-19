@@ -1,57 +1,43 @@
+// Pull in mongoose and create our empty file model object.
 const mongoose = require('mongoose');
 
-mongoose.Promise = global.Promise;
-const _ = require('underscore');
+let FileModel = {};
 
-let SearchModel = {};
-
-// mongoose.Types.ObjectID is a function that
-// converts string ID to real mongo ID
-const convertID = mongoose.Types.ObjectId;
-const setName = (name) => _.escape(name).trim();
-
-const SearchSchema = new mongoose.Schema({
-  search: {
+// Create our schema. This is based on the data pulled in by express-fileupload.
+// We can assume all of this data is required, as there will be an error from
+// fileupload before we create anything in this database. You could explicitly
+// define everything as required though.
+const FileSchema = new mongoose.Schema({
+  name: { // The name of our file as a string. We want this to be unique.
     type: String,
-    required: true,
-    trim: true,
-    set: setName,
+    unique: true,
   },
-
-  limit: {
+  data: { // The data of our file. This is stored as a byte array.
+    type: Buffer,
+  },
+  size: { // The size of our file in bytes.
     type: Number,
-    min: 0,
-    required: true,
   },
-
-  
-
-  owner: {
-    type: mongoose.Schema.ObjectId,
-    required: true,
-    ref: 'Account',
+  encoding: { // The encoding type of the image in the byte array.
+    type: String,
   },
-
-  createdData: {
-    type: Date,
-    default: Date.now,
+  tempFilePath: { // The temp file path.
+    type: String,
+  },
+  truncated: { // If our file has been cut off.
+    type: Boolean,
+  },
+  mimetype: { // The type of data being stored.
+    type: String,
+  },
+  md5: { // The md5 hash of our file.
+    type: String,
   },
 });
 
-SearchSchema.statics.toAPI = (doc) => ({
-  search: doc.search,
-  limit: doc.limit,
-});
+// Once we have setup the schema, we want to create our model.
+FileModel = mongoose.model('FileModel', FileSchema);
 
-SearchSchema.statics.findByOwner = (ownerID, callback) => {
-  const search = {
-    owner: convertID(ownerID),
-  };
-
-  return SearchModel.find(search).select('search limit').lean().exec(callback);
-};
-
-SearchModel = mongoose.model('search', SearchSchema);
-
-module.exports.SearchModel = SearchModel;
-module.exports.SearchSchema = SearchSchema;
+// Export the model and schema.
+module.exports.FileModel = FileModel;
+module.exports.FileSchema = FileSchema;

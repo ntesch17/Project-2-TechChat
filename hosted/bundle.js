@@ -61,10 +61,11 @@ const ChatList = function (props) {
     };
 
     const handleFriend = e => {
-      let data = `username=${chat.username}&_csrf=${csrfToken}`;
+      e.preventDefault();
       let xhr = new XMLHttpRequest();
-      xhr.open('POST', `/addFriend`);
-      xhr.send(data);
+      xhr.open('POST', `/addFriend?username=${chat.username}`);
+      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+      xhr.send();
     };
 
     return /*#__PURE__*/React.createElement("div", {
@@ -85,7 +86,11 @@ const ChatList = function (props) {
       value: "Delete Response",
       onClick: handleDelete
     }), /*#__PURE__*/React.createElement("input", {
-      id: "submits",
+      type: "hidden",
+      name: "_csrf",
+      value: props.csrf
+    }), /*#__PURE__*/React.createElement("input", {
+      id: "submitFriend",
       className: "makeFriendSubmit",
       type: "submit",
       value: "Add Friend!",

@@ -1,4 +1,7 @@
+let csrfToken;
+
 const FriendsList = function(props){
+    
     if(props.friend.length === 0) {
         return (
             <div className="friendsList">
@@ -7,11 +10,12 @@ const FriendsList = function(props){
         );
     }
 
-    const friendNodes = props.friend.map(function() {
+    const friendNodes = props.friend.map(function(friend) {
+        
         return (
-            <div key={friend._id} className="friend">
+            <div key={friend} className="friend">
                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-                <h3 className="friendName"> Friend: {friend.username} </h3>
+                <h3 className="friendName"> Friend: {friend} </h3>
             </div>
         );
     });
@@ -19,8 +23,6 @@ const FriendsList = function(props){
     return (
         <div className="friendsList">
             {friendNodes},
-           
-
         </div>
     );
 };
@@ -40,7 +42,7 @@ const setup = function(csrf){
         <FriendsList friend={[]} />, document.querySelector('#friends'),
     );
 
-    
+    //console.log(friend);
         loadFriendsFromServer();
 
 };

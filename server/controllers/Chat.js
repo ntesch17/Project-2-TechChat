@@ -82,7 +82,7 @@ const makeFriend = (req, res) => {
       return res.status(400).json({ error: 'An error occurred.' });
     }
 
-    doc.friendsList.push(req.body.username);
+    doc.friendsList.push(req.query.username);
     const savePromise = doc.save();
 
     savePromise.then(() => {
@@ -106,32 +106,32 @@ const getFriendsList = (req, res) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred.' });
     }
-   
-    for(let i = 0; i < doc.friendsList.length; i++){
-      friendPromises.push(AccountModel.findOne({ _id: doc.friendsList[i] }, (err, doc) => {
-        if (err) {
-          console.log(err);
-          return res.status(400).json({ error: 'An error occurred.' });
-        }
-        let friend = {
-          username: doc.username,
-          friendList: doc.friendsList,
-        }
+    res.json({friend: doc.friendsList});
+  //   for(let i = 0; i < doc.friendsList.length; i++){
+  //     friendPromises.push(AccountModel.findOne({ _id: doc.friendsList[i] }, (err, doc) => {
+  //       if (err) {
+  //         console.log(err);
+  //         return res.status(400).json({ error: 'An error occurred.' });
+  //       }
+  //       let friend = {
+  //         username: doc.username,
+  //         friendList: doc.friendsList,
+  //       }
 
-        friends.push(friend);
-      }));
-    }
-  })
-  Promise.all(friendPromises).then(() => {
-    //send friends array response
-    res.json({friends});
-  }).catch((err) => {
-    if (err) {
-      console.log(err);
-      return res.status(400).json({ error: 'An error occurred.' });
-    }
-  });
-}
+  //       friends.push(friend);
+  //     }));
+  //   }
+  // })
+  // Promise.all(friendPromises).then(() => {
+  //   //send friends array response
+  //   res.json({friends});
+  // }).catch((err) => {
+  //   if (err) {
+  //     console.log(err);
+  //     return res.status(400).json({ error: 'An error occurred.' });
+  //   }
+  }).lean();
+};
 
 
 module.exports.chatPage = chatPage;

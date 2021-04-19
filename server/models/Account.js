@@ -18,7 +18,7 @@ const AccountSchema = new mongoose.Schema({
   },
 
   friendsList: {
-    friends: [String],
+    type: [String],
   },
 
   salt: {

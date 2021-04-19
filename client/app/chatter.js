@@ -55,10 +55,16 @@ const ChatList = function(props){
         }
 
         const handleFriend = (e) => {
-            let data = `username=${chat.username}&_csrf=${csrfToken}`;
+           
+           e.preventDefault();
+           
             let xhr = new XMLHttpRequest();
-            xhr.open('POST', `/addFriend`);
-            xhr.send(data);
+
+            xhr.open('POST', `/addFriend?username=${chat.username}`);
+
+            xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+
+            xhr.send();
         }
 
         return (
@@ -67,7 +73,8 @@ const ChatList = function(props){
                 <h3 className="chatUser"> User: {chat.username} </h3>
                 <h3 className="chatResponse"> Response: {chat.response} </h3>
                 <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" onClick={handleDelete}/>
-                <input id='submits' className="makeFriendSubmit" type="submit" value="Add Friend!" onClick={handleFriend} />
+                <input type="hidden" name="_csrf" value={props.csrf} />
+                <input id='submitFriend' className="makeFriendSubmit" type="submit" value="Add Friend!" onClick={handleFriend} />
             </div>
             
         );

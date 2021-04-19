@@ -1,3 +1,5 @@
+let csrfToken;
+
 const FriendsList = function (props) {
   if (props.friend.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
@@ -7,9 +9,9 @@ const FriendsList = function (props) {
     }, "No Friends Yet"));
   }
 
-  const friendNodes = props.friend.map(function () {
+  const friendNodes = props.friend.map(function (friend) {
     return /*#__PURE__*/React.createElement("div", {
-      key: friend._id,
+      key: friend,
       className: "friend"
     }, /*#__PURE__*/React.createElement("img", {
       src: "/assets/img/domoface.jpeg",
@@ -17,7 +19,7 @@ const FriendsList = function (props) {
       className: "domoFace"
     }), /*#__PURE__*/React.createElement("h3", {
       className: "friendName"
-    }, " Friend: ", friend.username, " "));
+    }, " Friend: ", friend, " "));
   });
   return /*#__PURE__*/React.createElement("div", {
     className: "friendsList"
@@ -36,7 +38,8 @@ const loadFriendsFromServer = () => {
 const setup = function (csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(FriendsList, {
     friend: []
-  }), document.querySelector('#friends'));
+  }), document.querySelector('#friends')); //console.log(friend);
+
   loadFriendsFromServer();
 };
 

@@ -25,6 +25,14 @@ const router = (app) => {
   //app.get('/search', mid.requiresLogin, controllers.Search.chatPage);
   //app.post('/search', mid.requiresLogin, controllers.Search.make);
 
+  // Setup Gif Page
+  //app.get('/gifPage', mid.requiresLogin, controllers.Search.gifPage);
+
+  // Setup post requests to /upload.
+  app.post('/upload', mid.requiresLogin, controllers.Search.uploadFile);
+
+  // Setup get requests to /retrieve
+  app.get('/retrieve',mid.requiresLogin, controllers.Search.retrieveFile);
 
   app.delete('/deleteMessage', mid.requiresLogin, controllers.Chat.deleteMessage);
   app.delete('/deleteNote', mid.requiresLogin, controllers.Note.deleteNote);
