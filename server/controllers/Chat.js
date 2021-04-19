@@ -77,7 +77,7 @@ const makeFriend = (req, res) => {
   
    
    const friendData = {
-    friendsList: req.session.account.username,
+    friendsList: req.body.username,
     owner: req.session.account._id,
    };
 
