@@ -4,13 +4,13 @@ const { Search } = models;
 
 // A simple controller to render the upload.handlebars page.
 const uploadPage = (req, res) => {
-  Search.SearchModel.findByOwner(req.session.account._id, (err, docs) => {
+  Search.FileModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred.' });
     }
 
-    return res.render('app4', { csrfToken: req.csrfToken(), chat: docs });
+    return res.render('app4', { csrfToken: req.csrfToken(), search: docs });
   });
 };
 
@@ -27,6 +27,8 @@ const uploadFile = (req, res) => {
     return res.status(400).json({ error: 'No files were uploaded' });
   }
 
+
+  
   // Once we are sure we have a file, we want to pull our sample file out of our
   // req.files object. It is called sampleFile because that is what we named it on
   // line 19 of our /views/upload.handlebars file. Here, we are destructuring our
@@ -73,7 +75,7 @@ const retrieveFile = (req, res) => {
   // fileName as 'name' in our search object. The callback function will accept an error and
   // a document. The error will be populated if something goes wrong. The doc will be populated
   // if a file with that name is found. We will return to prevent eslint errors.
-  return filedb.FileModel.findOne({ name: req.query.fileName }, (error, doc) => {
+  return Search.FileModel.findOne({ name: req.query.fileName }, (error, doc) => {
     // If there is an error, log it and send a 400 back to the client.
     if (error) {
       console.dir(error);

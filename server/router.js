@@ -26,7 +26,7 @@ const router = (app) => {
   //app.post('/search', mid.requiresLogin, controllers.Search.make);
 
   // Setup Gif Page
-  //app.get('/gifPage', mid.requiresLogin, controllers.Search.gifPage);
+  app.get('/files', mid.requiresLogin, controllers.Search.uploadPage);
 
   // Setup post requests to /upload.
   app.post('/upload', mid.requiresLogin, controllers.Search.uploadFile);

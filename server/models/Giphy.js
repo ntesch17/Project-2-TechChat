@@ -1,8 +1,15 @@
 // Pull in mongoose and create our empty file model object.
 const mongoose = require('mongoose');
 
+mongoose.Promise = global.Promise;
+const _ = require('underscore');
+
 let FileModel = {};
 
+// mongoose.Types.ObjectID is a function that
+// converts string ID to real mongo ID
+const convertID = mongoose.Types.ObjectId;
+const setName = (name) => _.escape(name).trim();
 // Create our schema. This is based on the data pulled in by express-fileupload.
 // We can assume all of this data is required, as there will be an error from
 // fileupload before we create anything in this database. You could explicitly
@@ -33,7 +40,31 @@ const FileSchema = new mongoose.Schema({
   md5: { // The md5 hash of our file.
     type: String,
   },
+  
+  owner: {
+    type: mongoose.Schema.ObjectId,
+    required: true,
+    ref: 'Account',
+  },
+
+  createdData: {
+    type: Date,
+    default: Date.now,
+  },
 });
+
+FileSchema.statics.toAPI = (doc) => ({
+  name: doc.name,
+  
+});
+
+FileSchema.statics.findByOwner = (ownerID, callback) => {
+  const search = {
+    owner: convertID(ownerID),
+  };
+
+  return FileModel.find(search).select('name').lean().exec(callback);
+};
 
 // Once we have setup the schema, we want to create our model.
 FileModel = mongoose.model('FileModel', FileSchema);

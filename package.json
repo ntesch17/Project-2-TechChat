@@ -9,7 +9,8 @@
     "buildAppBundle": "babel ./client/app ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle.js",
     "buildAppBundle2": "babel ./client/app2 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle2.js",
     "buildAppBundle3": "babel ./client/app3 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle3.js",
-    "build": "npm run buildLoginBundle && npm run buildChangeLoginBundle && npm run buildAppBundle && npm run buildAppBundle2 && npm run buildAppBundle3",
+    "buildAppBundle4": "babel ./client/app4 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle4.js",
+    "build": "npm run buildLoginBundle && npm run buildChangeLoginBundle && npm run buildAppBundle && npm run buildAppBundle2 && npm run buildAppBundle3 && npm run buildAppBundle4",
     "watchLoginBundle": "babel --watch ./client/helper --presets @babel/preset-react --out-file ./hosted/loginBundle.js",
     "watchAppBundle": "babel --watch ./client/app ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle.js",
     "watchAppBundle2": "babel --watch ./client/app2 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle2.js",
@@ -41,6 +42,7 @@
     "express-session": "^1.17.0",
     "helmet": "^3.21.3",
     "mongoose": "^5.9.5",
+    "react-images-upload": "^1.2.8",
     "redis": "^3.0.2",
     "serve-favicon": "^2.5.0",
     "underscore": "^1.9.2"
