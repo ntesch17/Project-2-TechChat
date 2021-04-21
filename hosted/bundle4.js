@@ -101,14 +101,15 @@ const FileList = function (props) {
     }, "No Files Yet!"));
   }
 
-  const fileNodes = props.search.map(function (search) {
+  const fileNodes = props.search.map(function (file) {
+    let fileRequestURL = `/retrieve?_id=${file._id}`;
     return /*#__PURE__*/React.createElement("div", {
-      key: search,
+      key: file._id,
       className: "search"
     }, /*#__PURE__*/React.createElement("img", {
-      src: "/assets/img/domoface.jpeg",
-      alt: "domo face",
-      className: "domoFace"
+      src: fileRequestURL,
+      alt: "image",
+      className: "image"
     }));
   });
   return /*#__PURE__*/React.createElement("div", {
@@ -117,9 +118,9 @@ const FileList = function (props) {
 };
 
 const loadFilesFromServer = () => {
-  sendAjax('GET', '/retrieve', null, data => {
+  sendAjax('GET', '/getFileIds', null, data => {
     ReactDOM.render( /*#__PURE__*/React.createElement(FileList, {
-      search: data.search
+      search: data
     }), document.querySelector("#search"));
   });
 };

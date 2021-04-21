@@ -21,17 +21,20 @@ const uploadFile = (req, res) => {
     return res.status(400).json({ error: 'No files were uploaded' });
   }
 
-  const fileData = {
-    //name: req.name,
-    //files: req.files,
-    owner: req.session.account._id,
-  };
+  // const fileData = {
+  //   //name: req.name,
+  //   //files: req.files,
+  //   owner: req.session.account._id,
+  // };
   
-  //const { sampleFile } = req.files;
+  const { sampleFile } = req.files;
+
+  sampleFile.owner = req.session.account._id;
+
   console.log(req.session.account);
   // Once we have the file, we want to create a mongo document based on that file
   // that can be stored in our database.
-  const fileDoc = new Search.FileModel(fileData);
+  const fileDoc = new Search.FileModel(sampleFile);
 
   // Once we have that mongo document, we can save it into the database.
   const savePromise = fileDoc.save();
@@ -39,8 +42,8 @@ const uploadFile = (req, res) => {
   // The promises 'then' event is called if the document is successfully stored in
   // the database. If that is the case, we will send a success message to the user.
   savePromise.then(() => {
-    res.status(201).json({ redirect: `/retrieve?fileName=${req.files}` });
-    //res.status(201).json({ message: 'Upload Successful! ' });
+    //res.status(201).json({ redirect: `/retrieve?fileName=${req.files}` });
+    res.status(201).json({ message: 'Upload Successful! ' });
   });
 
   // The promises 'catch' event is called if there is an error when adding the document
@@ -60,8 +63,8 @@ const retrieveFile = (req, res) => {
   // When making a GET request to /retrieve, the user should be providing a query parameter
   // of fileName to provide the name of the file in question. If it doesn't exist, send back
   // an error.
-  if (!req.query.fileName) {
-    return res.status(400).json({ error: 'Missing File Name! ' });
+  if (!req.query._id) {
+    return res.status(400).json({ error: 'Missing File ID! ' });
   }
 
   // If we do have the file name, we want to find that file in the database. We can do this
@@ -69,7 +72,7 @@ const retrieveFile = (req, res) => {
   // fileName as 'name' in our search object. The callback function will accept an error and
   // a document. The error will be populated if something goes wrong. The doc will be populated
   // if a file with that name is found. We will return to prevent eslint errors.
-  return Search.FileModel.findOne({ name: req.query.fileName }, (error, doc) => {
+  return Search.FileModel.findOne({ _id: req.query._id }, (error, doc) => {
     // If there is an error, log it and send a 400 back to the client.
     if (error) {
       console.dir(error);
@@ -90,7 +93,20 @@ const retrieveFile = (req, res) => {
   });
 };
 
+const getFileIDs = (req,res) => {
+  return Search.FileModel.find({}, (err, docs) => {
+    if (err) {
+      console.dir(err);
+      return res.status(400).json({ error: 'An error occured retrieving the IDs. ' });
+    }
+
+    return res.json(docs);
+  }).select('_id').lean();
+};
+
+
 // Finally, export everything.
 module.exports.uploadPage = uploadPage;
 module.exports.uploadFile = uploadFile;
 module.exports.retrieveFile = retrieveFile;
+module.exports.getFileIDs = getFileIDs;

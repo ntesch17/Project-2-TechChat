@@ -111,17 +111,14 @@ const FileList = function(props){
     }
 
    
-    const fileNodes = props.search.map(function(search) {
-       
+    const fileNodes = props.search.map(function(file) {
+       let fileRequestURL = `/retrieve?_id=${file._id}`
 
         return (
-            <div key={search} className="search">
-                <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-                {/* <img className="friendName" src="/retrieve?fileName={search}"   /> */}
-{/*                 <img src="/retrieve?fileName=picture.jpg" />
-                <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" onClick={handleDelete}/>
-                <input type="hidden" name="_csrf" value={props.csrf} />
-                <input id='submitFriend' className="makeFriendSubmit" type="submit" value="Add Friend!" onClick={handleFriend} /> */}
+            <div key={file._id} className="search">
+                <img src={fileRequestURL} alt="image" className="image" />
+                
+
             </div>
             
         );
@@ -138,9 +135,9 @@ const FileList = function(props){
 };
 
 const loadFilesFromServer = () => {
-    sendAjax('GET', '/retrieve', null, (data) => {
+    sendAjax('GET', '/getFileIds', null, (data) => {
         ReactDOM.render(
-            <FileList search={data.search} />, document.querySelector("#search")
+            <FileList search={data} />, document.querySelector("#search")
         );
     });
 };

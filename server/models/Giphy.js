@@ -17,7 +17,7 @@ const convertID = mongoose.Types.ObjectId;
 const FileSchema = new mongoose.Schema({
   name: { // The name of our file as a string. We want this to be unique.
     type: String,
-    unique: true,
+    
   },
   data: { // The data of our file. This is stored as a byte array.
     type: Buffer,

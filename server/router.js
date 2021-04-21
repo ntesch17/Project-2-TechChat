@@ -28,6 +28,8 @@ const router = (app) => {
   // Setup Gif Page
   app.get('/files', mid.requiresLogin, controllers.Search.uploadPage);
 
+  app.get('/getFileIds', mid.requiresLogin, controllers.Search.getFileIDs);
+
   // Setup post requests to /upload.
   app.post('/upload', mid.requiresLogin, controllers.Search.uploadFile);
 
