@@ -28,14 +28,20 @@ const handleUpload = (e) => {
 
     $("#domoMessage").animate({width:'hide'}, 350);
 
-    if($("#upload").val() == ''){
-        handleError("RAWR! File fields are required.");
-        return false;
-    }
+    let formData = new FormData();
 
-    sendAjax('POST', $("#uploadForm").attr("action"), $("#uploadForm").serialize(), function() {
-        loadFilesFromServer();
-    });
+    formData.append("sampleFile", document.getElementById("upload").files[0]);
+
+    let xhr = new XMLHttpRequest();
+
+    xhr.open('POST', $("#uploadForm").attr("action"));
+
+
+    xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+
+    xhr.onload = () => loadFilesFromServer();
+
+    xhr.send(formData);
 
     return false;
 };
@@ -109,10 +115,10 @@ const FileList = function(props){
        
 
         return (
-            <div key={search._id} className="search">
+            <div key={search} className="search">
                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-               
-{/*                 
+                {/* <img className="friendName" src="/retrieve?fileName={search}"   /> */}
+{/*                 <img src="/retrieve?fileName=picture.jpg" />
                 <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" onClick={handleDelete}/>
                 <input type="hidden" name="_csrf" value={props.csrf} />
                 <input id='submitFriend' className="makeFriendSubmit" type="submit" value="Add Friend!" onClick={handleFriend} /> */}

@@ -11,6 +11,7 @@ const RedisStore = require('connect-redis')(session);
 const url = require('url');
 const redis = require('redis');
 const csrf = require('csurf');
+const fileUpload = require('express-fileupload'); 
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
@@ -29,6 +30,7 @@ mongoose.connect(dbURL, mongooseOptions, (err) => {
     throw err;
   }
 });
+
 
 let redisURL = {
   hostname: 'redis-14000.c257.us-east-1-3.ec2.cloud.redislabs.com',
@@ -53,6 +55,11 @@ const app = express();
 app.use('/assets', express.static(path.resolve(`${__dirname}/../hosted/`)));
 app.use(favicon(`${__dirname}/../hosted/img/faviconChatt.png`));
 app.disable('x-powered-by');
+
+// Add our fileUpload plugin. This will take any data uploaded with the 'multipart/formdata'
+// encoding type, and add them to the req.files object in our requests.
+app.use(fileUpload());
+
 app.use(compression());
 app.use(bodyParser.urlencoded({
   extended: true,

@@ -26,15 +26,15 @@ const handleUpload = e => {
   $("#domoMessage").animate({
     width: 'hide'
   }, 350);
+  let formData = new FormData();
+  formData.append("sampleFile", document.getElementById("upload").files[0]);
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST', $("#uploadForm").attr("action"));
+  xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
 
-  if ($("#upload").val() == '') {
-    handleError("RAWR! File fields are required.");
-    return false;
-  }
+  xhr.onload = () => loadFilesFromServer();
 
-  sendAjax('POST', $("#uploadForm").attr("action"), $("#uploadForm").serialize(), function () {
-    loadFilesFromServer();
-  });
+  xhr.send(formData);
   return false;
 }; // const handleRetrieve = (e) => {
 //     e.preventDefault();
@@ -103,7 +103,7 @@ const FileList = function (props) {
 
   const fileNodes = props.search.map(function (search) {
     return /*#__PURE__*/React.createElement("div", {
-      key: search._id,
+      key: search,
       className: "search"
     }, /*#__PURE__*/React.createElement("img", {
       src: "/assets/img/domoface.jpeg",

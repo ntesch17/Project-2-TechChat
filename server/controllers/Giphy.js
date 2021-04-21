@@ -16,29 +16,22 @@ const uploadPage = (req, res) => {
 
 // Our upload handler.
 const uploadFile = (req, res) => {
-  // When things are uploaded with the 'multipart/formdata' encoding type, the
-  // express-fileupload library will create an object and store it in req.files.
-  // We want to ensure that object exists. Once we know it exists, we also want
-  // to make sure that there is a file within it. Since fileupload can accept
-  // multiple files at once, we want to ensure that we have at least one. We can
-  // easily do this by looking at the keys in our req.files object and ensuring it
-  // is a non-zero value.
+ 
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).json({ error: 'No files were uploaded' });
   }
 
-
+  const fileData = {
+    //name: req.name,
+    //files: req.files,
+    owner: req.session.account._id,
+  };
   
-  // Once we are sure we have a file, we want to pull our sample file out of our
-  // req.files object. It is called sampleFile because that is what we named it on
-  // line 19 of our /views/upload.handlebars file. Here, we are destructuring our
-  // req.files object to pull out sampleFile and store it in it's own variable.
-  // The line below is equivalent to:   const sampleFile = req.files.sampleFile.
-  const { sampleFile } = req.files;
-
+  //const { sampleFile } = req.files;
+  console.log(req.session.account);
   // Once we have the file, we want to create a mongo document based on that file
   // that can be stored in our database.
-  const fileDoc = new Search.FileModel(sampleFile);
+  const fileDoc = new Search.FileModel(fileData);
 
   // Once we have that mongo document, we can save it into the database.
   const savePromise = fileDoc.save();
@@ -46,7 +39,8 @@ const uploadFile = (req, res) => {
   // The promises 'then' event is called if the document is successfully stored in
   // the database. If that is the case, we will send a success message to the user.
   savePromise.then(() => {
-    res.status(201).json({ message: 'Upload Successful! ' });
+    res.status(201).json({ redirect: `/retrieve?fileName=${req.files}` });
+    //res.status(201).json({ message: 'Upload Successful! ' });
   });
 
   // The promises 'catch' event is called if there is an error when adding the document
