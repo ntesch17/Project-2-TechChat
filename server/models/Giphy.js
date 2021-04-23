@@ -63,7 +63,7 @@ FileSchema.statics.findByOwner = (ownerID, callback) => {
     owner: convertID(ownerID),
   };
 
-  return FileModel.find(search).select('name').lean().exec(callback);
+  return FileModel.find(search).select('owner').lean().exec(callback);
 };
 
 // Once we have setup the schema, we want to create our model.

@@ -3,10 +3,10 @@ let csrfToken;
 const handleChat = (e) => {
     e.preventDefault();
 
-    $("#domoMessage").animate({width:'hide'}, 350);
+    $("#alertMessage").animate({width:'hide'}, 350);
 
     if($("#chatResponse").val() == ''){
-        handleError("RAWR! Chat fields are required.");
+        handleError("Chat fields are required.");
         return false;
     }
 

@@ -229,10 +229,10 @@ h3.emptyChat {
     box-shadow: 0px 0px 1px 1px #55acee;
 }
 
-#domoMessage {
+#alertMessage {
     display:none;
-    top: 250px;
-    width: 250px;
+    top: 150px;
+    width: 400px;
     height: 650px;
     position: absolute;
     z-index: 200;
@@ -240,17 +240,17 @@ h3.emptyChat {
     overflow: hidden;
 }
 
-#domoMessage h3 {
+#alertMessage h3 {
     width: 200px;
     position: absolute;
-    top: 0px;
-    left: 20px;
+    top: 80px;
+    left: 120px;
 }
 
 #speech {
-    height: 120px;
-    width: 250px;
-    z-index:300;
+    height: 280px;
+    width: 450px;
+    z-index:500;
 }
 
 #errorMessage {

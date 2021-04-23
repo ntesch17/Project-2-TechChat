@@ -1,11 +1,11 @@
 const handleLogin = e => {
   e.preventDefault();
-  $("#domoMessage").animate({
+  $("#alertMessage").animate({
     width: 'hide'
   }, 350);
 
   if ($("#user").val() == '' || $("#pass").val() == '') {
-    handleError("RAWR! Username or password is empty.");
+    handleError("Username or password is empty.");
     return false;
   }
 
@@ -16,17 +16,17 @@ const handleLogin = e => {
 
 const handleSignup = e => {
   e.preventDefault();
-  $("#domoMessage").animate({
+  $("#alertMessage").animate({
     width: 'hide'
   }, 350);
 
   if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
-    handleError("RAWR! All fields required.");
+    handleError("All fields required.");
     return false;
   }
 
   if ($("#pass").val() !== $("#pass2").val()) {
-    handleError("RAWR! Passwords do not match.");
+    handleError("Passwords do not match.");
     return false;
   }
 
@@ -146,13 +146,13 @@ $(document).ready(function () {
 });
 const handleError = message => {
   $("#errorMessage").text(message);
-  $("#domoMessage").animate({
+  $("#alertMessage").animate({
     width: 'toggle'
   }, 350);
 };
 
 const redirect = response => {
-  $("#domoMessage").animate({
+  $("#alertMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;

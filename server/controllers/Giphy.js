@@ -94,14 +94,14 @@ const retrieveFile = (req, res) => {
 };
 
 const getFileIDs = (req,res) => {
-  return Search.FileModel.find({}, (err, docs) => {
+  return Search.FileModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.dir(err);
       return res.status(400).json({ error: 'An error occured retrieving the IDs. ' });
     }
 
     return res.json(docs);
-  }).select('_id').lean();
+  })
 };
 
 

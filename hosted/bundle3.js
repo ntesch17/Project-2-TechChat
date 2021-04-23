@@ -54,13 +54,13 @@ $(document).ready(function () {
 });
 const handleError = message => {
   $("#errorMessage").text(message);
-  $("#domoMessage").animate({
+  $("#alertMessage").animate({
     width: 'toggle'
   }, 350);
 };
 
 const redirect = response => {
-  $("#domoMessage").animate({
+  $("#alertMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;
