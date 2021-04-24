@@ -38,7 +38,7 @@ const UploadForm = (props) =>{
             <input id='upload' type="file" name="sampleFile" placeholder="Enter a file here"/>
             
             <input type="hidden" name="_csrf" value={props.csrf} />
-            <input className="uploadForm" type='submit' value='Upload!' />
+            <input id='submits' className='makeUploadSubmit' type='submit' value='Upload!' />
 
         </form>
     );
@@ -56,23 +56,23 @@ const FileList = function(props){
    
     const fileNodes = props.search.map(function(file) {
         let fileRequestURL = `/retrieve?_id=${file._id}`;
-        const handleMeme = (e) => {
-            e.preventDefault();
+        // const handleMeme = (e) => {
+        //     e.preventDefault();
            
-            let xhr = new XMLHttpRequest();
+        //     let xhr = new XMLHttpRequest();
 
-            xhr.open('POST', fileRequestURL);
+        //     xhr.open('POST', `/retrieve?_id=${file._id}`);
 
-            xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+        //     xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
 
-            xhr.send();
-        }
+        //     xhr.send();
+        // }
       
 
         return (
             <div key={file._id} className="search">
                 <img src={fileRequestURL} alt="image" className="image" />
-                <input id='submitMeme' className="makeMeme" type="submit" value="Send to Meme Chat!" onClick={handleMeme} />
+                <input id='submitMeme' className="makeMeme" type="submit" value="Send to Meme Chat!"  />
             </div>
             
         );

@@ -55,7 +55,7 @@ const NoteList = function(props){
 
         return (
             <div key={note._id} className="note">
-                <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
+                <img src="/assets/img/chatIcon.png" alt="Chat Icon" className="chatIcon" />
                 <h3 className="noteResponse"> Note: {note.note} </h3>
                 <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Note" onClick={handleDelete}/>
             </div>

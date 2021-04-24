@@ -11,7 +11,7 @@ const RedisStore = require('connect-redis')(session);
 const url = require('url');
 const redis = require('redis');
 const csrf = require('csurf');
-const fileUpload = require('express-fileupload'); 
+const fileUpload = require('express-fileupload');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
@@ -30,7 +30,6 @@ mongoose.connect(dbURL, mongooseOptions, (err) => {
     throw err;
   }
 });
-
 
 let redisURL = {
   hostname: 'redis-14000.c257.us-east-1-3.ec2.cloud.redislabs.com',

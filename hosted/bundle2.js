@@ -64,9 +64,9 @@ const NoteList = function (props) {
       key: note._id,
       className: "note"
     }, /*#__PURE__*/React.createElement("img", {
-      src: "/assets/img/domoface.jpeg",
-      alt: "domo face",
-      className: "domoFace"
+      src: "/assets/img/chatIcon.png",
+      alt: "Chat Icon",
+      className: "chatIcon"
     }), /*#__PURE__*/React.createElement("h3", {
       className: "noteResponse"
     }, " Note: ", note.note, " "), /*#__PURE__*/React.createElement("input", {

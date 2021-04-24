@@ -1,6 +1,29 @@
 const models = require('../models');
 
 const { Search } = models;
+const { Account } = models;
+
+const getAllFiles = (req, res) => {
+  Search.FileModel.find({}, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred.' });
+    }
+
+    return res.status(200).json({ search: docs });
+  });
+};
+
+const memePage = (req, res) => {
+  Search.FileModel.findByOwner(req.session.account._id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred.' });
+    }
+
+    return res.render('app5', { csrfToken: req.csrfToken(), search: docs });
+  });
+};
 
 // A simple controller to render the upload.handlebars page.
 const uploadPage = (req, res) => {
@@ -16,17 +39,10 @@ const uploadPage = (req, res) => {
 
 // Our upload handler.
 const uploadFile = (req, res) => {
- 
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).json({ error: 'No files were uploaded' });
   }
 
-  // const fileData = {
-  //   //name: req.name,
-  //   //files: req.files,
-  //   owner: req.session.account._id,
-  // };
-  
   const { sampleFile } = req.files;
 
   sampleFile.owner = req.session.account._id;
@@ -42,7 +58,7 @@ const uploadFile = (req, res) => {
   // The promises 'then' event is called if the document is successfully stored in
   // the database. If that is the case, we will send a success message to the user.
   savePromise.then(() => {
-    //res.status(201).json({ redirect: `/retrieve?fileName=${req.files}` });
+    // res.status(201).json({ redirect: `/retrieve?fileName=${req.files}` });
     res.status(201).json({ message: 'Upload Successful! ' });
   });
 
@@ -93,16 +109,16 @@ const retrieveFile = (req, res) => {
   });
 };
 
-const getFileIDs = (req,res) => {
-  return Search.FileModel.findByOwner(req.session.account._id, (err, docs) => {
+const getFileIDs = (req, res) => {
+  Search.FileModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.dir(err);
       return res.status(400).json({ error: 'An error occured retrieving the IDs. ' });
     }
-
-    return res.json(docs);
-  })
+    return res.status(200).json(docs);
+  });
 };
+
 
 
 // Finally, export everything.
@@ -110,3 +126,6 @@ module.exports.uploadPage = uploadPage;
 module.exports.uploadFile = uploadFile;
 module.exports.retrieveFile = retrieveFile;
 module.exports.getFileIDs = getFileIDs;
+module.exports.getAllFiles = getAllFiles;
+module.exports.memePage = memePage;
+

@@ -9,7 +9,6 @@ const saltLength = 64;
 const keyLength = 64;
 
 const ChangeAccountSchema = new mongoose.Schema({
-  
 
   salt: {
     type: Buffer,
@@ -27,7 +26,7 @@ const ChangeAccountSchema = new mongoose.Schema({
 
 ChangeAccountSchema.statics.toAPI = (doc) => ({
   // _id is built into your mongo document and is guaranteed to be unique
- 
+
   _id: doc._id,
 });
 
@@ -57,7 +56,7 @@ ChangeAccountSchema.statics.generateHash = (password, callback) => {
 };
 
 ChangeAccountSchema.statics.authenticate = (username, password, callback) => {
-    ChangeAccountModel.findByUsername(username, (err, doc) => {
+  ChangeAccountModel.findByUsername(username, (err, doc) => {
     if (err) {
       return callback(err);
     }

@@ -27,7 +27,7 @@ const makeNote = (req, res) => {
 
   const notePromise = newNote.save();
 
-  notePromise.then(() => res.json({ redirect: '/note' }));
+  notePromise.then(() => res.status(200).json({ redirect: '/note' }));
 
   notePromise.catch((err) => {
     console.log(err);
@@ -38,31 +38,30 @@ const makeNote = (req, res) => {
 };
 
 const getNote = (request, response) => {
-    const req = request;
-    const res = response;
-  
-    return Note.NoteModel.findByOwner(req.session.account._id, (err, docs) => {
-      if (err) {
-        console.log(err);
-        return res.status(400).json({ error: 'An error occured.' });
-      }
-  
-      return res.json({ note: docs });
-    });
-  };
+  const req = request;
+  const res = response;
 
-  
-const deleteNote = (req, res) => {
-  if(req.query._id){
+  return Note.NoteModel.findByOwner(req.session.account._id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured.' });
+    }
+
+    return res.status(200).json({ note: docs });
+  });
+};
+
+const deleteNote = (req) => {
+  if (req.query._id) {
     Note.NoteModel.deleteOne({ _id: req.query._id }, (err) => {
-      console.log("Data deleted"); // Success
+      console.log('Data deleted'); // Success
 
-      if(err){
+      if (err) {
         console.log(err);
       }
     });
   }
-}
+};
 
 module.exports.notePage = notePage;
 module.exports.getNote = getNote;

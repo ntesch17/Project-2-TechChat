@@ -3,11 +3,11 @@ const models = require('../models');
 const { Account } = models;
 
 const loginPage = (req, res) => {
-  res.render('login', { csrfToken: req.csrfToken() });
+  res.status(200).render('login', { csrfToken: req.csrfToken() });
 };
 
 const changePage = (req, res) => {
-  res.render('changelogin', { csrfToken: req.csrfToken() });
+  res.status(200).render('changelogin', { csrfToken: req.csrfToken() });
 };
 
 const changeLogin = (request, response) => {
@@ -19,7 +19,7 @@ const changeLogin = (request, response) => {
   req.body.newPass = `${req.body.newPass}`;
   req.body.newPass2 = `${req.body.newPass2}`;
 
-  if ( !req.body.newPass || !req.body.newPass2) {
+  if (!req.body.newPass || !req.body.newPass2) {
     return res.status(400).json({ error: 'RAWR! All fields are required! ' });
   }
 
@@ -29,7 +29,7 @@ const changeLogin = (request, response) => {
 
   return Account.AccountModel.generateHash2(req.body.newPass, (salt, hash) => {
     const accountData = {
-      
+
       salt,
       password: hash,
     };
@@ -46,9 +46,9 @@ const changeLogin = (request, response) => {
     savePromise.catch((err) => {
       console.log(err);
 
-    //   if (err.code === 11000) {
-    //     return res.status(400).json({ error: 'Username already in use.' });
-    //   }
+      //   if (err.code === 11000) {
+      //     return res.status(400).json({ error: 'Username already in use.' });
+      //   }
 
       return res.status(400).json({ error: 'An error occured!' });
     });
@@ -78,7 +78,7 @@ const login = (request, response) => {
 
     req.session.account = Account.AccountModel.toAPI(account);
 
-    return res.json({ redirect: '/chat' });
+    return res.status(200).json({ redirect: '/chat' });
   });
 };
 
@@ -112,7 +112,7 @@ const signup = (request, response) => {
 
     savePromise.then(() => {
       req.session.account = Account.AccountModel.toAPI(newAccount);
-      res.json({ redirect: '/chat' });
+      res.status(200).json({ redirect: '/chat' });
     });
 
     savePromise.catch((err) => {
@@ -140,7 +140,7 @@ const getToken = (request, response) => {
 
 const notFound = (req, res) => {
   res.status(404).render('notFound', {
-      page: req.url,
+    page: req.url,
   });
 };
 

@@ -2,7 +2,6 @@ const models = require('../models');
 
 const { Change } = models;
 
-
 const changePage = (req, res) => {
   res.render('changelogin', { csrfToken: req.csrfToken() });
 };
@@ -16,7 +15,7 @@ const changeLogin = (request, response) => {
   req.body.newPass = `${req.body.newPass}`;
   req.body.newPass2 = `${req.body.newPass2}`;
 
-  if ( !req.body.newPass || !req.body.newPass2) {
+  if (!req.body.newPass || !req.body.newPass2) {
     return res.status(400).json({ error: 'RAWR! All fields are required! ' });
   }
 
@@ -26,7 +25,7 @@ const changeLogin = (request, response) => {
 
   return Change.ChangeAccountModel.generateHash(req.body.newPass, (salt, hash) => {
     const accountData = {
-      
+
       salt,
       password: hash,
     };
@@ -37,15 +36,15 @@ const changeLogin = (request, response) => {
 
     savePromise.then(() => {
       req.session.account = Change.ChangeAccountModel.toAPI(newAccount);
-      res.json({ redirect: '/change' });
+      res.status(200).json({ redirect: '/change' });
     });
 
     savePromise.catch((err) => {
       console.log(err);
 
-    //   if (err.code === 11000) {
-    //     return res.status(400).json({ error: 'Username already in use.' });
-    //   }
+      //   if (err.code === 11000) {
+      //     return res.status(400).json({ error: 'Username already in use.' });
+      //   }
 
       return res.status(400).json({ error: 'An error occured!' });
     });

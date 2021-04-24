@@ -14,7 +14,7 @@ const FriendsList = function(props){
         
         return (
             <div key={friend} className="friend">
-                <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
+                <img src="/assets/img/chatIcon.png" alt="Chat Icon" className="chatIcon" />
                 <h3 className="friendName"> Friend: {friend} </h3>
             </div>
         );

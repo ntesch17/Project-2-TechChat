@@ -1,14 +1,16 @@
 const models = require('../models');
-const { AccountModel } = require('../models/Account');
 
 const { Chat } = models;
 const { Account } = models;
-let friends = [];
-let friendPromises = [];
-
 
 const getAllChats = (req, res) => {
-  Chat.ChatModel.find({}, (err, docs) => res.json({ chat: docs }));
+  Chat.ChatModel.find({}, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred.' });
+    }
+    return res.status(200).json({ chat: docs });
+  });
 };
 
 const chatPage = (req, res) => {
@@ -39,7 +41,7 @@ const makeChat = (req, res) => {
 
   const chatPromise = newChat.save();
 
-  chatPromise.then(() => res.json({ redirect: '/chat' }));
+  chatPromise.then(() => res.status(200).json({ redirect: '/chat' }));
 
   chatPromise.catch((err) => {
     console.log(err);
@@ -50,17 +52,19 @@ const makeChat = (req, res) => {
 };
 
 const deleteMessage = (req, res) => {
-  if(req.query._id){
+  if (req.query._id) {
     Chat.ChatModel.deleteOne({ _id: req.query._id }, (err) => {
-      console.log("Data deleted"); // Success
+      console.log('Data deleted'); // Success
 
       if (err) {
         console.log(err);
         return res.status(400).json({ error: 'An error occurred.' });
       }
+
+      return res.status(200).json({ success: 'Data Deleted.' });
     });
   }
-}
+};
 
 const friendsPage = (req, res) => {
   Account.AccountModel.findByUsername(req.session.account._id, (err, docs) => {
@@ -74,9 +78,8 @@ const friendsPage = (req, res) => {
 };
 
 const makeFriend = (req, res) => {
-  
-  Account.AccountModel.findOne( {_id: req.session.account._id}, (err, doc) => {
-    //Error Handling Here
+  Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
+    // Error Handling Here
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred.' });
@@ -85,19 +88,14 @@ const makeFriend = (req, res) => {
     doc.friendsList.push(req.query.username);
     const savePromise = doc.save();
 
-    savePromise.then(() => {
-      res.json({ redirect: '/getFriendsList' });
-    });
-    savePromise.catch((err2) => {
-      if (err2) {
-        console.log(err2);
-        return res.status(400).json({ error: 'An error occurred.' });
-      }
-       
-    });
-});
+    savePromise.then(() => res.status(200).json({ redirect: '/getFriendsList' }));
 
- 
+    savePromise.catch((err2) => {
+      console.log(err2);
+      return res.status(400).json({ error: 'An error occurred.' });
+    });
+    return savePromise;
+  });
 };
 
 const getFriendsList = (req, res) => {
@@ -106,33 +104,9 @@ const getFriendsList = (req, res) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred.' });
     }
-    res.json({friend: doc.friendsList});
-  //   for(let i = 0; i < doc.friendsList.length; i++){
-  //     friendPromises.push(AccountModel.findOne({ _id: doc.friendsList[i] }, (err, doc) => {
-  //       if (err) {
-  //         console.log(err);
-  //         return res.status(400).json({ error: 'An error occurred.' });
-  //       }
-  //       let friend = {
-  //         username: doc.username,
-  //         friendList: doc.friendsList,
-  //       }
-
-  //       friends.push(friend);
-  //     }));
-  //   }
-  // })
-  // Promise.all(friendPromises).then(() => {
-  //   //send friends array response
-  //   res.json({friends});
-  // }).catch((err) => {
-  //   if (err) {
-  //     console.log(err);
-  //     return res.status(400).json({ error: 'An error occurred.' });
-  //   }
+    return res.status(200).json({ friend: doc.friendsList });
   }).lean();
 };
-
 
 module.exports.chatPage = chatPage;
 module.exports.getChat = getAllChats;

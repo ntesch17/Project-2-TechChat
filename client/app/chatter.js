@@ -69,7 +69,7 @@ const ChatList = function(props){
 
         return (
             <div key={chat._id} className="chat">
-                <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
+                <img src="/assets/img/chatIcon.png" alt="Chat Icon" className="chatIcon" />
                 <h3 className="chatUser"> User: {chat.username} </h3>
                 <h3 className="chatResponse"> Response: {chat.response} </h3>
                 <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" onClick={handleDelete}/>

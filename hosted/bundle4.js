@@ -38,7 +38,8 @@ const UploadForm = props => {
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
-    className: "uploadForm",
+    id: "submits",
+    className: "makeUploadSubmit",
     type: "submit",
     value: "Upload!"
   }));
@@ -54,15 +55,13 @@ const FileList = function (props) {
   }
 
   const fileNodes = props.search.map(function (file) {
-    let fileRequestURL = `/retrieve?_id=${file._id}`;
-
-    const handleMeme = e => {
-      e.preventDefault();
-      let xhr = new XMLHttpRequest();
-      xhr.open('POST', fileRequestURL);
-      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
-      xhr.send();
-    };
+    let fileRequestURL = `/retrieve?_id=${file._id}`; // const handleMeme = (e) => {
+    //     e.preventDefault();
+    //     let xhr = new XMLHttpRequest();
+    //     xhr.open('POST', `/retrieve?_id=${file._id}`);
+    //     xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+    //     xhr.send();
+    // }
 
     return /*#__PURE__*/React.createElement("div", {
       key: file._id,
@@ -75,8 +74,7 @@ const FileList = function (props) {
       id: "submitMeme",
       className: "makeMeme",
       type: "submit",
-      value: "Send to Meme Chat!",
-      onClick: handleMeme
+      value: "Send to Meme Chat!"
     }));
   });
   return /*#__PURE__*/React.createElement("div", {

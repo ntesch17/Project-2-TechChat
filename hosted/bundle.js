@@ -72,9 +72,9 @@ const ChatList = function (props) {
       key: chat._id,
       className: "chat"
     }, /*#__PURE__*/React.createElement("img", {
-      src: "/assets/img/domoface.jpeg",
-      alt: "domo face",
-      className: "domoFace"
+      src: "/assets/img/chatIcon.png",
+      alt: "Chat Icon",
+      className: "chatIcon"
     }), /*#__PURE__*/React.createElement("h3", {
       className: "chatUser"
     }, " User: ", chat.username, " "), /*#__PURE__*/React.createElement("h3", {

@@ -1,14 +1,13 @@
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
-const _ = require('underscore');
 
 let NoteModel = {};
 
 // mongoose.Types.ObjectID is a function that
 // converts string ID to real mongo ID
 const convertID = mongoose.Types.ObjectId;
-//const setName = (name) => _.escape(name).trim();
+// const setName = (name) => _.escape(name).trim();
 
 const NoteSchema = new mongoose.Schema({
   note: {

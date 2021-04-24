@@ -2,14 +2,13 @@
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
-const _ = require('underscore');
 
 let FileModel = {};
 
 // mongoose.Types.ObjectID is a function that
 // converts string ID to real mongo ID
 const convertID = mongoose.Types.ObjectId;
-//const setName = (name) => _.escape(name).trim();
+// const setName = (name) => _.escape(name).trim();
 // Create our schema. This is based on the data pulled in by express-fileupload.
 // We can assume all of this data is required, as there will be an error from
 // fileupload before we create anything in this database. You could explicitly
@@ -17,7 +16,7 @@ const convertID = mongoose.Types.ObjectId;
 const FileSchema = new mongoose.Schema({
   name: { // The name of our file as a string. We want this to be unique.
     type: String,
-    
+
   },
   data: { // The data of our file. This is stored as a byte array.
     type: Buffer,
@@ -40,7 +39,7 @@ const FileSchema = new mongoose.Schema({
   md5: { // The md5 hash of our file.
     type: String,
   },
-  
+
   owner: {
     type: mongoose.Schema.ObjectId,
     required: true,
@@ -55,7 +54,7 @@ const FileSchema = new mongoose.Schema({
 
 FileSchema.statics.toAPI = (doc) => ({
   name: doc.name,
-  
+
 });
 
 FileSchema.statics.findByOwner = (ownerID, callback) => {

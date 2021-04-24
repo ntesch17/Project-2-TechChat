@@ -1,46 +1,44 @@
 let csrfToken;
 
-const FriendsList = function (props) {
-  if (props.friend.length === 0) {
+const MemeList = function (props) {
+  if (props.search.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
-      className: "friendsList"
+      className: "memesList"
     }, /*#__PURE__*/React.createElement("h3", {
-      className: "emptyFriendsList"
+      className: "emptyMeme"
     }, "No Friends Yet"));
   }
 
-  const friendNodes = props.friend.map(function (friend) {
+  const memeNodes = props.search.map(function (file) {
+    let fileRequestURL = `/retrieve?_id=${file._id}`;
     return /*#__PURE__*/React.createElement("div", {
-      key: friend,
-      className: "friend"
+      key: file._id,
+      className: "meme"
     }, /*#__PURE__*/React.createElement("img", {
-      src: "/assets/img/chatIcon.png",
-      alt: "Chat Icon",
-      className: "chatIcon"
-    }), /*#__PURE__*/React.createElement("h3", {
-      className: "friendName"
-    }, " Friend: ", friend, " "));
+      src: fileRequestURL,
+      alt: "image",
+      className: "image"
+    }));
   });
   return /*#__PURE__*/React.createElement("div", {
-    className: "friendsList"
-  }, friendNodes, ",");
+    className: "memesList"
+  }, memeNodes, ",");
 };
 
-const loadFriendsFromServer = () => {
+const loadMemesFromServer = () => {
   console.log('here');
-  sendAjax('GET', '/getFriendsList', null, data => {
-    ReactDOM.render( /*#__PURE__*/React.createElement(FriendsList, {
-      friend: data.friend
-    }), document.querySelector("#friends"));
+  sendAjax('GET', '/getFileAllIds', null, data => {
+    ReactDOM.render( /*#__PURE__*/React.createElement(MemeList, {
+      search: data.search
+    }), document.querySelector("#meme"));
   });
 };
 
 const setup = function (csrf) {
-  ReactDOM.render( /*#__PURE__*/React.createElement(FriendsList, {
-    friend: []
-  }), document.querySelector('#friends')); //console.log(friend);
-
-  loadFriendsFromServer();
+  ReactDOM.render( /*#__PURE__*/React.createElement(MemeList, {
+    search: []
+  }), document.querySelector('#meme'));
+  loadMemesFromServer();
 };
 
 const getToken = () => {

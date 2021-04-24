@@ -172,6 +172,330 @@ h3.emptyChat {
     margin-top: 18px;
 }
 
+.noteForm {
+    border: 2px solid #F1A7A9;
+    height: 65px;
+    padding-top:20px;
+    background-color: #EC8385;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.noteForm label {
+    display: inline-block;
+    width: 205px;
+    margin-left: 100px;
+    font-size: 1.2em;
+    color: white;
+}
+
+.makeNoteSubmit {
+    transition: background-color 0.4s ease;
+    display: inline;
+    width: 90px;
+    background-color: #E66063;
+    border-radius: 2px;
+    border-color: #E66063;
+    color: black;
+    text-decoration: none;
+}
+
+.makeNoteSubmit:link, .makeNoteSubmit:visited, .makeNoteSubmit:hover, .makeNoteSubmit:active {
+    color: black;
+}
+
+.makeNoteSubmit:hover {
+    transition: background-color 0.4s ease;
+    background-color: #F1A7A9;
+}
+
+#note {
+  
+    min-width: 400px;
+    border: 2px solid #F6CACC;
+    border-radius: 4px;
+
+    margin-top: 10px;
+}
+
+.note {
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border: 2px solid #EC8385;
+    border-radius: 4px;
+    background-color: #EC8385;
+    padding: 10px;
+    min-height:60px;
+    overflow: hidden;
+}
+
+.note:hover {
+    transition: border-color 0.2s ease-out;
+    border-color: rgba(255,255,255, 0.8);
+    transition: background-color 2.6s ease-out;
+    background-color: #F6CACC;
+}
+
+h3.emptyNote {
+    width: 400px;
+    font-size: 1.5em;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 18px;
+}
+
+
+
+
+
+
+
+
+
+
+.uploadForm {
+    border: 2px solid #F1A7A9;
+    height: 65px;
+    padding-top:20px;
+    background-color: #EC8385;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.uploadForm label {
+    display: inline-block;
+    width: 205px;
+    margin-left: 100px;
+    font-size: 1.2em;
+    color: white;
+}
+
+.makeUploadSubmit {
+    transition: background-color 0.4s ease;
+    display: inline;
+    width: 90px;
+    background-color: #E66063;
+    border-radius: 2px;
+    border-color: #E66063;
+    color: black;
+    text-decoration: none;
+}
+
+.makeUploadSubmit:link, .makeUploadSubmit:visited, .makeUploadSubmit:hover, .makeUploadSubmit:active {
+    color: black;
+}
+
+.makeUploadSubmit:hover {
+    transition: background-color 0.4s ease;
+    background-color: #F1A7A9;
+}
+
+#upload {
+  
+    min-width: 400px;
+    
+
+    margin-top: 10px;
+
+
+    transition: background-color 0.4s ease;
+    display: inline;
+    background-color: white;
+    border-radius: 5px;
+    border-color: #E66063;
+    color: black;
+    text-decoration: none;
+}
+
+#search {
+  
+    min-width: 400px;
+    border: 2px solid #F6CACC;
+    border-radius: 4px;
+
+    margin-top: 10px;
+}
+
+#submitMeme {
+    transition: background-color 0.4s ease;
+    display: inline;
+    width: 190px;
+    background-color: #E66063;
+    border-radius: 2px;
+    border-color: #E66063;
+    color: black;
+    text-decoration: none;
+}
+
+.search {
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border: 2px solid #EC8385;
+    border-radius: 4px;
+    background-color: #EC8385;
+    padding: 10px;
+    min-height:60px;
+    overflow: hidden;
+}
+
+.search:hover {
+    transition: border-color 0.2s ease-out;
+    border-color: rgba(255,255,255, 0.8);
+    transition: background-color 2.6s ease-out;
+    background-color: #F6CACC;
+}
+
+h3.emptyfile {
+    width: 400px;
+    font-size: 1.5em;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 18px;
+}
+
+img {
+    height: 300px;
+    width: 350px;
+    margin: 0 auto;
+}
+
+
+#friends {
+  
+    min-width: 400px;
+    border: 2px solid #F6CACC;
+    border-radius: 4px;
+
+    margin-top: 10px;
+}
+
+.friend {
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border: 2px solid #EC8385;
+    border-radius: 4px;
+    background-color: #EC8385;
+    padding: 10px;
+    min-height:60px;
+    overflow: hidden;
+}
+
+.friend:hover {
+    transition: border-color 0.2s ease-out;
+    border-color: rgba(255,255,255, 0.8);
+    transition: background-color 2.6s ease-out;
+    background-color: #F6CACC;
+}
+
+h3.emptyfriendslist {
+    width: 400px;
+    font-size: 1.5em;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 18px;
+}
+
+#meme {
+  
+    min-width: 400px;
+    border: 2px solid #F6CACC;
+    border-radius: 4px;
+
+    margin-top: 10px;
+}
+
+.meme {
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border: 2px solid #EC8385;
+    border-radius: 4px;
+    background-color: #EC8385;
+    padding: 10px;
+    min-height:60px;
+    overflow: hidden;
+}
+
+.meme:hover {
+    transition: border-color 0.2s ease-out;
+    border-color: rgba(255,255,255, 0.8);
+    transition: background-color 2.6s ease-out;
+    background-color: #F6CACC;
+}
+
+h3.emptyMeme {
+    width: 400px;
+    font-size: 1.5em;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 18px;
+}
+
+#submitMeme {
+    transition: background-color 0.4s ease;
+    display: inline;
+    background-color: #E66063;
+    border-radius: 2px;
+    border-color: #E66063;
+    color: black;
+    text-decoration: none;
+}
+
+#submitMeme:link, #submitMeme:visited, #submitMeme:hover, #submitMeme:active {
+    color: black;
+}
+
+#submitMeme:hover {
+    transition: background-color 0.4s ease;
+    background-color: #F1A7A9;
+}
+
+#submitDelete {
+    transition: background-color 0.4s ease;
+    display: inline;
+    background-color: #E66063;
+    border-radius: 2px;
+    border-color: #E66063;
+    color: black;
+    text-decoration: none;
+}
+
+#submitDelete:link, #submitDelete:visited, #submitDelete:hover, #submitDelete:active {
+    color: black;
+}
+
+#submitDelete:hover {
+    transition: background-color 0.4s ease;
+    background-color: #F1A7A9;
+}
+
+
+#submitFriend {
+    transition: background-color 0.4s ease;
+    display: inline;
+    background-color: #E66063;
+    border-radius: 2px;
+    border-color: #E66063;
+    color: black;
+    text-decoration: none;
+}
+
+#submitFriend:link, #submitFriend:visited, #submitFriend:hover, #submitFriend:active {
+    color: black;
+}
+
+#submitFriend:hover {
+    transition: background-color 0.4s ease;
+    background-color: #F1A7A9;
+}
+
 .mainForm {
     height: 300px;
     width: 350px;
@@ -300,7 +624,7 @@ h3.emptyChat {
     background-color: #66bfff;
 }
 
-img.domoFace {
+img.chatIcon {
     margin-left: 25px;
     margin-right: 10px;
     height: 50px;

@@ -11,11 +11,11 @@ const convertID = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
 
 const ChatSchema = new mongoose.Schema({
-   username: {
-     type: String,
-     trim: true,
-     set: setName,
-   },
+  username: {
+    type: String,
+    trim: true,
+    set: setName,
+  },
 
   response: {
     type: String,
