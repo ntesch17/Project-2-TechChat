@@ -1,4 +1,4 @@
-let csrfToken;
+let csrfToken; //Handles user interactions with the chat form.
 
 const handleChat = e => {
   e.preventDefault();
@@ -15,7 +15,8 @@ const handleChat = e => {
     loadChatFromServer();
   });
   return false;
-};
+}; //Chat form for users to enter responses to each other.
+
 
 const ChatForm = props => {
   return /*#__PURE__*/React.createElement("form", {
@@ -42,7 +43,8 @@ const ChatForm = props => {
     type: "submit",
     value: "Make Chat"
   }));
-};
+}; //Creates the chat list to store reponses to be viewed.
+
 
 const ChatList = function (props) {
   if (props.chat.length === 0) {
@@ -51,14 +53,17 @@ const ChatList = function (props) {
     }, /*#__PURE__*/React.createElement("h3", {
       className: "emptyChat"
     }, "No Responses Yet!"));
-  }
+  } //Creates the chat node of a user response.
+
 
   const chatNodes = props.chat.map(function (chat) {
+    //Deletes the response from the database.
     const handleDelete = e => {
       let xhr = new XMLHttpRequest();
       xhr.open('DELETE', `/deleteMessage?_id=${chat._id}&_csrf=${csrfToken}`);
       xhr.send();
-    };
+    }; //Adds a friend to the user signed in.
+
 
     const handleFriend = e => {
       e.preventDefault();
@@ -66,7 +71,8 @@ const ChatList = function (props) {
       xhr.open('POST', `/addFriend?username=${chat.username}`);
       xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
       xhr.send();
-    };
+    }; //Content viewable on chat page.
+
 
     return /*#__PURE__*/React.createElement("div", {
       key: chat._id,
@@ -96,11 +102,13 @@ const ChatList = function (props) {
       value: "Add Friend!",
       onClick: handleFriend
     }));
-  });
+  }); //Chat list to display nodes.
+
   return /*#__PURE__*/React.createElement("div", {
     className: "chatList"
   }, chatNodes);
-};
+}; //Loads the incoming reponses from the server.
+
 
 const loadChatFromServer = () => {
   sendAjax('GET', '/getChat', null, data => {
@@ -108,7 +116,8 @@ const loadChatFromServer = () => {
       chat: data.chat
     }), document.querySelector("#chat"));
   });
-};
+}; //Sets up the react render calls.
+
 
 const setup = function (csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(ChatForm, {
@@ -120,7 +129,8 @@ const setup = function (csrf) {
   setInterval(() => {
     loadChatFromServer();
   }, 100);
-};
+}; //Gains a csrf token per user interaction.
+
 
 const getToken = () => {
   sendAjax('GET', '/getToken', null, result => {
@@ -132,19 +142,22 @@ const getToken = () => {
 $(document).ready(function () {
   getToken();
 });
+//Handles errors encountered on the application
 const handleError = message => {
   $("#errorMessage").text(message);
   $("#alertMessage").animate({
     width: 'toggle'
   }, 350);
-};
+}; //Redirects to given routes when needed.
+
 
 const redirect = response => {
   $("#alertMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;
-};
+}; //SendAjax function to send requests to server.
+
 
 const sendAjax = (type, action, data, success) => {
   $.ajax({

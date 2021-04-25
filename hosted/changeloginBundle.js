@@ -1,3 +1,4 @@
+//Handles user interactions with the change loggin form.
 const handleChangeLogin = e => {
   e.preventDefault();
   $("#domoMessage").animate({
@@ -12,7 +13,8 @@ const handleChangeLogin = e => {
   console.log($("input[name=_csrf]").val());
   sendAjax('POST', $("#changeloginForm").attr("action"), $("#changeloginForm").serialize(), redirect);
   return false;
-};
+}; //change loggin form for users to change the password to the account already created.
+
 
 const ChangeLoginWindow = props => {
   return /*#__PURE__*/React.createElement("form", {
@@ -45,7 +47,8 @@ const ChangeLoginWindow = props => {
     type: "submit",
     value: "Change Password"
   }));
-};
+}; //Creates the change loggin window
+
 
 const createChangeLoginWindow = csrf => {
   ReactDOM.render( /*#__PURE__*/React.createElement(ChangeLoginWindow, {
@@ -55,7 +58,8 @@ const createChangeLoginWindow = csrf => {
 
 const setup = csrf => {
   createChangeLoginWindow(csrf); //default view
-};
+}; //Gains a csrf token per user interaction.
+
 
 const getToken = () => {
   sendAjax('GET', '/getToken', null, result => {
@@ -66,19 +70,22 @@ const getToken = () => {
 $(document).ready(function () {
   getToken();
 });
+//Handles errors encountered on the application
 const handleError = message => {
   $("#errorMessage").text(message);
   $("#alertMessage").animate({
     width: 'toggle'
   }, 350);
-};
+}; //Redirects to given routes when needed.
+
 
 const redirect = response => {
   $("#alertMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;
-};
+}; //SendAjax function to send requests to server.
+
 
 const sendAjax = (type, action, data, success) => {
   $.ajax({

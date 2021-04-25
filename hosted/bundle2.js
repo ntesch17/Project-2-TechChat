@@ -1,4 +1,4 @@
-let csrfToken;
+let csrfToken; //Handles user interactions with the note form.
 
 const handleNote = e => {
   e.preventDefault();
@@ -15,7 +15,8 @@ const handleNote = e => {
     loadNoteFromServer();
   });
   return false;
-};
+}; //note form for users to enter notes to their private account.
+
 
 const NoteForm = props => {
   return /*#__PURE__*/React.createElement("form", {
@@ -42,7 +43,8 @@ const NoteForm = props => {
     type: "submit",
     value: "Make Chat"
   }));
-};
+}; //Creates the note list to store notes to be viewed by the user that entered the note.
+
 
 const NoteList = function (props) {
   if (props.note.length === 0) {
@@ -51,14 +53,16 @@ const NoteList = function (props) {
     }, /*#__PURE__*/React.createElement("h3", {
       className: "emptyNote"
     }, "No Notes Yet!"));
-  }
+  } //Creates the note node of a user note.
+
 
   const noteNodes = props.note.map(function (note) {
     const handleDelete = e => {
       let xhr = new XMLHttpRequest();
       xhr.open('DELETE', `/deleteNote?_id=${note._id}&_csrf=${csrfToken}`);
       xhr.send();
-    };
+    }; //Content viewable on note page.
+
 
     return /*#__PURE__*/React.createElement("div", {
       key: note._id,
@@ -76,11 +80,13 @@ const NoteList = function (props) {
       value: "Delete Note",
       onClick: handleDelete
     }));
-  });
+  }); //note list to display nodes.
+
   return /*#__PURE__*/React.createElement("div", {
     className: "noteList"
   }, noteNodes);
-};
+}; //Loads the incoming notes from the server.
+
 
 const loadNoteFromServer = () => {
   sendAjax('GET', '/getNote', null, data => {
@@ -88,7 +94,8 @@ const loadNoteFromServer = () => {
       note: data.note
     }), document.querySelector("#note"));
   });
-};
+}; //Sets up the react render calls.
+
 
 const setup = function (csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(NoteForm, {
@@ -100,7 +107,8 @@ const setup = function (csrf) {
   setInterval(() => {
     loadNoteFromServer();
   }, 100);
-};
+}; //Gains a csrf token per user interaction.
+
 
 const getToken = () => {
   sendAjax('GET', '/getToken', null, result => {
@@ -112,19 +120,22 @@ const getToken = () => {
 $(document).ready(function () {
   getToken();
 });
+//Handles errors encountered on the application
 const handleError = message => {
   $("#errorMessage").text(message);
   $("#alertMessage").animate({
     width: 'toggle'
   }, 350);
-};
+}; //Redirects to given routes when needed.
+
 
 const redirect = response => {
   $("#alertMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;
-};
+}; //SendAjax function to send requests to server.
+
 
 const sendAjax = (type, action, data, success) => {
   $.ajax({

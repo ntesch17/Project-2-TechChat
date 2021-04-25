@@ -1,4 +1,4 @@
-let csrfToken;
+let csrfToken; //Creates the meme list to hold all user uploads.
 
 const MemeList = function (props) {
   if (props.search.length === 0) {
@@ -7,7 +7,8 @@ const MemeList = function (props) {
     }, /*#__PURE__*/React.createElement("h3", {
       className: "emptyMeme"
     }, "No Friends Yet"));
-  }
+  } //Creates the meme node of the image added by a user.
+
 
   const memeNodes = props.search.map(function (file) {
     let fileRequestURL = `/retrieve?_id=${file._id}`;
@@ -19,20 +20,22 @@ const MemeList = function (props) {
       alt: "image",
       className: "image"
     }));
-  });
+  }); //meme list to display nodes.
+
   return /*#__PURE__*/React.createElement("div", {
     className: "memesList"
   }, memeNodes, ",");
-};
+}; //Loads the incoming images from the server.
+
 
 const loadMemesFromServer = () => {
-  console.log('here');
   sendAjax('GET', '/getFileAllIds', null, data => {
     ReactDOM.render( /*#__PURE__*/React.createElement(MemeList, {
       search: data.search
     }), document.querySelector("#meme"));
   });
-};
+}; //Sets up the react render calls.
+
 
 const setup = function (csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(MemeList, {
@@ -41,7 +44,8 @@ const setup = function (csrf) {
   setInterval(() => {
     loadMemesFromServer();
   }, 100);
-};
+}; //Gains a csrf token per user interaction.
+
 
 const getToken = () => {
   sendAjax('GET', '/getToken', null, result => {
@@ -52,19 +56,22 @@ const getToken = () => {
 $(document).ready(function () {
   getToken();
 });
+//Handles errors encountered on the application
 const handleError = message => {
   $("#errorMessage").text(message);
   $("#alertMessage").animate({
     width: 'toggle'
   }, 350);
-};
+}; //Redirects to given routes when needed.
+
 
 const redirect = response => {
   $("#alertMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;
-};
+}; //SendAjax function to send requests to server.
+
 
 const sendAjax = (type, action, data, success) => {
   $.ajax({

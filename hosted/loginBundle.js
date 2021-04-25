@@ -1,3 +1,4 @@
+//Handles user interactions with the loggin form.
 const handleLogin = e => {
   e.preventDefault();
   $("#alertMessage").animate({
@@ -12,7 +13,8 @@ const handleLogin = e => {
   console.log($("input[name=_csrf]").val());
   sendAjax('POST', $("#loginForm").attr("action"), $("#loginForm").serialize(), redirect);
   return false;
-};
+}; //Handles user interactions with the signup form.
+
 
 const handleSignup = e => {
   e.preventDefault();
@@ -32,7 +34,8 @@ const handleSignup = e => {
 
   sendAjax('POST', $("#signupForm").attr("action"), $("#signupForm").serialize(), redirect);
   return false;
-};
+}; //loggin form for users to enter a username and password to their account.
+
 
 const LoginWindow = props => {
   return /*#__PURE__*/React.createElement("form", {
@@ -65,7 +68,8 @@ const LoginWindow = props => {
     type: "submit",
     value: "sign in"
   }));
-};
+}; //signup form for users to enter a username, password and retyping the password to create their account.
+
 
 const SignupWindow = props => {
   return /*#__PURE__*/React.createElement("form", {
@@ -105,19 +109,22 @@ const SignupWindow = props => {
     type: "submit",
     value: "sign Up"
   }));
-};
+}; //Creates loggin window.
+
 
 const createLoginWindow = csrf => {
   ReactDOM.render( /*#__PURE__*/React.createElement(LoginWindow, {
     csrf: csrf
   }), document.querySelector("#content"));
-};
+}; //Creates signup window.
+
 
 const createSignupWindow = csrf => {
   ReactDOM.render( /*#__PURE__*/React.createElement(SignupWindow, {
     csrf: csrf
   }), document.querySelector("#content"));
-};
+}; //Sets up application once signup or loggin buttons are pressed.
+
 
 const setup = csrf => {
   const loginButton = document.querySelector("#loginButton");
@@ -133,7 +140,8 @@ const setup = csrf => {
     return false;
   });
   createLoginWindow(csrf); //default view
-};
+}; //Gains a csrf token per user interaction.
+
 
 const getToken = () => {
   sendAjax('GET', '/getToken', null, result => {
@@ -144,19 +152,22 @@ const getToken = () => {
 $(document).ready(function () {
   getToken();
 });
+//Handles errors encountered on the application
 const handleError = message => {
   $("#errorMessage").text(message);
   $("#alertMessage").animate({
     width: 'toggle'
   }, 350);
-};
+}; //Redirects to given routes when needed.
+
 
 const redirect = response => {
   $("#alertMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;
-};
+}; //SendAjax function to send requests to server.
+
 
 const sendAjax = (type, action, data, success) => {
   $.ajax({

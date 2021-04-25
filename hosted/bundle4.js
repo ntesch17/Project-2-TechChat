@@ -1,4 +1,4 @@
-let csrfToken;
+let csrfToken; //Handles user interactions with the upload form.
 
 const handleUpload = e => {
   e.preventDefault();
@@ -15,7 +15,8 @@ const handleUpload = e => {
 
   xhr.send(formData);
   return false;
-};
+}; //upload form for users to enter images to their private account.
+
 
 const UploadForm = props => {
   return /*#__PURE__*/React.createElement("form", {
@@ -43,7 +44,8 @@ const UploadForm = props => {
     type: "submit",
     value: "Upload!"
   }));
-};
+}; //Creates the image list to store images to be viewed by the user that entered the image.
+
 
 const FileList = function (props) {
   if (props.search.length === 0) {
@@ -52,7 +54,8 @@ const FileList = function (props) {
     }, /*#__PURE__*/React.createElement("h3", {
       className: "emptyfile"
     }, "No Files Yet!"));
-  }
+  } //Creates the image node of a user entered image.
+
 
   const fileNodes = props.search.map(function (file) {
     let fileRequestURL = `/retrieve?_id=${file._id}`; // const handleMeme = (e) => {
@@ -62,6 +65,7 @@ const FileList = function (props) {
     //     xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
     //     xhr.send();
     // }
+    //Content viewable on file list page.
 
     return /*#__PURE__*/React.createElement("div", {
       key: file._id,
@@ -76,11 +80,13 @@ const FileList = function (props) {
       type: "submit",
       value: "Send to Meme Chat!"
     }));
-  });
+  }); //file list to display nodes.
+
   return /*#__PURE__*/React.createElement("div", {
     className: "fileList"
   }, fileNodes);
-};
+}; //Loads the incoming files from the server.
+
 
 const loadFilesFromServer = () => {
   sendAjax('GET', '/getFileIds', null, data => {
@@ -88,7 +94,8 @@ const loadFilesFromServer = () => {
       search: data
     }), document.querySelector("#search"));
   });
-};
+}; //Sets up the react render calls.
+
 
 const setup = function (csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(UploadForm, {
@@ -98,7 +105,8 @@ const setup = function (csrf) {
     search: []
   }), document.querySelector('#search'));
   loadFilesFromServer();
-};
+}; //Gains a csrf token per user interaction.
+
 
 const getToken = () => {
   sendAjax('GET', '/getToken', null, result => {
@@ -110,19 +118,22 @@ const getToken = () => {
 $(document).ready(function () {
   getToken();
 });
+//Handles errors encountered on the application
 const handleError = message => {
   $("#errorMessage").text(message);
   $("#alertMessage").animate({
     width: 'toggle'
   }, 350);
-};
+}; //Redirects to given routes when needed.
+
 
 const redirect = response => {
   $("#alertMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;
-};
+}; //SendAjax function to send requests to server.
+
 
 const sendAjax = (type, action, data, success) => {
   $.ajax({
