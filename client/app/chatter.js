@@ -1,5 +1,6 @@
 let csrfToken;
 
+//Handles user interactions with the chat form.
 const handleChat = (e) => {
     e.preventDefault();
 
@@ -17,7 +18,7 @@ const handleChat = (e) => {
     return false;
 };
 
-
+//Chat form for users to enter responses to each other.
 const ChatForm = (props) =>{
     return (
         <form id="chatForm" 
@@ -36,7 +37,7 @@ const ChatForm = (props) =>{
     );
 };
 
-
+//Creates the chat list to store reponses to be viewed.
 const ChatList = function(props){
     if(props.chat.length === 0) {
         return (
@@ -46,14 +47,17 @@ const ChatList = function(props){
         );
     }
 
-   
+   //Creates the chat node of a user response.
     const chatNodes = props.chat.map(function(chat) {
+
+        //Deletes the response from the database.
         const handleDelete = (e) => {
             let xhr = new XMLHttpRequest();
             xhr.open('DELETE', `/deleteMessage?_id=${chat._id}&_csrf=${csrfToken}`);
             xhr.send();
         }
 
+        //Adds a friend to the user signed in.
         const handleFriend = (e) => {
            
            e.preventDefault();
@@ -67,6 +71,7 @@ const ChatList = function(props){
             xhr.send();
         }
 
+        //Content viewable on chat page.
         return (
             <div key={chat._id} className="chat">
                 <img src="/assets/img/chatIcon.png" alt="Chat Icon" className="chatIcon" />
@@ -82,7 +87,7 @@ const ChatList = function(props){
     });
 
     
-    
+    //Chat list to display nodes.
     return (
         <div className="chatList">
             {chatNodes}
@@ -90,6 +95,7 @@ const ChatList = function(props){
     );
 };
 
+//Loads the incoming reponses from the server.
 const loadChatFromServer = () => {
     sendAjax('GET', '/getChat', null, (data) => {
         ReactDOM.render(
@@ -98,6 +104,7 @@ const loadChatFromServer = () => {
     });
 };
 
+//Sets up the react render calls.
 const setup = function(csrf){
     ReactDOM.render(
         <ChatForm csrf={csrf} />, document.querySelector('#makeChat')
@@ -106,12 +113,13 @@ const setup = function(csrf){
     ReactDOM.render(
         <ChatList chat={[]} />, document.querySelector('#chat'),
     );
+
     setInterval(() => {
-        
         loadChatFromServer();
       }, 100);
 };
 
+//Gains a csrf token per user interaction.
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
        csrfToken = result.csrfToken; 

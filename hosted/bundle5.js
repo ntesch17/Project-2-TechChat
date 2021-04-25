@@ -38,7 +38,9 @@ const setup = function (csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(MemeList, {
     search: []
   }), document.querySelector('#meme'));
-  loadMemesFromServer();
+  setInterval(() => {
+    loadMemesFromServer();
+  }, 100);
 };
 
 const getToken = () => {

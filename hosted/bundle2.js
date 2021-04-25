@@ -7,12 +7,12 @@ const handleNote = e => {
   }, 350);
 
   if ($("#noteResponse").val() == '') {
-    handleError("RAWR! Chat fields are required.");
+    handleError("Chat fields are required.");
     return false;
   }
 
   sendAjax('POST', $("#noteForm").attr("action"), $("#noteForm").serialize(), function () {
-    loadChatFromServer();
+    loadNoteFromServer();
   });
   return false;
 };

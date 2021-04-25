@@ -4,10 +4,13 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 let AccountModel = {};
+
+// Password variables.
 const iterations = 10000;
 const saltLength = 64;
 const keyLength = 64;
 
+// Account schema with attributes associated.
 const AccountSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -35,12 +38,14 @@ const AccountSchema = new mongoose.Schema({
   },
 });
 
+// Sending to the api the needed attributes.
 AccountSchema.statics.toAPI = (doc) => ({
   // _id is built into your mongo document and is guaranteed to be unique
   username: doc.username,
   _id: doc._id,
 });
 
+// Validating the password.
 const validatePassword = (doc, password, callback) => {
   const pass = doc.password;
 
@@ -52,6 +57,7 @@ const validatePassword = (doc, password, callback) => {
   });
 };
 
+// Searching by the username of the account.
 AccountSchema.statics.findByUsername = (name, callback) => {
   const search = {
     username: name,
@@ -60,12 +66,14 @@ AccountSchema.statics.findByUsername = (name, callback) => {
   return AccountModel.findOne(search, callback);
 };
 
+// Generates hash for the given password.
 AccountSchema.statics.generateHash = (password, callback) => {
   const salt = crypto.randomBytes(saltLength);
 
   crypto.pbkdf2(password, salt, iterations, keyLength, 'RSA-SHA512', (err, hash) => callback(salt, hash.toString('hex')));
 };
 
+// Authenicates user entered data for account creation.
 AccountSchema.statics.authenticate = (username, password, callback) => {
   AccountModel.findByUsername(username, (err, doc) => {
     if (err) {
@@ -86,6 +94,7 @@ AccountSchema.statics.authenticate = (username, password, callback) => {
   });
 };
 
+// Creates account model.
 AccountModel = mongoose.model('Account', AccountSchema);
 
 module.exports.AccountModel = AccountModel;

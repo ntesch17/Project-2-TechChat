@@ -9,7 +9,7 @@ html, body {
 
 #logo {
     height: 40px;
-    width: 40;
+    width: 40px;
     padding-top: 5px;
     float:left;
     border-radius: 8px;
@@ -523,7 +523,6 @@ h3.emptyMeme {
     margin: 0 auto;
     margin-top: 14px;
     font-size: 1.2em;
-    width: 100px;
     background-color: #E35053;
     border-radius: 2px;
     border-color: #E66063;

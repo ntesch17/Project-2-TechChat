@@ -2,14 +2,17 @@ const models = require('../models');
 
 const { Account } = models;
 
+// Creates the login page.
 const loginPage = (req, res) => {
   res.status(200).render('login', { csrfToken: req.csrfToken() });
 };
 
+// Creates the password change page.
 const changePage = (req, res) => {
   res.status(200).render('changelogin', { csrfToken: req.csrfToken() });
 };
 
+// Password change function then redirecting them to login page.
 const changeLogin = (request, response) => {
   const req = request;
   const res = response;
@@ -54,11 +57,14 @@ const changeLogin = (request, response) => {
     });
   });
 };
+
+// Logs the user out and destroys there session.
 const logout = (req, res) => {
   req.session.destroy();
   res.redirect('/');
 };
 
+// Login method for a user and then redirecting them to chat page.
 const login = (request, response) => {
   const req = request;
   const res = response;
@@ -82,6 +88,8 @@ const login = (request, response) => {
   });
 };
 
+// Signup method for a user to enter a username and a password,
+// retyping the password, and then redirecting them to chat page.
 const signup = (request, response) => {
   const req = request;
   const res = response;
@@ -127,6 +135,7 @@ const signup = (request, response) => {
   });
 };
 
+// Gains csrf token per user interaction.
 const getToken = (request, response) => {
   const req = request;
   const res = response;
@@ -138,6 +147,7 @@ const getToken = (request, response) => {
   res.json(csrfJSON);
 };
 
+// 404 page.
 const notFound = (req, res) => {
   res.status(404).render('notFound', {
     page: req.url,

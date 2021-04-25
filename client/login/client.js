@@ -1,3 +1,4 @@
+//Handles user interactions with the loggin form.
 const handleLogin = (e) => {
     e.preventDefault();
 
@@ -15,6 +16,7 @@ const handleLogin = (e) => {
     return false;
 };
 
+//Handles user interactions with the signup form.
 const handleSignup = (e) => {
     e.preventDefault();
 
@@ -35,6 +37,7 @@ const handleSignup = (e) => {
     return false;
 };
 
+//loggin form for users to enter a username and password to their account.
 const LoginWindow = (props) =>{
     return (
         <form id="loginForm" name="loginForm"
@@ -54,6 +57,7 @@ const LoginWindow = (props) =>{
     );
 };
 
+//signup form for users to enter a username, password and retyping the password to create their account.
 const SignupWindow = (props) =>{
     return (
         <form id="signupForm" name="signupForm"
@@ -75,6 +79,7 @@ const SignupWindow = (props) =>{
     );
 };
 
+//Creates loggin window.
 const createLoginWindow = (csrf) => {
     ReactDOM.render(
         <LoginWindow csrf={csrf} />,
@@ -82,6 +87,7 @@ const createLoginWindow = (csrf) => {
     );
 };
 
+//Creates signup window.
 const createSignupWindow = (csrf) => {
     ReactDOM.render(
         <SignupWindow csrf={csrf} />,
@@ -89,6 +95,7 @@ const createSignupWindow = (csrf) => {
     );
 };
 
+//Sets up application once signup or loggin buttons are pressed.
 const setup = (csrf) => {
     const loginButton = document.querySelector("#loginButton");
     const signupButton = document.querySelector("#signupButton");
@@ -108,6 +115,7 @@ const setup = (csrf) => {
     createLoginWindow(csrf); //default view
 };
 
+//Gains a csrf token per user interaction.
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
         setup(result.csrfToken);

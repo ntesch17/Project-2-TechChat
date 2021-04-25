@@ -2,10 +2,12 @@ const models = require('../models');
 
 const { Change } = models;
 
+// Renders the password change page.
 const changePage = (req, res) => {
   res.render('changelogin', { csrfToken: req.csrfToken() });
 };
 
+// Changing the password of the user logged in then redirecting them to change loggin page.
 const changeLogin = (request, response) => {
   const req = request;
   const res = response;
@@ -16,11 +18,11 @@ const changeLogin = (request, response) => {
   req.body.newPass2 = `${req.body.newPass2}`;
 
   if (!req.body.newPass || !req.body.newPass2) {
-    return res.status(400).json({ error: 'RAWR! All fields are required! ' });
+    return res.status(400).json({ error: 'All fields are required! ' });
   }
 
   if (req.body.newPass !== req.body.newPass2) {
-    return res.status(400).json({ error: 'RAWR! Passwords do not match!' });
+    return res.status(400).json({ error: 'Passwords do not match!' });
   }
 
   return Change.ChangeAccountModel.generateHash(req.body.newPass, (salt, hash) => {
@@ -51,6 +53,7 @@ const changeLogin = (request, response) => {
   });
 };
 
+// Gains a csrf token from each user interaction.
 const getToken = (request, response) => {
   const req = request;
   const res = response;

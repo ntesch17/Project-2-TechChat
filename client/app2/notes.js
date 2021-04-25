@@ -1,23 +1,24 @@
 let csrfToken;
 
+//Handles user interactions with the note form.
 const handleNote = (e) => {
     e.preventDefault();
 
     $("#alertMessage").animate({width:'hide'}, 350);
 
     if($("#noteResponse").val() == ''){
-        handleError("RAWR! Chat fields are required.");
+        handleError("Chat fields are required.");
         return false;
     }
 
     sendAjax('POST', $("#noteForm").attr("action"), $("#noteForm").serialize(), function() {
-        loadChatFromServer();
+        loadNoteFromServer();
     });
 
     return false;
 };
 
-
+//note form for users to enter notes to their private account.
 const NoteForm = (props) =>{
     return (
         <form id="noteForm" 
@@ -36,7 +37,7 @@ const NoteForm = (props) =>{
     );
 };
 
-
+//Creates the note list to store notes to be viewed by the user that entered the note.
 const NoteList = function(props){
     if(props.note.length === 0) {
         return (
@@ -46,6 +47,7 @@ const NoteList = function(props){
         );
     }
 
+    //Creates the note node of a user note.
     const noteNodes = props.note.map(function(note) {
         const handleDelete = (e) => {
             let xhr = new XMLHttpRequest();
@@ -53,6 +55,7 @@ const NoteList = function(props){
             xhr.send();
         }
 
+        //Content viewable on note page.
         return (
             <div key={note._id} className="note">
                 <img src="/assets/img/chatIcon.png" alt="Chat Icon" className="chatIcon" />
@@ -63,6 +66,7 @@ const NoteList = function(props){
         
     });
     
+    //note list to display nodes.
     return (
         <div className="noteList">
             {noteNodes}
@@ -70,6 +74,7 @@ const NoteList = function(props){
     );
 };
 
+//Loads the incoming notes from the server.
 const loadNoteFromServer = () => {
     sendAjax('GET', '/getNote', null, (data) => {
         ReactDOM.render(
@@ -78,6 +83,7 @@ const loadNoteFromServer = () => {
     });
 };
 
+//Sets up the react render calls.
 const setup = function(csrf){
     ReactDOM.render(
         <NoteForm csrf={csrf} />, document.querySelector('#makeNote')
@@ -91,6 +97,7 @@ const setup = function(csrf){
       }, 100);
 };
 
+//Gains a csrf token per user interaction.
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
         csrfToken = result.csrfToken; 

@@ -1,8 +1,8 @@
 const models = require('../models');
 
 const { Search } = models;
-const { Account } = models;
 
+// Gains all the files uploaded.
 const getAllFiles = (req, res) => {
   Search.FileModel.find({}, (err, docs) => {
     if (err) {
@@ -14,6 +14,7 @@ const getAllFiles = (req, res) => {
   });
 };
 
+// Renders the meme page across users to send inmages to each other.
 const memePage = (req, res) => {
   Search.FileModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
@@ -109,6 +110,7 @@ const retrieveFile = (req, res) => {
   });
 };
 
+// Gains the file ids of the user that uploaded an image.
 const getFileIDs = (req, res) => {
   Search.FileModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
@@ -119,8 +121,6 @@ const getFileIDs = (req, res) => {
   });
 };
 
-
-
 // Finally, export everything.
 module.exports.uploadPage = uploadPage;
 module.exports.uploadFile = uploadFile;
@@ -128,4 +128,3 @@ module.exports.retrieveFile = retrieveFile;
 module.exports.getFileIDs = getFileIDs;
 module.exports.getAllFiles = getAllFiles;
 module.exports.memePage = memePage;
-

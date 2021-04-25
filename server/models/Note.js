@@ -9,6 +9,7 @@ let NoteModel = {};
 const convertID = mongoose.Types.ObjectId;
 // const setName = (name) => _.escape(name).trim();
 
+// Note schema with attributes associated.
 const NoteSchema = new mongoose.Schema({
   note: {
     type: String,
@@ -28,10 +29,12 @@ const NoteSchema = new mongoose.Schema({
   },
 });
 
+// Sending to the api the needed attributes.
 NoteSchema.statics.toAPI = (doc) => ({
   note: doc.note,
 });
 
+// Searching by the owner of the note response.
 NoteSchema.statics.findByOwner = (ownerID, callback) => {
   const search = {
     owner: convertID(ownerID),
@@ -40,6 +43,7 @@ NoteSchema.statics.findByOwner = (ownerID, callback) => {
   return NoteModel.find(search).select('note').lean().exec(callback);
 };
 
+// Creates note model.
 NoteModel = mongoose.model('Note', NoteSchema);
 
 module.exports.NoteModel = NoteModel;

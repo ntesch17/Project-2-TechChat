@@ -10,6 +10,7 @@ let ChatModel = {};
 const convertID = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
 
+// Chat schema with attributes associated.
 const ChatSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -35,11 +36,13 @@ const ChatSchema = new mongoose.Schema({
   },
 });
 
+// Sending to the api the needed attributes.
 ChatSchema.statics.toAPI = (doc) => ({
   response: doc.response,
   username: doc.username,
 });
 
+// Searching by the owner of the chat response.
 ChatSchema.statics.findByOwner = (ownerID, callback) => {
   const search = {
     owner: convertID(ownerID),
@@ -48,6 +51,7 @@ ChatSchema.statics.findByOwner = (ownerID, callback) => {
   return ChatModel.find(search).select('response').lean().exec(callback);
 };
 
+// Create chat model.
 ChatModel = mongoose.model('Chat', ChatSchema);
 
 module.exports.ChatModel = ChatModel;

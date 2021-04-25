@@ -1,3 +1,5 @@
+
+//Handles user interactions with the change loggin form.
 const handleChangeLogin = (e) => {
     e.preventDefault();
 
@@ -17,7 +19,7 @@ const handleChangeLogin = (e) => {
 
 
 
-
+//change loggin form for users to change the password to the account already created.
 const ChangeLoginWindow = (props) =>{
     return (
         <form id="changeLoginForm" name="changeLoginForm"
@@ -38,6 +40,7 @@ const ChangeLoginWindow = (props) =>{
     );
 };
 
+//Creates the change loggin window
 const createChangeLoginWindow = (csrf) => {
     ReactDOM.render(
         <ChangeLoginWindow csrf={csrf} />,
@@ -46,11 +49,10 @@ const createChangeLoginWindow = (csrf) => {
 };
 
 const setup = (csrf) => {
-    
-
     createChangeLoginWindow(csrf); //default view
 };
 
+//Gains a csrf token per user interaction.
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
         setup(result.csrfToken);

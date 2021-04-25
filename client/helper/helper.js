@@ -1,13 +1,16 @@
+//Handles errors encountered on the application
 const handleError = (message) => {
     $("#errorMessage").text(message);
     $("#alertMessage").animate({width: 'toggle'},350);
 };
 
+//Redirects to given routes when needed.
 const redirect = (response) => {
     $("#alertMessage").animate({width:'hide'},350);
     window.location = response.redirect;
 };
 
+//SendAjax function to send requests to server.
 const sendAjax = (type, action, data, success) => {
     $.ajax({
         cache: false,

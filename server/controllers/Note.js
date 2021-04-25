@@ -2,6 +2,7 @@ const models = require('../models');
 
 const { Note } = models;
 
+// Renders the note page for a user.
 const notePage = (req, res) => {
   Note.NoteModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
@@ -13,6 +14,7 @@ const notePage = (req, res) => {
   });
 };
 
+// Creates a note based on the note entered by the user.
 const makeNote = (req, res) => {
   if (!req.body.note) {
     return res.status(400).json({ error: 'RAWR! A note is required' });
@@ -37,6 +39,7 @@ const makeNote = (req, res) => {
   return notePromise;
 };
 
+// Obtains the note subitted by the user and is displayed to just that user.
 const getNote = (request, response) => {
   const req = request;
   const res = response;
@@ -51,6 +54,7 @@ const getNote = (request, response) => {
   });
 };
 
+// Deletes the note from the database.
 const deleteNote = (req) => {
   if (req.query._id) {
     Note.NoteModel.deleteOne({ _id: req.query._id }, (err) => {

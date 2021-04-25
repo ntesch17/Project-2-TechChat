@@ -38,8 +38,7 @@ const loadFriendsFromServer = () => {
 const setup = function (csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(FriendsList, {
     friend: []
-  }), document.querySelector('#friends')); //console.log(friend);
-
+  }), document.querySelector('#friends'));
   loadFriendsFromServer();
 };
 

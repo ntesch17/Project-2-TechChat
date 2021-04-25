@@ -1,6 +1,7 @@
 
 let csrfToken;
 
+//Handles user interactions with the upload form.
 const handleUpload = (e) => {
     e.preventDefault();
 
@@ -24,6 +25,7 @@ const handleUpload = (e) => {
     return false;
 };
 
+//upload form for users to enter images to their private account.
 const UploadForm = (props) =>{
     return (
         <form id="uploadForm" 
@@ -44,6 +46,7 @@ const UploadForm = (props) =>{
     );
 };
 
+//Creates the image list to store images to be viewed by the user that entered the image.
 const FileList = function(props){
     if(props.search.length === 0) {
         return (
@@ -53,7 +56,7 @@ const FileList = function(props){
         );
     }
 
-   
+   //Creates the image node of a user entered image.
     const fileNodes = props.search.map(function(file) {
         let fileRequestURL = `/retrieve?_id=${file._id}`;
         // const handleMeme = (e) => {
@@ -68,7 +71,7 @@ const FileList = function(props){
         //     xhr.send();
         // }
       
-
+        //Content viewable on file list page.
         return (
             <div key={file._id} className="search">
                 <img src={fileRequestURL} alt="image" className="image" />
@@ -79,8 +82,7 @@ const FileList = function(props){
         
     });
 
-    
-    
+    //file list to display nodes.
     return (
         <div className="fileList">
             {fileNodes}
@@ -88,6 +90,7 @@ const FileList = function(props){
     );
 };
 
+//Loads the incoming files from the server.
 const loadFilesFromServer = () => {
     sendAjax('GET', '/getFileIds', null, (data) => {
         ReactDOM.render(
@@ -96,6 +99,7 @@ const loadFilesFromServer = () => {
     });
 };
 
+//Sets up the react render calls.
 const setup = function(csrf){
     ReactDOM.render(
         <UploadForm csrf={csrf} />, document.querySelector('#makeSearch')
@@ -104,11 +108,10 @@ const setup = function(csrf){
     ReactDOM.render(
         <FileList search={[]} />, document.querySelector('#search'),
     );
-  
-        
-        loadFilesFromServer();
+    loadFilesFromServer();
 };
 
+//Gains a csrf token per user interaction.
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
        csrfToken = result.csrfToken; 

@@ -3,6 +3,7 @@ const models = require('../models');
 const { Chat } = models;
 const { Account } = models;
 
+// Gathers chat responses from all users.
 const getAllChats = (req, res) => {
   Chat.ChatModel.find({}, (err, docs) => {
     if (err) {
@@ -13,6 +14,7 @@ const getAllChats = (req, res) => {
   });
 };
 
+// Renders chatting page.
 const chatPage = (req, res) => {
   Chat.ChatModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
@@ -24,6 +26,7 @@ const chatPage = (req, res) => {
   });
 };
 
+// Creates chats between users based on responses entered.
 const makeChat = (req, res) => {
   if (!req.body.response) {
     return res.status(400).json({ error: 'RAWR! A response is required' });
@@ -51,6 +54,7 @@ const makeChat = (req, res) => {
   return chatPromise;
 };
 
+// Deletes the message from the database.
 const deleteMessage = (req, res) => {
   if (req.query._id) {
     Chat.ChatModel.deleteOne({ _id: req.query._id }, (err) => {
@@ -66,6 +70,7 @@ const deleteMessage = (req, res) => {
   }
 };
 
+// Renders the friends page for a user.
 const friendsPage = (req, res) => {
   Account.AccountModel.findByUsername(req.session.account._id, (err, docs) => {
     if (err) {
@@ -77,6 +82,8 @@ const friendsPage = (req, res) => {
   });
 };
 
+// Adding a friend after the button has been pressed
+// and uses the id of the user to add them as a friend.
 const makeFriend = (req, res) => {
   Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
     // Error Handling Here
@@ -98,6 +105,7 @@ const makeFriend = (req, res) => {
   });
 };
 
+// Creates the friends list based on users ids.
 const getFriendsList = (req, res) => {
   Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
     if (err) {
