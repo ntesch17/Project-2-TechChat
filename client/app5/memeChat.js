@@ -6,7 +6,7 @@ const MemeList = function(props){
     if(props.search.length === 0) {
         return (
             <div className="memesList">
-                <h3 className="emptyMeme">No Friends Yet</h3>
+                <h3 className="emptyMeme">No Memes Yet</h3>
             </div>
         );
     }

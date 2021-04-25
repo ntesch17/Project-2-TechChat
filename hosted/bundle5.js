@@ -6,7 +6,7 @@ const MemeList = function (props) {
       className: "memesList"
     }, /*#__PURE__*/React.createElement("h3", {
       className: "emptyMeme"
-    }, "No Friends Yet"));
+    }, "No Memes Yet"));
   } //Creates the meme node of the image added by a user.
 
 
