@@ -116,6 +116,23 @@ const getFriendsList = (req, res) => {
   }).lean();
 };
 
+// Deletes the message from the database.
+const deleteFriend = (req, res) => {
+  if (req.query.friend) {
+    console.log('here');
+    Account.AccountModel.deleteOne({ friend: req.query.friend }, (err) => {
+      console.log('Data deleted'); // Success
+
+      if (err) {
+        console.log(err);
+        return res.status(400).json({ error: 'An error occurred.' });
+      }
+
+      return res.status(200).json({ success: 'Data Deleted.' });
+    });
+  }
+};
+
 module.exports.chatPage = chatPage;
 module.exports.getChat = getAllChats;
 module.exports.make = makeChat;
@@ -123,3 +140,4 @@ module.exports.deleteMessage = deleteMessage;
 module.exports.getFriendsList = getFriendsList;
 module.exports.friendsPage = friendsPage;
 module.exports.makeFriend = makeFriend;
+module.exports.deleteFriend = deleteFriend;

@@ -92,9 +92,7 @@ const setup = function(csrf){
     ReactDOM.render(
         <NoteList note={[]} />, document.querySelector('#note'),
     );
-    setInterval(() => {
-        loadNoteFromServer();
-      }, 100);
+    loadNoteFromServer();
 };
 
 //Gains a csrf token per user interaction.

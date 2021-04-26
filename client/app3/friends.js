@@ -12,10 +12,20 @@ const FriendsList = function(props){
 
     //Creates the friend node of the user added as a friend.
     const friendNodes = props.friend.map(function(friend) { 
+
+//Deletes the response from the database.
+const handleRemove = (e) => {
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('DELETE', `/deleteFriend?friend=${friend}&_csrf=${csrfToken}`);
+    xhr.send();
+}
+
     return (
             <div key={friend} className="friend">
                 <img src="/assets/img/chatIcon.png" alt="Chat Icon" className="chatIcon" />
                 <h3 className="friendName"> Friend: {friend} </h3>
+                <input id='submitDelete' className="makeRemoveSubmit" type="submit" value="Delete Friend" onClick={handleRemove}/>
             </div>
         );
     });
@@ -48,6 +58,7 @@ const setup = function(csrf){
 //Gains a csrf token per user interaction.
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
+        csrfToken = result.csrfToken; 
         setup(result.csrfToken);
     });
 };

@@ -21,6 +21,7 @@ const router = (app) => {
   app.get('/getFriendsList', mid.requiresLogin, controllers.Chat.getFriendsList);
   app.post('/addFriend', mid.requiresLogin, controllers.Chat.makeFriend);
   app.get('/friends', mid.requiresLogin, controllers.Chat.friendsPage);
+  app.delete('/deleteFriend', mid.requiresLogin, controllers.Chat.deleteFriend);
 
   // Settup loggin page.
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
@@ -41,12 +42,14 @@ const router = (app) => {
   app.get('/memes', mid.requiresLogin, controllers.Search.memePage);
   app.get('/getFileIds', mid.requiresLogin, controllers.Search.getFileIDs);
   app.get('/getFileAllIds', mid.requiresLogin, controllers.Search.getAllFiles);
+  app.delete('/deleteMeme', mid.requiresLogin, controllers.Search.deleteMeme);
 
   // Setup post requests to /upload.
   app.post('/upload', mid.requiresLogin, controllers.Search.uploadFile);
 
   // Setup get requests to /retrieve.
   app.get('/retrieve', mid.requiresLogin, controllers.Search.retrieveFile);
+  app.post('/retrieve', mid.requiresLogin, controllers.Search.getAllFiles);
 
   // Default page.
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);

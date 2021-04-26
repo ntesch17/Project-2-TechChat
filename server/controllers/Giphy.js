@@ -121,6 +121,22 @@ const getFileIDs = (req, res) => {
   });
 };
 
+// Deletes the message from the database.
+const deleteMeme = (req, res) => {
+  if (req.query._id) {
+    Search.FileModel.deleteOne({ _id: req.query._id }, (err) => {
+      console.log('Data deleted'); // Success
+
+      if (err) {
+        console.log(err);
+        return res.status(400).json({ error: 'An error occurred.' });
+      }
+
+      return res.status(200).json({ success: 'Data Deleted.' });
+    });
+  }
+};
+
 // Finally, export everything.
 module.exports.uploadPage = uploadPage;
 module.exports.uploadFile = uploadFile;
@@ -128,3 +144,4 @@ module.exports.retrieveFile = retrieveFile;
 module.exports.getFileIDs = getFileIDs;
 module.exports.getAllFiles = getAllFiles;
 module.exports.memePage = memePage;
+module.exports.deleteMeme = deleteMeme;

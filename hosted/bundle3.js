@@ -11,6 +11,13 @@ const FriendsList = function (props) {
 
 
   const friendNodes = props.friend.map(function (friend) {
+    //Deletes the response from the database.
+    const handleRemove = e => {
+      let xhr = new XMLHttpRequest();
+      xhr.open('DELETE', `/deleteFriend?friend=${friend}&_csrf=${csrfToken}`);
+      xhr.send();
+    };
+
     return /*#__PURE__*/React.createElement("div", {
       key: friend,
       className: "friend"
@@ -20,7 +27,13 @@ const FriendsList = function (props) {
       className: "chatIcon"
     }), /*#__PURE__*/React.createElement("h3", {
       className: "friendName"
-    }, " Friend: ", friend, " "));
+    }, " Friend: ", friend, " "), /*#__PURE__*/React.createElement("input", {
+      id: "submitDelete",
+      className: "makeRemoveSubmit",
+      type: "submit",
+      value: "Delete Friend",
+      onClick: handleRemove
+    }));
   }); //friends list to display nodes.
 
   return /*#__PURE__*/React.createElement("div", {
@@ -48,6 +61,7 @@ const setup = function (csrf) {
 
 const getToken = () => {
   sendAjax('GET', '/getToken', null, result => {
+    csrfToken = result.csrfToken;
     setup(result.csrfToken);
   });
 };

@@ -58,14 +58,16 @@ const FileList = function (props) {
 
 
   const fileNodes = props.search.map(function (file) {
-    let fileRequestURL = `/retrieve?_id=${file._id}`; // const handleMeme = (e) => {
-    //     e.preventDefault();
-    //     let xhr = new XMLHttpRequest();
-    //     xhr.open('POST', `/retrieve?_id=${file._id}`);
-    //     xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
-    //     xhr.send();
-    // }
-    //Content viewable on file list page.
+    let fileRequestURL = `/retrieve?_id=${file._id}`;
+
+    const handleDelete = e => {
+      e.preventDefault();
+      let xhr = new XMLHttpRequest();
+      xhr.open('DELETE', `/deleteMeme?_id=${file._id}`);
+      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+      xhr.send();
+    }; //Content viewable on file list page.
+
 
     return /*#__PURE__*/React.createElement("div", {
       key: file._id,
@@ -76,9 +78,10 @@ const FileList = function (props) {
       className: "image"
     }), /*#__PURE__*/React.createElement("input", {
       id: "submitMeme",
-      className: "makeMeme",
+      className: "makeDeleteMeme",
       type: "submit",
-      value: "Send to Meme Chat!"
+      value: "Delete Image!",
+      onClick: handleDelete
     }));
   }); //file list to display nodes.
 

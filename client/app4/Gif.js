@@ -59,23 +59,23 @@ const FileList = function(props){
    //Creates the image node of a user entered image.
     const fileNodes = props.search.map(function(file) {
         let fileRequestURL = `/retrieve?_id=${file._id}`;
-        // const handleMeme = (e) => {
-        //     e.preventDefault();
+        const handleDelete = (e) => {
+            e.preventDefault();
            
-        //     let xhr = new XMLHttpRequest();
+            let xhr = new XMLHttpRequest();
 
-        //     xhr.open('POST', `/retrieve?_id=${file._id}`);
+            xhr.open('DELETE', `/deleteMeme?_id=${file._id}`);
 
-        //     xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+            xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
 
-        //     xhr.send();
-        // }
+            xhr.send();
+        }
       
         //Content viewable on file list page.
         return (
             <div key={file._id} className="search">
                 <img src={fileRequestURL} alt="image" className="image" />
-                <input id='submitMeme' className="makeMeme" type="submit" value="Send to Meme Chat!"  />
+                <input id='submitMeme' className="makeDeleteMeme" type="submit" value="Delete Image!" onClick={handleDelete}  />
             </div>
             
         );
@@ -108,7 +108,9 @@ const setup = function(csrf){
     ReactDOM.render(
         <FileList search={[]} />, document.querySelector('#search'),
     );
+    
     loadFilesFromServer();
+  
 };
 
 //Gains a csrf token per user interaction.

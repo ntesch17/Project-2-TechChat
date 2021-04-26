@@ -44,9 +44,9 @@ const setup = function(csrf){
     ReactDOM.render(
         <MemeList search={[]} />, document.querySelector('#meme'),
     );
-    setInterval(() => {
-        loadMemesFromServer();
-    }, 100);
+    
+    loadMemesFromServer();
+
 };
 
 //Gains a csrf token per user interaction.

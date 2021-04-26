@@ -126,9 +126,7 @@ const setup = function (csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(ChatList, {
     chat: []
   }), document.querySelector('#chat'));
-  setInterval(() => {
-    loadChatFromServer();
-  }, 100);
+  loadChatFromServer();
 }; //Gains a csrf token per user interaction.
 
 
