@@ -29,7 +29,7 @@ const ChangeLoginWindow = props => {
   }, "Old Password: "), /*#__PURE__*/React.createElement("input", {
     id: "oldPass",
     type: "password",
-    name: "newPass",
+    name: "oldPass",
     placeholder: "Old Password"
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "newPass"

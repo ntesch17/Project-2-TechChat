@@ -29,7 +29,7 @@ const ChangeLoginWindow = (props) =>{
         className="changeLoginForm"
         >
              <label htmlFor="oldPass">Old Password: </label>
-            <input id="oldPass" type="password" name="newPass" placeholder="Old Password"/>
+            <input id="oldPass" type="password" name="oldPass" placeholder="Old Password"/>
             <label htmlFor="newPass">New Password: </label>
             <input id="newPass" type="password" name="newPass" placeholder="New Password"/>
             <label htmlFor="newPass2">Retype New Password: </label>
