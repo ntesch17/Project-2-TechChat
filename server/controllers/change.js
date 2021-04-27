@@ -1,10 +1,10 @@
 const models = require('../models');
 
-const { Change } = models;
+const { Account } = models;
 
 // Renders the password change page.
 const changePage = (req, res) => {
-  res.render('changelogin', { csrfToken: req.csrfToken() });
+  res.status(200).render('changelogin', { csrfToken: req.csrfToken() });
 };
 
 // Changing the password of the user logged in then redirecting them to change loggin page.
@@ -25,19 +25,19 @@ const changeLogin = (request, response) => {
     return res.status(400).json({ error: 'Passwords do not match!' });
   }
 
-  return Change.ChangeAccountModel.generateHash(req.body.newPass, (salt, hash) => {
+  return Account.AccountModel.generateHash2(req.body.newPass, (salt, hash) => {
     const accountData = {
-
+      username: req.body.username,
       salt,
       password: hash,
     };
 
-    const newAccount = new Change.ChangeAccountModel(accountData);
+    const newPassword = new Account.AccountModel(accountData);
 
-    const savePromise = newAccount.save();
+    const savePromise = newPassword.save();
 
     savePromise.then(() => {
-      req.session.account = Change.ChangeAccountModel.toAPI(newAccount);
+      req.session.account = Account.AccountModel.toAPI(newPassword);
       res.status(200).json({ redirect: '/change' });
     });
 

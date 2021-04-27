@@ -2,13 +2,14 @@
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
+const _ = require('underscore');
 
 let FileModel = {};
 
 // mongoose.Types.ObjectID is a function that
 // converts string ID to real mongo ID
 const convertID = mongoose.Types.ObjectId;
- const setName = (name) => _.escape(name).trim();
+const setName = (name) => _.escape(name).trim();
 // Create our schema. This is based on the data pulled in by express-fileupload.
 // We can assume all of this data is required, as there will be an error from
 // fileupload before we create anything in this database. You could explicitly
@@ -19,7 +20,7 @@ const FileSchema = new mongoose.Schema({
     trim: true,
     set: setName,
   },
-  
+
   name: { // The name of our file as a string. We want this to be unique.
     type: String,
 
