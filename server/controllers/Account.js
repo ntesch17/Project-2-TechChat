@@ -23,7 +23,7 @@ const changeLogin = (request, response) => {
   req.body.newPass2 = `${req.body.newPass2}`;
 
   const username = `${req.body.username}`;
-  const password = `${req.body.pass}`;
+  const password = `${req.body.newPass}`;
   if (!req.body.oldPass || !req.body.newPass || !req.body.newPass2) {
     return res.status(400).json({ error: 'All fields are required! ' });
   }
@@ -47,7 +47,7 @@ const changeLogin = (request, response) => {
       salt,
       password: hash,
     };
-    
+
     Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
       // Error Handling Here
       if (err) {
