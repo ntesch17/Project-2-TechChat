@@ -5,8 +5,8 @@ const handleChangeLogin = e => {
     width: 'hide'
   }, 350);
 
-  if ($("#newPass").val() == '' || $("#newPass2").val() == '') {
-    handleError("RAWR! Username or password is empty.");
+  if ($("#oldPass").val() == '' || $("#newPass").val() == '' || $("#newPass2").val() == '') {
+    handleError("All fields required.");
     return false;
   }
 
@@ -25,15 +25,22 @@ const ChangeLoginWindow = props => {
     method: "POST",
     className: "changeLoginForm"
   }, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "oldPass"
+  }, "Old Password: "), /*#__PURE__*/React.createElement("input", {
+    id: "oldPass",
+    type: "password",
+    name: "newPass",
+    placeholder: "Old Password"
+  }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "newPass"
-  }, "Password: "), /*#__PURE__*/React.createElement("input", {
+  }, "New Password: "), /*#__PURE__*/React.createElement("input", {
     id: "newPass",
     type: "password",
     name: "newPass",
     placeholder: "New Password"
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "newPass2"
-  }, "Password: "), /*#__PURE__*/React.createElement("input", {
+  }, "Retype New Password: "), /*#__PURE__*/React.createElement("input", {
     id: "newPass2",
     type: "password",
     name: "newPass2",

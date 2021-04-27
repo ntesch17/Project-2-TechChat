@@ -18,11 +18,13 @@ const changeLogin = (request, response) => {
   const res = response;
 
   // cast to strings to cover up some security flaws
-
+  req.body.oldPass = `${req.body.oldPass}`;
   req.body.newPass = `${req.body.newPass}`;
   req.body.newPass2 = `${req.body.newPass2}`;
 
-  if (!req.body.newPass || !req.body.newPass2) {
+  const username = `${req.body.username}`;
+  const password = `${req.body.pass}`;
+  if (!req.body.oldPass || !req.body.newPass || !req.body.newPass2) {
     return res.status(400).json({ error: 'All fields are required! ' });
   }
 
@@ -30,32 +32,42 @@ const changeLogin = (request, response) => {
     return res.status(400).json({ error: 'Passwords do not match!' });
   }
 
-  return Account.AccountModel.generateHash2(req.body.newPass, (salt, hash) => {
+  if(req.body.oldPass){
+    return Account.AccountModel.authenticate(username, password, (err, account) => {
+      if (err || !account) {
+        return res.status(401).json({ error: 'Error happened! ' });
+      }
+  
+      return;
+    });
+  }
+  return Account.AccountModel.generateHash(req.body.newPass, (salt, hash) => {
     const accountData = {
 
       salt,
       password: hash,
     };
-
-    const newAccount = new Account.AccountModel(accountData);
-
-    const savePromise = newAccount.save();
-
-    savePromise.then(() => {
-      req.session.account = Account.AccountModel.toAPI(newAccount);
-      res.json({ redirect: '/login' });
-    });
-
-    savePromise.catch((err) => {
-      console.log(err);
-
-      //   if (err.code === 11000) {
-      //     return res.status(400).json({ error: 'Username already in use.' });
-      //   }
-
-      return res.status(400).json({ error: 'An error occured!' });
-    });
+    
+    Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
+      // Error Handling Here
+      if (err) {
+        console.log(err);
+        return res.status(400).json({ error: 'An error occurred.' });
+      }
+  
+     // doc.friendsList.push(req.query.username);
+     const newPassword = new Account.AccountModel(accountData);
+      const savePromise = newPassword.save();
+  
+      savePromise.then(() => res.status(200).json({ redirect: '/login' }));
+  
+      savePromise.catch((err2) => {
+        console.log(err2);
+        return res.status(400).json({ error: 'An error occurred.' });
+      });
+    return savePromise;
   });
+});
 };
 
 // Logs the user out and destroys there session.
@@ -74,7 +86,7 @@ const login = (request, response) => {
   const password = `${req.body.pass}`;
 
   if (!username || !password) {
-    return res.status(400).json({ error: 'RAWR! All fields are required!' });
+    return res.status(400).json({ error: 'All fields are required!' });
   }
 
   return Account.AccountModel.authenticate(username, password, (err, account) => {

@@ -5,8 +5,8 @@ const handleChangeLogin = (e) => {
 
     $("#domoMessage").animate({width:'hide'},350);
 
-    if($("#newPass").val() == '' || $("#newPass2").val() == ''){
-        handleError("RAWR! Username or password is empty.");
+    if($("#oldPass").val() == '' ||$("#newPass").val() == '' || $("#newPass2").val() == ''){
+        handleError("All fields required.");
         return false;
     }
 
@@ -28,10 +28,11 @@ const ChangeLoginWindow = (props) =>{
         method="POST"
         className="changeLoginForm"
         >
-            
-            <label htmlFor="newPass">Password: </label>
+             <label htmlFor="oldPass">Old Password: </label>
+            <input id="oldPass" type="password" name="newPass" placeholder="Old Password"/>
+            <label htmlFor="newPass">New Password: </label>
             <input id="newPass" type="password" name="newPass" placeholder="New Password"/>
-            <label htmlFor="newPass2">Password: </label>
+            <label htmlFor="newPass2">Retype New Password: </label>
             <input id="newPass2" type="password" name="newPass2" placeholder="Retype New Password"/>
             <input type="hidden" name="_csrf" value={props.csrf} />
             <input className="formSubmit" type="submit" value="Change Password" />

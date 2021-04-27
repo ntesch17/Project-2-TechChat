@@ -5,6 +5,13 @@ const router = (app) => {
   // Gains token per user interaction.
   app.get('/getToken', mid.requiresSecure, controllers.Account.getToken);
 
+
+  //Premium Member.
+  app.get('/getPremium', mid.requiresLogin, controllers.Premium.getPremium);
+  app.get('/premium', mid.requiresLogin, controllers.Premium.premiumPage);
+  app.post('/premium', mid.requiresLogin, controllers.Premium.makePremium);
+
+
   // Setup Notes page.
   app.get('/getNote', mid.requiresLogin, controllers.Note.getNote);
   app.get('/note', mid.requiresLogin, controllers.Note.notePage);

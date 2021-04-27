@@ -32,12 +32,6 @@ const AccountSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
-  password2: {
-    type: String,
-    required: true,
-  },
-
   createdDate: {
     type: Date,
     default: Date.now,
@@ -63,17 +57,6 @@ const validatePassword = (doc, password, callback) => {
   });
 };
 
-const validatePassword2 = (doc, password2, callback) => {
-  const pass = doc.password2;
-
-  return crypto.pbkdf2(password2, doc.salt, iterations, keyLength, 'RSA-SHA512', (err, hash) => {
-    if (hash.toString('hex') !== pass) {
-      return callback(false);
-    }
-    return callback(true);
-  });
-};
-
 // Searching by the username of the account.
 AccountSchema.statics.findByUsername = (name, callback) => {
   const search = {
@@ -90,12 +73,6 @@ AccountSchema.statics.generateHash = (password, callback) => {
   crypto.pbkdf2(password, salt, iterations, keyLength, 'RSA-SHA512', (err, hash) => callback(salt, hash.toString('hex')));
 };
 
-AccountSchema.statics.generateHash2 = (password2, callback) => {
-  const salt = crypto.randomBytes(saltLength);
-
-  crypto.pbkdf2(password2, salt, iterations, keyLength, 'RSA-SHA512', (err, hash) => callback(salt, hash.toString('hex')));
-};
-
 // Authenicates user entered data for account creation.
 AccountSchema.statics.authenticate = (username, password, callback) => {
   AccountModel.findByUsername(username, (err, doc) => {
@@ -108,26 +85,6 @@ AccountSchema.statics.authenticate = (username, password, callback) => {
     }
 
     return validatePassword(doc, password, (result) => {
-      if (result === true) {
-        return callback(null, doc);
-      }
-
-      return callback();
-    });
-  });
-};
-
-AccountSchema.statics.authenticate2 = (username, password2, callback) => {
-  AccountModel.findByUsername(username, (err, doc) => {
-    if (err) {
-      return callback(err);
-    }
-
-    if (!doc) {
-      return callback();
-    }
-
-    return validatePassword2(doc, password2, (result) => {
       if (result === true) {
         return callback(null, doc);
       }
