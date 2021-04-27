@@ -17,7 +17,7 @@ const notePage = (req, res) => {
 // Creates a note based on the note entered by the user.
 const makeNote = (req, res) => {
   if (!req.body.note) {
-    return res.status(400).json({ error: 'RAWR! A note is required' });
+    return res.status(400).json({ error: 'A note is required' });
   }
 
   const noteData = {

@@ -1,7 +1,7 @@
 //Handles user interactions with the change loggin form.
 const handleChangeLogin = e => {
   e.preventDefault();
-  $("#domoMessage").animate({
+  $("#alertessage").animate({
     width: 'hide'
   }, 350);
 

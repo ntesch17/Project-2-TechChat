@@ -21,7 +21,11 @@ const changeLogin = (request, response) => {
   req.body.oldPass = `${req.body.oldPass}`;
   req.body.newPass = `${req.body.newPass}`;
   req.body.newPass2 = `${req.body.newPass2}`;
-  
+  console.log(req.body.oldPass)
+console.log(req.body.newPass)
+console.log(req.body.newPass2)
+console.log(req.session.account.username)
+
 
   const username = `${req.session.account.username}`;
   const password = `${req.body.newPass}`;
@@ -32,7 +36,7 @@ const changeLogin = (request, response) => {
   if (req.body.newPass !== req.body.newPass2) {
     return res.status(400).json({ error: 'Passwords do not match!' });
   }
-  Account.AccountModel.authenticate(username, password, (err, account) => {
+  Account.AccountModel.authenticate(username, req.body.oldPass, (err, account) => {
 
     if (err) {
       console.log(err);
@@ -40,28 +44,42 @@ const changeLogin = (request, response) => {
     }
     
     Account.AccountModel.generateHash(req.body.newPass, (salt, hash) => {
-        //In here you can update the "account" from authenticate, instead of finding it again with findOne.
-        const accountData = {
-          username: req.body.username,
-          salt,
-          password: hash,
-        };
-        const newPassword = new Account.AccountModel(accountData);
 
-        const savePromise = newPassword.save();
-    
-        savePromise.then(() => {
-          req.session.account = Account.AccountModel.toAPI(newPassword);
-          res.status(200).json({ redirect: '/login' });
-        });
-    
-        savePromise.catch((err) => {
-          console.log(err);
-    
-          return res.status(400).json({ error: 'An error occured!' });
-        });
-    });
-});
+      //In here you can update the "account" from authenticate, instead of finding it again with findOne.
+
+      let updateAccount = account;
+
+      updateAccount.password = hash;
+
+      updateAccount.salt = salt;
+
+
+
+      const savePromise = updateAccount.save();
+
+  
+
+      savePromise.then(() => {
+
+        res.status(200).json({ redirect: '/login' });
+
+      });
+
+  
+
+      savePromise.catch((err) => {
+
+        console.log(err);
+
+  
+
+        return res.status(400).json({ error: 'An error occured!' });
+
+      });
+
+  });
+
+
 
   
 //   return Account.AccountModel.generateHash(req.body.newPass, (salt, hash) => {
@@ -88,6 +106,7 @@ const changeLogin = (request, response) => {
 //     return savePromise;
 //   });
 // });
+});
 };
 
 // Logs the user out and destroys there session.

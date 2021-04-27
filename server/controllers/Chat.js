@@ -29,7 +29,7 @@ const chatPage = (req, res) => {
 // Creates chats between users based on responses entered.
 const makeChat = (req, res) => {
   if (!req.body.response) {
-    return res.status(400).json({ error: 'RAWR! A response is required' });
+    return res.status(400).json({ error: 'A response is required' });
   }
 
   const chatData = {

@@ -3,7 +3,7 @@
 const handleChangeLogin = (e) => {
     e.preventDefault();
 
-    $("#domoMessage").animate({width:'hide'},350);
+    $("#alertessage").animate({width:'hide'},350);
 
     if($("#oldPass").val() == '' ||$("#newPass").val() == '' || $("#newPass2").val() == ''){
         handleError("All fields required.");
