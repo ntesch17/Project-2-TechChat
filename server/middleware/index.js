@@ -9,7 +9,15 @@ const requiresLogin = (req, res, next) => {
 // Reguiring that a users logged out.
 const requiresLogout = (req, res, next) => {
   if (req.session.account) {
-    return res.redirect('/maker');
+    return res.redirect('/chat');
+  }
+
+  return next();
+};
+
+const requiresSubscribe = (req, res, next) => {
+  if (req.session.account) {
+    return res.redirect('/subscribe');
   }
 
   return next();
@@ -31,6 +39,7 @@ const bypassSecure = (req, res, next) => {
 
 module.exports.requiresLogin = requiresLogin;
 module.exports.requiresLogout = requiresLogout;
+module.exports.requiresSubscribe = requiresSubscribe;
 
 // Node environment type.
 if (process.env.NODE_ENV === 'production') {

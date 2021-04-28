@@ -7,9 +7,8 @@ const router = (app) => {
 
 
   //Premium Member.
-  app.get('/getPremium', mid.requiresLogin, controllers.Premium.getPremium);
-  app.get('/premium', mid.requiresLogin, controllers.Premium.premiumPage);
-  app.post('/premium', mid.requiresLogin, controllers.Premium.makePremium);
+  
+  app.get('/subsribe', mid.requiresLogin,mid.requiresSubscribe, controllers.Account.makePremium);
 
 
   // Setup Notes page.

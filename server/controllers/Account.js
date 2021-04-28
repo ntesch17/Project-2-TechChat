@@ -2,6 +2,17 @@ const models = require('../models');
 
 const { Account } = models;
 
+let subActive = true;
+
+const makePremium = (req,res) => {
+  if(req.session.account.subcribed){
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
 // Creates the login page.
 const loginPage = (req, res) => {
   res.status(200).render('login', { csrfToken: req.csrfToken() });
@@ -21,14 +32,9 @@ const changeLogin = (request, response) => {
   req.body.oldPass = `${req.body.oldPass}`;
   req.body.newPass = `${req.body.newPass}`;
   req.body.newPass2 = `${req.body.newPass2}`;
-  console.log(req.body.oldPass)
-console.log(req.body.newPass)
-console.log(req.body.newPass2)
-console.log(req.session.account.username)
-
-
+ 
   const username = `${req.session.account.username}`;
-  const password = `${req.body.newPass}`;
+  
   if (!req.body.oldPass || !req.body.newPass || !req.body.newPass2) {
     return res.status(400).json({ error: 'All fields are required! ' });
   }
@@ -36,6 +42,7 @@ console.log(req.session.account.username)
   if (req.body.newPass !== req.body.newPass2) {
     return res.status(400).json({ error: 'Passwords do not match!' });
   }
+
   Account.AccountModel.authenticate(username, req.body.oldPass, (err, account) => {
 
     if (err) {
@@ -78,34 +85,6 @@ console.log(req.session.account.username)
       });
 
   });
-
-
-
-  
-//   return Account.AccountModel.generateHash(req.body.newPass, (salt, hash) => {
-    
-//     Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
-//       
-      
-//       // Error Handling Here
-//       if (err) {
-//         console.log(err);
-//         return res.status(400).json({ error: 'An error occurred.' });
-//       }
-  
-     
-//      const newPassword = new Account.AccountModel(accountData);
-//       const savePromise = newPassword.save();
-  
-//       savePromise.then(() => res.status(200).json({ redirect: '/login' }));
-  
-//       savePromise.catch((err2) => {
-//         console.log(err2);
-//         return res.status(400).json({ error: 'An error occurred.' });
-//       });
-//     return savePromise;
-//   });
-// });
 });
 };
 
@@ -213,3 +192,4 @@ module.exports.getToken = getToken;
 module.exports.notFound = notFound;
 module.exports.changePage = changePage;
 module.exports.changeLogin = changeLogin;
+module.exports.makePremium = makePremium;

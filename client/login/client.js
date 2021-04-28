@@ -47,9 +47,9 @@ const LoginWindow = (props) =>{
         className="mainForm"
         >
             <label htmlFor="username">Username: </label>
-            <input id="user" type="text" name="username" placeholder="username"/>
+            <input id="user" type="text" name="username" placeholder="Username"/>
             <label htmlFor="pass">Password: </label>
-            <input id="pass" type="password" name="pass" placeholder="password"/>
+            <input id="pass" type="password" name="pass" placeholder="Password"/>
             <input type="hidden" name="_csrf" value={props.csrf} />
             <input className="formSubmit" type="submit" value="sign in"/>
 
@@ -67,11 +67,11 @@ const SignupWindow = (props) =>{
         className="mainForm"
         >
             <label htmlFor="username">Username: </label>
-            <input id="user" type="text" name="username" placeholder="username"/>
+            <input id="user" type="text" name="username" placeholder="Username"/>
             <label htmlFor="pass">Password: </label>
-            <input id="pass" type="password" name="pass" placeholder="password"/>
+            <input id="pass" type="password" name="pass" placeholder="Password"/>
             <label htmlFor="pass2">Password: </label>
-            <input id="pass2" type="password" name="pass2" placeholder="retype password"/>
+            <input id="pass2" type="password" name="pass2" placeholder="Retype Password"/>
             <input type="hidden" name="_csrf" value={props.csrf} />
             <input className="formSubmit" type="submit" value="sign Up" />
 
@@ -83,7 +83,7 @@ const SignupWindow = (props) =>{
 const createLoginWindow = (csrf) => {
     ReactDOM.render(
         <LoginWindow csrf={csrf} />,
-        document.querySelector("#content")
+        document.querySelector("#contentLogin")
     );
 };
 
@@ -91,7 +91,7 @@ const createLoginWindow = (csrf) => {
 const createSignupWindow = (csrf) => {
     ReactDOM.render(
         <SignupWindow csrf={csrf} />,
-        document.querySelector("#content")
+        document.querySelector("#contentLogin")
     );
 };
 

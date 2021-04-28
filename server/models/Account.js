@@ -32,6 +32,11 @@ const AccountSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  subscribed: {
+    type: Boolean,
+  },
+
   createdDate: {
     type: Date,
     default: Date.now,
@@ -41,6 +46,7 @@ const AccountSchema = new mongoose.Schema({
 // Sending to the api the needed attributes.
 AccountSchema.statics.toAPI = (doc) => ({
   // _id is built into your mongo document and is guaranteed to be unique
+  subcribed: doc.subcribed,
   username: doc.username,
   _id: doc._id,
 });

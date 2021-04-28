@@ -51,14 +51,14 @@ const LoginWindow = props => {
     id: "user",
     type: "text",
     name: "username",
-    placeholder: "username"
+    placeholder: "Username"
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "pass"
   }, "Password: "), /*#__PURE__*/React.createElement("input", {
     id: "pass",
     type: "password",
     name: "pass",
-    placeholder: "password"
+    placeholder: "Password"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
@@ -85,21 +85,21 @@ const SignupWindow = props => {
     id: "user",
     type: "text",
     name: "username",
-    placeholder: "username"
+    placeholder: "Username"
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "pass"
   }, "Password: "), /*#__PURE__*/React.createElement("input", {
     id: "pass",
     type: "password",
     name: "pass",
-    placeholder: "password"
+    placeholder: "Password"
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "pass2"
   }, "Password: "), /*#__PURE__*/React.createElement("input", {
     id: "pass2",
     type: "password",
     name: "pass2",
-    placeholder: "retype password"
+    placeholder: "Retype Password"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
@@ -115,14 +115,14 @@ const SignupWindow = props => {
 const createLoginWindow = csrf => {
   ReactDOM.render( /*#__PURE__*/React.createElement(LoginWindow, {
     csrf: csrf
-  }), document.querySelector("#content"));
+  }), document.querySelector("#contentLogin"));
 }; //Creates signup window.
 
 
 const createSignupWindow = csrf => {
   ReactDOM.render( /*#__PURE__*/React.createElement(SignupWindow, {
     csrf: csrf
-  }), document.querySelector("#content"));
+  }), document.querySelector("#contentLogin"));
 }; //Sets up application once signup or loggin buttons are pressed.
 
 

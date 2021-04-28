@@ -113,7 +113,9 @@ const setup = function(csrf){
     ReactDOM.render(
         <ChatList chat={[]} />, document.querySelector('#chat'),
     );
-    loadChatFromServer();
+
+    
+        loadChatFromServer();
      
 };
 

@@ -7,6 +7,8 @@ html, body {
     font-family: 'Playfair Display', serif;
 }
 
+
+
 #logo {
     height: 40px;
     width: 40px;
@@ -20,7 +22,7 @@ html, body {
     margin-top: 2px;
     margin-bottom: 2px;
     text-align: center;
-    border: 2px solid #EC8385;
+    border: 2px solid black;
     font-size: 80px;
     border-radius: 4px;
     background-color: #EC8385;
@@ -88,6 +90,21 @@ html, body {
     text-decoration: underline;
 }
 
+#contentLogin{
+    margin: 0 auto;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 15px;
+    text-align: center;
+    border: 2px solid #EC8385;
+    border-radius: 4px;
+    background-color: #F1A7A9;
+    padding: 5px;
+    min-height:40px;
+    overflow: hidden;
+    text-decoration: underline;
+}
+
 #lostPage{
     width: 100%;
     height: 100%;
@@ -98,6 +115,7 @@ nav {
     width: 100%;
     height: 50px;
     background-color: #E35053;
+    border: 2px solid black;
 }
 
 nav:nth-child(1) {
@@ -134,48 +152,7 @@ nav:nth-child(1) {
 body{
     background-color: #F1A7A9;
 }
-.domoForm {
-    border: 2px solid #338acc;
-    height: 35px;
-    width: 925px;
-    margin-top:0px;
-    padding-top:10px;
-    background-color: #55acee;
-    border-bottom-right-radius: 4px;
-    border-top-right-radius: 4px;
-}
 
-.domoForm label {
-    display: inline-block;
-    width: 75px;
-    margin-left: 10px;
-    font-size: 1.2em;
-    float: left;
-    color: white;
-}
-
-.domoForm input[type=text] {
-    float:left;
-}
-
-.makeDomoSubmit {
-    transition: background-color 0.4s ease;
-    display: inline;
-    width: 90px;
-    background-color: #55acee;
-    border-radius: 2px;
-    color: white;
-    text-decoration: none;
-}
-
-.makeDomoSubmit:link, .makeDomoSubmit:visited, .makeDomoSubmit:hover, .makeDomoSubmit:active {
-    color: white;
-}
-
-.makeDomoSubmit:hover {
-    transition: background-color 0.4s ease;
-    background-color: #338acc;
-}
 
 .chatForm {
     border: 2px solid #F1A7A9;
@@ -372,13 +349,8 @@ h3.emptyNote {
 }
 
 #upload {
-  
     min-width: 400px;
-    
-
     margin-top: 10px;
-
-
     transition: background-color 0.4s ease;
     display: inline;
     background-color: white;
@@ -389,11 +361,9 @@ h3.emptyNote {
 }
 
 #search {
-  
     min-width: 400px;
     border: 2px solid #F6CACC;
     border-radius: 4px;
-
     margin-top: 10px;
 }
 
@@ -481,11 +451,9 @@ h3.emptyfriendslist {
 }
 
 #meme {
-  
     min-width: 400px;
     border: 2px solid #F6CACC;
     border-radius: 4px;
-
     margin-top: 10px;
 }
 
@@ -576,15 +544,19 @@ h3.emptyMeme {
 }
 
 .mainForm {
-    height: 300px;
+    height: 150px;
     width: 350px;
-    margin: 0 auto;
-    padding-top: 350px;
+    margin: 230 auto;
+    padding-top: 50px;
     font-size: 1.2em;
+    border: 2px solid black;
+    border-radius: 4px;
+    background-color: #EC8385;
 }
 
 .mainForm h3 {
     text-align: center;
+    text-decoration: underline;
 }
 
 .mainForm label {
@@ -601,10 +573,10 @@ h3.emptyMeme {
     text-align: center;
     margin: 0 auto;
     margin-top: 14px;
-    font-size: 1.2em;
+    font-size: 1.0em;
     background-color: #E35053;
     border-radius: 2px;
-    border-color: #E66063;
+    border: 2px solid black;
     padding: 3px 0px;
     color: black;
     text-decoration: none;
@@ -662,94 +634,3 @@ h3.emptyMeme {
     font-style: italic;
 }
 
-#domo {
-    z-index: 225;
-    margin-top: -20px;
-    margin-left: 135px;
-    height: 450px;
-    width: 300px;
-    -ms-transform: rotate(330deg);
-    -webkit-transform: rotate(330deg); 
-    transform: rotate(330deg);
-}
-
-#domos {
-    width: 40%;
-    min-width: 400px;
-    border: 2px solid #55acee;
-    border-radius: 4px;
-    margin: 0 auto;
-    margin-top: 100px;
-}
-
-.domo {
-    width: 95%;
-    margin: 0 auto;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    border: 2px solid #55acee;
-    border-radius: 4px;
-    background-color: #55acee;
-    padding: 10px;
-    min-height:60px;
-    overflow: hidden;
-}
-
-.domo:hover {
-    transition: border-color 0.2s ease-out;
-    border-color: rgba(255,255,255, 0.8);
-    transition: background-color 2.6s ease-out;
-    background-color: #66bfff;
-}
-
-img.chatIcon {
-    margin-left: 25px;
-    margin-right: 10px;
-    height: 50px;
-    width: 50px;
-    border-radius: 4px;
-    margin-top:10px;
-    float:left;
-}
-
-h3.emptyDomo {
-    width: 400px;
-    font-size: 1.5em;
-    margin: 0 auto;
-    text-align: center;
-    margin-top: 18px;
-}
-
-h3.domoName {
-    float:left;
-    width: 200px;
-    font-weight: bold;
-    padding-left: 65px;
-    font-size: 1.5em;
-}
-
-h3.domoAge {
-    float:right;
-    text-align: left;
-    width: 100px;
-    font-weight: bold;
-    padding-right: 40px;
-    font-size: 1.5em;
-}
-
-h3.domoRank {
-    float:right;
-    text-align: left;
-    width: 100px;
-    font-weight: bold;
-    padding-right: 40px;
-    font-size: 1.5em;
-}
-
-.domo:first-child {
-    margin-top: 10px;
-}
-
-.domo:last-child {
-    margin-bottom:10px;
-}
