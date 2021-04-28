@@ -38,8 +38,6 @@ const makeChat = (req, res) => {
     owner: req.session.account._id,
   };
 
-  console.log(req.session.account);
-
   const newChat = new Chat.ChatModel(chatData);
 
   const chatPromise = newChat.save();

@@ -19,6 +19,15 @@ const handleChat = e => {
 
 
 const ChatForm = props => {
+  //Adds a friend to the user signed in.
+  const handleSubsribe = e => {
+    e.preventDefault();
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', `/premium?subscribe=true`);
+    xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+    xhr.send();
+  };
+
   return /*#__PURE__*/React.createElement("form", {
     id: "chatForm",
     onSubmit: handleChat,
@@ -42,6 +51,12 @@ const ChatForm = props => {
     className: "makeChatSubmit",
     type: "submit",
     value: "Make Chat"
+  }), /*#__PURE__*/React.createElement("input", {
+    id: "submits",
+    className: "makeSubscribeSubmit",
+    type: "submit",
+    value: "Subscribe to Premium",
+    onClick: handleSubsribe
   }));
 }; //Creates the chat list to store reponses to be viewed.
 
@@ -71,7 +86,15 @@ const ChatList = function (props) {
       xhr.open('POST', `/addFriend?username=${chat.username}`);
       xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
       xhr.send();
-    }; //Content viewable on chat page.
+    }; // //Creates a private chat with user selected
+    // const handlePrivate = (e) => {
+    //     e.preventDefault();
+    //      let xhr = new XMLHttpRequest();
+    //      xhr.open('POST', `/addPrivate?username=${chat.username}`);
+    //      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+    //      xhr.send();
+    //  }
+    //Content viewable on chat page.
 
 
     return /*#__PURE__*/React.createElement("div", {

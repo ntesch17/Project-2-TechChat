@@ -6,11 +6,13 @@ let subActive = true;
 
 const makePremium = (req,res) => {
   if(req.session.account.subcribed){
+    
     return true;
   }
   else {
     return false;
   }
+ 
 }
 
 // Creates the login page.

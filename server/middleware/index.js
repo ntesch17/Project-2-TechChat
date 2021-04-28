@@ -17,7 +17,7 @@ const requiresLogout = (req, res, next) => {
 
 const requiresSubscribe = (req, res, next) => {
   if (req.session.account) {
-    return res.redirect('/subscribe');
+    return res.redirect('/premium');
   }
 
   return next();

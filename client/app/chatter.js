@@ -20,6 +20,20 @@ const handleChat = (e) => {
 
 //Chat form for users to enter responses to each other.
 const ChatForm = (props) =>{
+
+    //Adds a friend to the user signed in.
+    const handleSubsribe = (e) => {
+           
+        e.preventDefault();
+        
+         let xhr = new XMLHttpRequest();
+
+         xhr.open('POST', `/premium?subscribe=true`);
+
+         xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+
+         xhr.send();
+     }
     return (
         <form id="chatForm" 
         onSubmit={handleChat}
@@ -32,6 +46,7 @@ const ChatForm = (props) =>{
             <input id="chatResponse" type="text" name="response" placeholder="Enter Response"/>
             <input type="hidden" name="_csrf" value={props.csrf} />
             <input id='submits' className="makeChatSubmit" type="submit" value="Make Chat" />
+            <input id='submits' className="makeSubscribeSubmit" type="submit" value="Subscribe to Premium" onClick={handleSubsribe}/>
 
         </form>
     );
@@ -71,6 +86,20 @@ const ChatList = function(props){
             xhr.send();
         }
 
+        // //Creates a private chat with user selected
+        // const handlePrivate = (e) => {
+           
+        //     e.preventDefault();
+            
+        //      let xhr = new XMLHttpRequest();
+ 
+        //      xhr.open('POST', `/addPrivate?username=${chat.username}`);
+ 
+        //      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+ 
+        //      xhr.send();
+        //  }
+
         //Content viewable on chat page.
         return (
             <div key={chat._id} className="chat">
@@ -80,6 +109,7 @@ const ChatList = function(props){
                 <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" onClick={handleDelete}/>
                 <input type="hidden" name="_csrf" value={props.csrf} />
                 <input id='submitFriend' className="makeFriendSubmit" type="submit" value="Add Friend!" onClick={handleFriend} />
+                {/* <input id='submitPrivateChat' className="makePrivateSubmit" type="submit" value="Make Private Chat with User!" onClick={handlePrivate} /> */}
             </div>
             
         );
