@@ -2,18 +2,8 @@ const models = require('../models');
 
 const { Account } = models;
 
-let subActive = true;
 
-const makePremium = (req,res) => {
-  if(req.session.account.subcribed){
-    
-    return true;
-  }
-  else {
-    return false;
-  }
- 
-}
+
 
 // Creates the login page.
 const loginPage = (req, res) => {
@@ -144,6 +134,7 @@ const signup = (request, response) => {
       username: req.body.username,
       salt,
       password: hash,
+      subcribed: false,
     };
 
     const newAccount = new Account.AccountModel(accountData);
@@ -194,4 +185,3 @@ module.exports.getToken = getToken;
 module.exports.notFound = notFound;
 module.exports.changePage = changePage;
 module.exports.changeLogin = changeLogin;
-module.exports.makePremium = makePremium;

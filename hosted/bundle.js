@@ -23,7 +23,7 @@ const ChatForm = props => {
   const handleSubsribe = e => {
     e.preventDefault();
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', `/premium?subscribe=true`);
+    xhr.open('POST', `/makePremium?subscribed=true`);
     xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
     xhr.send();
   };
@@ -124,7 +124,12 @@ const ChatList = function (props) {
       type: "submit",
       value: "Add Friend!",
       onClick: handleFriend
-    }));
+    }), props.subscribed ? /*#__PURE__*/React.createElement("input", {
+      id: "submitPrivateChat",
+      className: "makePrivateSubmit",
+      type: "button",
+      value: "Make Private Chat with User!"
+    }) : /*#__PURE__*/React.createElement("span", null));
   }); //Chat list to display nodes.
 
   return /*#__PURE__*/React.createElement("div", {
@@ -134,10 +139,13 @@ const ChatList = function (props) {
 
 
 const loadChatFromServer = () => {
-  sendAjax('GET', '/getChat', null, data => {
-    ReactDOM.render( /*#__PURE__*/React.createElement(ChatList, {
-      chat: data.chat
-    }), document.querySelector("#chat"));
+  sendAjax('GET', '/getPremium', null, result => {
+    sendAjax('GET', '/getChat', null, data => {
+      ReactDOM.render( /*#__PURE__*/React.createElement(ChatList, {
+        chat: data.chat,
+        subscribed: result.subscribed
+      }), document.querySelector("#chat"));
+    });
   });
 }; //Sets up the react render calls.
 

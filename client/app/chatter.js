@@ -28,7 +28,7 @@ const ChatForm = (props) =>{
         
          let xhr = new XMLHttpRequest();
 
-         xhr.open('POST', `/premium?subscribe=true`);
+         xhr.open('POST', `/makePremium?subscribed=true`);
 
          xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
 
@@ -109,12 +109,18 @@ const ChatList = function(props){
                 <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" onClick={handleDelete}/>
                 <input type="hidden" name="_csrf" value={props.csrf} />
                 <input id='submitFriend' className="makeFriendSubmit" type="submit" value="Add Friend!" onClick={handleFriend} />
-                {/* <input id='submitPrivateChat' className="makePrivateSubmit" type="submit" value="Make Private Chat with User!" onClick={handlePrivate} /> */}
+                
+                {props.subscribed
+                    ? <input id='submitPrivateChat' className="makePrivateSubmit" type="button" value="Make Private Chat with User!" /> 
+                    : <span/>
+                }
+            
             </div>
             
         );
         
     });
+
 
     
     //Chat list to display nodes.
@@ -127,12 +133,18 @@ const ChatList = function(props){
 
 //Loads the incoming reponses from the server.
 const loadChatFromServer = () => {
+    sendAjax('GET', '/getPremium', null, (result) => {
     sendAjax('GET', '/getChat', null, (data) => {
         ReactDOM.render(
-            <ChatList chat={data.chat} />, document.querySelector("#chat")
+            <ChatList chat={data.chat} subscribed={result.subscribed}/>, document.querySelector("#chat")
         );
     });
+    });
+
+   
 };
+
+
 
 //Sets up the react render calls.
 const setup = function(csrf){

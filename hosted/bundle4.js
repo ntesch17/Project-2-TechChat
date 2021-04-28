@@ -1,115 +1,115 @@
-let csrfToken; //Handles user interactions with the upload form.
+let csrfToken;
 
-const handleUpload = e => {
+const handleGif = e => {
   e.preventDefault();
-  $("#alertMessage").animate({
+  $("#domoMessage").animate({
     width: 'hide'
   }, 350);
-  let formData = new FormData();
-  formData.append("sampleFile", document.getElementById("upload").files[0]);
-  let xhr = new XMLHttpRequest();
-  xhr.open('POST', $("#uploadForm").attr("action"));
-  xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
 
-  xhr.onload = () => loadFilesFromServer();
+  if ($("#gifSearch").val() == '' || $("#gifLimit").val() == '') {
+    handleError("RAWR! All fields are required.");
+    return false;
+  }
 
-  xhr.send(formData);
+  sendAjax('POST', $("#gifForm").attr("action"), $("#gifForm").serialize(), function () {
+    loadGifFromServer();
+  });
   return false;
-}; //upload form for users to enter images to their private account.
+};
 
-
-const UploadForm = props => {
+const GifForm = props => {
   return /*#__PURE__*/React.createElement("form", {
-    id: "uploadForm",
-    onSubmit: handleUpload,
-    name: "uploadForm",
-    action: "/upload",
+    id: "gifForm",
+    onSubmit: handleGif,
+    name: "gifForm",
+    action: "/search",
     method: "POST",
-    encType: "multipart/form-data",
-    className: "uploadForm"
+    className: "gifForm"
   }, /*#__PURE__*/React.createElement("label", {
-    htmlFor: "image"
-  }, "Enter a image to upload: "), /*#__PURE__*/React.createElement("input", {
-    id: "upload",
-    type: "file",
-    name: "sampleFile",
-    placeholder: "Enter a file here"
+    htmlFor: "search"
+  }, "Enter a Search Term: "), /*#__PURE__*/React.createElement("input", {
+    id: "gifSearch",
+    type: "text",
+    name: "search",
+    placeholder: "Enter Search Term"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "limit"
+  }, "Enter a Search Term: "), /*#__PURE__*/React.createElement("input", {
+    id: "gifLimit",
+    type: "text",
+    name: "limit",
+    placeholder: "Enter Limit to search"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
     id: "submits",
-    className: "makeUploadSubmit",
+    className: "makeChatSubmit",
     type: "submit",
-    value: "Upload!"
+    value: "Make Chat"
   }));
-}; //Creates the image list to store images to be viewed by the user that entered the image.
+};
 
-
-const FileList = function (props) {
+const GifList = function (props) {
   if (props.search.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
-      className: "fileList"
+      className: "searchList"
     }, /*#__PURE__*/React.createElement("h3", {
-      className: "emptyfile"
-    }, "No Files Yet!"));
-  } //Creates the image node of a user entered image.
+      className: "emptySearch"
+    }, "No Responses Yet!"));
+  }
 
-
-  const fileNodes = props.search.map(function (file) {
-    let fileRequestURL = `/retrieve?_id=${file._id}`;
-
-    const handleDelete = e => {
-      e.preventDefault();
-      let xhr = new XMLHttpRequest();
-      xhr.open('DELETE', `/deleteMeme?_id=${file._id}`);
-      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
-      xhr.send();
-    }; //Content viewable on file list page.
-
-
+  const GifNodes = props.chat.map(function (chat) {
     return /*#__PURE__*/React.createElement("div", {
-      key: file._id,
-      className: "search"
+      key: chat._id,
+      className: "chat"
     }, /*#__PURE__*/React.createElement("img", {
-      src: fileRequestURL,
-      alt: "image",
-      className: "image"
-    }), /*#__PURE__*/React.createElement("input", {
-      id: "submitMeme",
-      className: "makeDeleteMeme",
+      src: "/assets/img/domoface.jpeg",
+      alt: "domo face",
+      className: "domoFace"
+    }), /*#__PURE__*/React.createElement("h3", {
+      className: "chatUser"
+    }, " User: ", chat.username, " "), /*#__PURE__*/React.createElement("h3", {
+      className: "chatResponse"
+    }, " Response: ", chat.response, " "), /*#__PURE__*/React.createElement("input", {
+      id: "submitDelete",
+      className: "makeDeleteSubmit",
       type: "submit",
-      value: "Delete Image!",
+      value: "Delete Response",
       onClick: handleDelete
+    }), /*#__PURE__*/React.createElement("input", {
+      id: "submits",
+      className: "makeFriendSubmit",
+      type: "submit",
+      value: "Add Friend!",
+      onClick: handleFriend
     }));
-  }); //file list to display nodes.
-
-  return /*#__PURE__*/React.createElement("div", {
-    className: "fileList"
-  }, fileNodes);
-}; //Loads the incoming files from the server.
-
-
-const loadFilesFromServer = () => {
-  sendAjax('GET', '/getFileIds', null, data => {
-    ReactDOM.render( /*#__PURE__*/React.createElement(FileList, {
-      search: data
-    }), document.querySelector("#search"));
   });
-}; //Sets up the react render calls.
+  return /*#__PURE__*/React.createElement("div", {
+    className: "chatList"
+  }, chatNodes);
+};
 
+const loadChatFromServer = () => {
+  sendAjax('GET', '/getChat', null, data => {
+    ReactDOM.render( /*#__PURE__*/React.createElement(ChatList, {
+      chat: data.chat
+    }), document.querySelector("#chat"));
+  });
+};
 
 const setup = function (csrf) {
-  ReactDOM.render( /*#__PURE__*/React.createElement(UploadForm, {
+  ReactDOM.render( /*#__PURE__*/React.createElement(ChatForm, {
     csrf: csrf
-  }), document.querySelector('#makeSearch'));
-  ReactDOM.render( /*#__PURE__*/React.createElement(FileList, {
-    search: []
-  }), document.querySelector('#search'));
-  loadFilesFromServer();
-}; //Gains a csrf token per user interaction.
-
+  }), document.querySelector('#makeChat'));
+  ReactDOM.render( /*#__PURE__*/React.createElement(ChatList, {
+    chat: []
+  }), document.querySelector('#chat'));
+  setInterval(() => {
+    loadChatFromServer();
+  }, 100);
+};
 
 const getToken = () => {
   sendAjax('GET', '/getToken', null, result => {

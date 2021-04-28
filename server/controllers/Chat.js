@@ -3,6 +3,43 @@ const models = require('../models');
 const { Chat } = models;
 const { Account } = models;
 
+const makePremium = (req,res) => {
+  console.log('here');
+  Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
+    // Error Handling Here
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred.' });
+    }
+    let account = doc;
+    account.subscribed = true;
+
+    req.session.account.subscribed = true;
+
+    const savePromise = account.save();
+
+    savePromise.then(() => res.status(200).send());
+
+    savePromise.catch((err2) => {
+      console.log(err2);
+      return res.status(400).json({ error: 'An error occurred.' });
+    });
+    return savePromise;
+  });
+  
+}
+
+const getPremium = (req,res) => {
+  console.log('here2');
+  if(req.session.account.subscribed) {
+    return res.status(200).json({ subscribed: true});
+  }
+  else {
+    return res.status(200).json({ subscribed: false});
+  }
+  
+}
+
 // Gathers chat responses from all users.
 const getAllChats = (req, res) => {
   Chat.ChatModel.find({}, (err, docs) => {
@@ -139,3 +176,6 @@ module.exports.getFriendsList = getFriendsList;
 module.exports.friendsPage = friendsPage;
 module.exports.makeFriend = makeFriend;
 module.exports.deleteFriend = deleteFriend;
+module.exports.makePremium = makePremium;
+module.exports.getPremium = getPremium;
+

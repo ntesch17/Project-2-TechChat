@@ -15,14 +15,6 @@ const requiresLogout = (req, res, next) => {
   return next();
 };
 
-const requiresSubscribe = (req, res, next) => {
-  if (req.session.account) {
-    return res.redirect('/premium');
-  }
-
-  return next();
-};
-
 // Requires that the users interaction is secure.
 const requiresSecure = (req, res, next) => {
   if (req.headers['x-forwarded-proto'] !== 'https') {
@@ -39,7 +31,6 @@ const bypassSecure = (req, res, next) => {
 
 module.exports.requiresLogin = requiresLogin;
 module.exports.requiresLogout = requiresLogout;
-module.exports.requiresSubscribe = requiresSubscribe;
 
 // Node environment type.
 if (process.env.NODE_ENV === 'production') {
