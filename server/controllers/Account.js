@@ -134,7 +134,7 @@ const signup = (request, response) => {
       username: req.body.username,
       salt,
       password: hash,
-      subcribed: false,
+      subscribed: false,
     };
 
     const newAccount = new Account.AccountModel(accountData);

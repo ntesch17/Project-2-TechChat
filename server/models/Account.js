@@ -46,7 +46,7 @@ const AccountSchema = new mongoose.Schema({
 // Sending to the api the needed attributes.
 AccountSchema.statics.toAPI = (doc) => ({
   // _id is built into your mongo document and is guaranteed to be unique
-  subcribed: doc.subcribed,
+  subscribed: doc.subscribed,
   username: doc.username,
   _id: doc._id,
 });
