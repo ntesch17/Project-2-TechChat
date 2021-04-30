@@ -16,6 +16,7 @@ const privateChatPage = (req, res) => {
 };
 
 const getPrivateChat = (req, res) => {
+  console.log(req.query._id)
   return Chat.ChatModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
@@ -50,31 +51,35 @@ const getPrivateChat = (req, res) => {
 };
 
 const makePrivateChat = (req, res) => {
-  if (!req.body.response) {
-    return res.status(400).json({ error: 'A response is required' });
-  }
+  console.log(req.query._id);
+  console.log(req.session.account._id);
+  Account.AccountModel.findOne({ _id: req.query._id }, (err, doc) => {
+    // Error Handling Here
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred.' });
+    }
+    const chatData = {
+      
+      username: req.query.username,
+      owner: req.query._id,
+    };
+    //doc.friendsList.push(req.query.username);
+    const newChat = new Chat.ChatModel(chatData);
+    const savePromise = newChat.save();
 
-  const chatData = {
-    response: req.body.response,
-    username: req.session.account.username,
-    owner: req.session.account._id,
-  };
+    savePromise.then(() => res.status(200).json({ redirect: '/privateChat' }));
 
-  const newChat = new Chat.ChatModel(chatData);
-
-  const chatPromise = newChat.save();
-
-  chatPromise.then(() => res.status(200).json({ redirect: '/privateChat' }));
-
-  chatPromise.catch((err) => {
-    console.log(err);
-
-    return res.status(400).json({ error: 'An error occured.' });
+    savePromise.catch((err2) => {
+      console.log(err2);
+      return res.status(400).json({ error: 'An error occurred.' });
+    });
+    return savePromise;
   });
-  return chatPromise;
 };
 
 const deletePrivateMessage = (req, res) => {
+  console.log(req.query._id)
   if (req.query._id) {
     Chat.ChatModel.deleteOne({ _id: req.query._id }, (err) => {
       console.log('Data deleted'); // Success

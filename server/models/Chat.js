@@ -20,7 +20,7 @@ const ChatSchema = new mongoose.Schema({
 
   response: {
     type: String,
-    required: true,
+    
     trim: true,
   },
 
