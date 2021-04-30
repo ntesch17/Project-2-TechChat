@@ -87,14 +87,15 @@ const ChatList = function (props) {
       xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
       xhr.send();
     }; // //Creates a private chat with user selected
-    // const handlePrivate = (e) => {
-    //     e.preventDefault();
-    //      let xhr = new XMLHttpRequest();
-    //      xhr.open('POST', `/addPrivate?username=${chat.username}`);
-    //      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
-    //      xhr.send();
-    //  }
-    //Content viewable on chat page.
+
+
+    const handlePrivate = e => {
+      e.preventDefault();
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST', `/privateChat?_id=${chat._id}&username=${chat.username}`);
+      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+      xhr.send();
+    }; //Content viewable on chat page.
 
 
     return /*#__PURE__*/React.createElement("div", {
@@ -128,7 +129,8 @@ const ChatList = function (props) {
       id: "submitPrivateChat",
       className: "makePrivateSubmit",
       type: "button",
-      value: "Make Private Chat with User!"
+      value: "Make Private Chat with User!",
+      onClick: handlePrivate
     }) : /*#__PURE__*/React.createElement("span", null));
   }); //Chat list to display nodes.
 

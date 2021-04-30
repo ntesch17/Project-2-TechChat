@@ -5,11 +5,16 @@ const router = (app) => {
   // Gains token per user interaction.
   app.get('/getToken', mid.requiresSecure, controllers.Account.getToken);
 
-
   //Premium Member.
   app.get('/getPremium', mid.requiresLogin, controllers.Chat.getPremium);
   app.post('/makePremium', mid.requiresLogin, controllers.Chat.makePremium);
 
+
+  //Private Chat (Premium Feature)
+  app.get('/getPrivateChat', mid.requiresLogin, controllers.Chat.getPrivateChat);
+  app.get('/privateChat', mid.requiresLogin, controllers.Chat.privateChatPage);
+  app.post('/privateChat', mid.requiresLogin, controllers.Chat.makePrivate);
+  app.delete('/deleteMessage', mid.requiresLogin, controllers.Chat.deletePrivateMessage);
 
   // Setup Notes page.
   app.get('/getNote', mid.requiresLogin, controllers.Note.getNote);

@@ -1,41 +1,38 @@
-let csrfToken; //Handles user interactions with the premium form.
+let csrfToken; //Handles user interactions with the chat form.
 
-const handlePremium = e => {
+const handlePrivateChat = e => {
   e.preventDefault();
   $("#alertMessage").animate({
     width: 'hide'
   }, 350);
 
-  if ($("#email").val() == '') {
+  if ($("#privateChatResponse").val() == '') {
     handleError("Chat fields are required.");
     return false;
   }
 
-  $("#submits").submit(function (e) {});
-  sendAjax('POST', $("#premiumForm").attr("action"), $("#premiumForm").serialize(), function () {
-    $("#email").hide();
-    $("#submits").hide();
-    loadPremiumFromServer();
+  sendAjax('POST', $("#privateChatForm").attr("action"), $("#privateChatForm").serialize(), function () {
+    loadPrivateChatFromServer();
   });
   return false;
-}; //Premium form for users to enter email to subscribe.
+}; //Chat form for users to enter responses to each other.
 
 
-const PremiumForm = props => {
+const PrivateChatForm = props => {
   return /*#__PURE__*/React.createElement("form", {
-    id: "premiumForm",
-    onSubmit: handlePremium,
-    name: "premiumForm",
-    action: "/premium",
+    id: "privateChatForm",
+    onSubmit: handlePrivateChat,
+    name: "privateChatForm",
+    action: "/privateChat",
     method: "POST",
-    className: "premiumForm"
+    className: "privateChatForm"
   }, /*#__PURE__*/React.createElement("label", {
-    htmlFor: "email"
-  }, "Enter your email: "), /*#__PURE__*/React.createElement("input", {
-    id: "email",
+    htmlFor: "response"
+  }, "Enter a response: "), /*#__PURE__*/React.createElement("input", {
+    id: "chatResponse",
     type: "text",
-    name: "email",
-    placeholder: "Enter a email"
+    name: "response",
+    placeholder: "Enter Response"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
@@ -44,72 +41,95 @@ const PremiumForm = props => {
     id: "submits",
     className: "makeChatSubmit",
     type: "submit",
-    value: "Submit to Subscribe"
+    value: "Make Chat"
   }));
-}; //Creates the premium list to store email of subcribtion.
+}; //Creates the chat list to store reponses to be viewed.
 
 
-const PremiumList = function (props) {
-  if (props.premium.length === 0) {
+const PrivateChatList = function (props) {
+  if (props.chat.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
-      className: "premiumList"
+      className: "privateChatList"
     }, /*#__PURE__*/React.createElement("h3", {
-      className: "emptyPremium"
-    }, "Enter email to subcribe!"));
-  } //Creates the premium node of a user email.
+      className: "emptyPrivateChat"
+    }, "No Responses Yet!"));
+  } //Creates the chat node of a user response.
 
 
-  const premiumNodes = props.premium.map(function (premium) {
-    // //Deletes the response from the database.
-    // const handleDelete = (e) => {
-    //     let xhr = new XMLHttpRequest();
-    //     xhr.open('DELETE', `/deleteMessage?_id=${chat._id}&_csrf=${csrfToken}`);
-    //     xhr.send();
-    // }
-    // //Adds a friend to the user signed in.
-    // const handleFriend = (e) => {
-    //    e.preventDefault();
-    //     let xhr = new XMLHttpRequest();
-    //     xhr.open('POST', `/addFriend?username=${chat.username}`);
-    //     xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
-    //     xhr.send();
-    // }
-    //Content viewable on chat page.
+  const privateChatNodes = props.chat.map(function (chat) {
+    //Deletes the response from the database.
+    const handleDelete = e => {
+      let xhr = new XMLHttpRequest();
+      xhr.open('DELETE', `/deleteMessage?_id=${chat._id}&_csrf=${csrfToken}`);
+      xhr.send();
+    }; //Adds a friend to the user signed in.
+
+
+    const handleFriend = e => {
+      e.preventDefault();
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST', `/addFriend?username=${chat.username}`);
+      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+      xhr.send();
+    }; //Content viewable on chat page.
+
+
     return /*#__PURE__*/React.createElement("div", {
-      key: premium._id,
-      className: "premium"
+      key: chat._id,
+      className: "chat"
     }, /*#__PURE__*/React.createElement("img", {
       src: "/assets/img/chatIcon.png",
       alt: "Chat Icon",
       className: "chatIcon"
     }), /*#__PURE__*/React.createElement("h3", {
       className: "chatUser"
-    }, " Subscribed Email: ", premium.email, " "));
-  }); //Premium list to display nodes.
+    }, " User: ", chat.username, " "), /*#__PURE__*/React.createElement("h3", {
+      className: "chatResponse"
+    }, " Response: ", chat.response, " "), /*#__PURE__*/React.createElement("input", {
+      id: "submitDelete",
+      className: "makeDeleteSubmit",
+      type: "submit",
+      value: "Delete Response",
+      onClick: handleDelete
+    }), /*#__PURE__*/React.createElement("input", {
+      type: "hidden",
+      name: "_csrf",
+      value: props.csrf
+    }), /*#__PURE__*/React.createElement("input", {
+      id: "submitFriend",
+      className: "makeFriendSubmit",
+      type: "submit",
+      value: "Add Friend!",
+      onClick: handleFriend
+    }));
+  }); //Chat list to display nodes.
 
   return /*#__PURE__*/React.createElement("div", {
-    className: "premiumList"
-  }, premiumNodes);
+    className: "privateChatList"
+  }, privateChatNodes);
 }; //Loads the incoming reponses from the server.
 
 
-const loadPremiumFromServer = () => {
-  sendAjax('GET', '/getPremium', null, data => {
-    ReactDOM.render( /*#__PURE__*/React.createElement(PremiumList, {
-      premium: data.premium
-    }), document.querySelector("#premium"));
+const loadPrivateChatFromServer = () => {
+  sendAjax('GET', '/getPremium', null, result => {
+    sendAjax('GET', '/getPrivateChat', null, data => {
+      ReactDOM.render( /*#__PURE__*/React.createElement(PrivateChatList, {
+        chat: data.chat,
+        subscribed: result.subscribed
+      }), document.querySelector("#privateChat"));
+    });
   });
 }; //Sets up the react render calls.
 
 
 const setup = function (csrf) {
-  ReactDOM.render( /*#__PURE__*/React.createElement(PremiumForm, {
+  ReactDOM.render( /*#__PURE__*/React.createElement(PrivateChatForm, {
     csrf: csrf
-  }), document.querySelector('#makePremium'));
-  ReactDOM.render( /*#__PURE__*/React.createElement(PremiumList, {
-    premium: []
-  }), document.querySelector('#premium'));
-  loadPremiumFromServer();
+  }), document.querySelector('#makePrivateChat'));
+  ReactDOM.render( /*#__PURE__*/React.createElement(PrivateChatList, {
+    chat: []
+  }), document.querySelector('#privateChat'));
+  loadPrivateChatFromServer();
 }; //Gains a csrf token per user interaction.
 
 

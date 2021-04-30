@@ -1,62 +1,63 @@
 {
-  "name": "project-2-techchat",
-  "version": "1.0.0",
-  "description": "React MVC Project",
-  "main": "./server/app.js",
-  "scripts": {
-    "buildLoginBundle": "babel ./client/login ./client/helper --presets @babel/preset-react --out-file ./hosted/loginBundle.js",
-    "buildChangeLoginBundle": "babel ./client/changeLogin ./client/helper --presets @babel/preset-react --out-file ./hosted/changeloginBundle.js",
-    "buildAppBundle": "babel ./client/app ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle.js",
-    "buildAppBundle2": "babel ./client/app2 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle2.js",
-    "buildAppBundle3": "babel ./client/app3 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle3.js",
-    "buildAppBundle4": "babel ./client/app4 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle4.js",
-    "buildAppBundle5": "babel ./client/app5 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle5.js",
-    "build": "npm run buildLoginBundle && npm run buildChangeLoginBundle && npm run buildAppBundle && npm run buildAppBundle2 && npm run buildAppBundle3 && npm run buildAppBundle4 && npm run buildAppBundle5",
-    "watchLoginBundle": "babel --watch ./client/helper --presets @babel/preset-react --out-file ./hosted/loginBundle.js",
-    "watchAppBundle": "babel --watch ./client/app ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle.js",
-    "watchAppBundle2": "babel --watch ./client/app2 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle2.js",
-    "watchAppBundle3": "babel --watch ./client/app3 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle3.js",
-    "nodemon": "nodemon --watch ./server ./server/app.js",
-    "start": "node ./server/app.js",
-    "pretest": "eslint ./server --fix",
-    "test": "echo \"Tests complete\""
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.13.14",
-    "@babel/compat-data": "^7.13.12",
-    "@babel/core": "^7.13.14",
-    "@babel/preset-env": "^7.13.12",
-    "@babel/preset-react": "^7.13.13",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb": "^18.1.0",
-    "eslint-plugin-import": "^2.20.1",
-    "nodemon": "^2.0.7"
-  },
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "compression": "^1.7.4",
-    "connect-redis": "^4.0.4",
-    "cookie-parser": "^1.4.5",
-    "csurf": "^1.11.0",
-    "express": "^4.17.1",
-    "express-fileupload": "^1.2.1",
-    "express-handlebars": "^3.1.0",
-    "express-session": "^1.17.0",
-    "helmet": "^3.21.3",
-    "mongoose": "^5.9.5",
-    "react-images-upload": "^1.2.8",
-    "redis": "^3.0.2",
-    "serve-favicon": "^2.5.0",
-    "underscore": "^1.9.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ntesch17/Project-2-TechChat.git"
-  },
-  "author": "Nicholas L. Tesch",
-  "license": "UNLICENSED",
-  "bugs": {
-    "url": "https://github.com/ntesch17/Project-2-TechChat/issues"
-  },
-  "homepage": "https://github.com/ntesch17/Project-2-TechChat#readme"
+    "name": "project-2-techchat",
+    "version": "1.0.0",
+    "description": "React MVC Project",
+    "main": "./server/app.js",
+    "scripts": {
+        "buildLoginBundle": "babel ./client/login ./client/helper --presets @babel/preset-react --out-file ./hosted/loginBundle.js",
+        "buildChangeLoginBundle": "babel ./client/changeLogin ./client/helper --presets @babel/preset-react --out-file ./hosted/changeloginBundle.js",
+        "buildAppBundle": "babel ./client/app ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle.js",
+        "buildAppBundle2": "babel ./client/app2 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle2.js",
+        "buildAppBundle3": "babel ./client/app3 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle3.js",
+        "buildAppBundle4": "babel ./client/app4 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle4.js",
+        "buildAppBundle5": "babel ./client/app5 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle5.js",
+        "buildAppBundle6": "babel ./client/app6 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle6.js",
+        "build": "npm run buildLoginBundle && npm run buildChangeLoginBundle && npm run buildAppBundle && npm run buildAppBundle2 && npm run buildAppBundle3 && npm run buildAppBundle4 && npm run buildAppBundle5 && npm run buildAppBundle6",
+        "watchLoginBundle": "babel --watch ./client/helper --presets @babel/preset-react --out-file ./hosted/loginBundle.js",
+        "watchAppBundle": "babel --watch ./client/app ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle.js",
+        "watchAppBundle2": "babel --watch ./client/app2 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle2.js",
+        "watchAppBundle3": "babel --watch ./client/app3 ./client/helper --presets @babel/preset-react --out-file ./hosted/bundle3.js",
+        "nodemon": "nodemon --watch ./server ./server/app.js",
+        "start": "node ./server/app.js",
+        "pretest": "eslint ./server --fix",
+        "test": "echo \"Tests complete\""
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.13.14",
+        "@babel/compat-data": "^7.13.12",
+        "@babel/core": "^7.13.14",
+        "@babel/preset-env": "^7.13.12",
+        "@babel/preset-react": "^7.13.13",
+        "eslint": "^6.8.0",
+        "eslint-config-airbnb": "^18.1.0",
+        "eslint-plugin-import": "^2.20.1",
+        "nodemon": "^2.0.7"
+    },
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "compression": "^1.7.4",
+        "connect-redis": "^4.0.4",
+        "cookie-parser": "^1.4.5",
+        "csurf": "^1.11.0",
+        "express": "^4.17.1",
+        "express-fileupload": "^1.2.1",
+        "express-handlebars": "^3.1.0",
+        "express-session": "^1.17.0",
+        "helmet": "^3.21.3",
+        "mongoose": "^5.9.5",
+        "react-images-upload": "^1.2.8",
+        "redis": "^3.0.2",
+        "serve-favicon": "^2.5.0",
+        "underscore": "^1.9.2"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ntesch17/Project-2-TechChat.git"
+    },
+    "author": "Nicholas L. Tesch",
+    "license": "UNLICENSED",
+    "bugs": {
+        "url": "https://github.com/ntesch17/Project-2-TechChat/issues"
+    },
+    "homepage": "https://github.com/ntesch17/Project-2-TechChat#readme"
 }

@@ -1,69 +1,56 @@
 let csrfToken;
 
 //Handles user interactions with the chat form.
-const handleChat = (e) => {
+const handlePrivateChat = (e) => {
     e.preventDefault();
 
     $("#alertMessage").animate({width:'hide'}, 350);
 
-    if($("#chatResponse").val() == ''){
+    if($("#privateChatResponse").val() == ''){
         handleError("Chat fields are required.");
         return false;
     }
 
-    sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function() {
-        loadChatFromServer();
+    sendAjax('POST', $("#privateChatForm").attr("action"), $("#privateChatForm").serialize(), function() {
+        loadPrivateChatFromServer();
     });
 
     return false;
 };
 
 //Chat form for users to enter responses to each other.
-const ChatForm = (props) =>{
+const PrivateChatForm = (props) =>{
 
-    //Adds a friend to the user signed in.
-    const handleSubsribe = (e) => {
-           
-        e.preventDefault();
-        
-         let xhr = new XMLHttpRequest();
-
-         xhr.open('POST', `/makePremium?subscribed=true`);
-
-         xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
-
-         xhr.send();
-     }
+    
     return (
-        <form id="chatForm" 
-        onSubmit={handleChat}
-        name="chatForm"
-        action="/chat"
+        <form id="privateChatForm" 
+        onSubmit={handlePrivateChat}
+        name="privateChatForm"
+        action="/privateChat"
         method="POST"
-        className="chatForm"
+        className="privateChatForm"
         >
             <label htmlFor="response">Enter a response: </label>
             <input id="chatResponse" type="text" name="response" placeholder="Enter Response"/>
             <input type="hidden" name="_csrf" value={props.csrf} />
             <input id='submits' className="makeChatSubmit" type="submit" value="Make Chat" />
-            <input id='submits' className="makeSubscribeSubmit" type="submit" value="Subscribe to Premium" onClick={handleSubsribe}/>
 
         </form>
     );
 };
 
 //Creates the chat list to store reponses to be viewed.
-const ChatList = function(props){
+const PrivateChatList = function(props){
     if(props.chat.length === 0) {
         return (
-            <div className="chatList">
-                <h3 className="emptyChat">No Responses Yet!</h3>
+            <div className="privateChatList">
+                <h3 className="emptyPrivateChat">No Responses Yet!</h3>
             </div>
         );
     }
 
    //Creates the chat node of a user response.
-    const chatNodes = props.chat.map(function(chat) {
+    const privateChatNodes = props.chat.map(function(chat) {
 
         //Deletes the response from the database.
         const handleDelete = (e) => {
@@ -86,19 +73,7 @@ const ChatList = function(props){
             xhr.send();
         }
 
-        // //Creates a private chat with user selected
-        const handlePrivate = (e) => {
-           
-            e.preventDefault();
-            
-             let xhr = new XMLHttpRequest();
- 
-             xhr.open('POST', `/privateChat?_id=${chat._id}&username=${chat.username}`);
- 
-             xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
- 
-             xhr.send();
-         }
+       
 
         //Content viewable on chat page.
         return (
@@ -110,10 +85,7 @@ const ChatList = function(props){
                 <input type="hidden" name="_csrf" value={props.csrf} />
                 <input id='submitFriend' className="makeFriendSubmit" type="submit" value="Add Friend!" onClick={handleFriend} />
                 
-                {props.subscribed
-                    ? <input id='submitPrivateChat' className="makePrivateSubmit" type="button" value="Make Private Chat with User!" onClick={handlePrivate}/> 
-                    : <span/>
-                }
+                
             
             </div>
             
@@ -125,18 +97,18 @@ const ChatList = function(props){
     
     //Chat list to display nodes.
     return (
-        <div className="chatList">
-            {chatNodes}
+        <div className="privateChatList">
+            {privateChatNodes}
         </div>
     );
 };
 
 //Loads the incoming reponses from the server.
-const loadChatFromServer = () => {
+const loadPrivateChatFromServer = () => {
     sendAjax('GET', '/getPremium', null, (result) => {
-    sendAjax('GET', '/getChat', null, (data) => {
+    sendAjax('GET', '/getPrivateChat', null, (data) => {
         ReactDOM.render(
-            <ChatList chat={data.chat} subscribed={result.subscribed}/>, document.querySelector("#chat")
+            <PrivateChatList chat={data.chat} subscribed={result.subscribed}/>, document.querySelector("#privateChat")
         );
     });
     });
@@ -149,15 +121,15 @@ const loadChatFromServer = () => {
 //Sets up the react render calls.
 const setup = function(csrf){
     ReactDOM.render(
-        <ChatForm csrf={csrf} />, document.querySelector('#makeChat')
+        <PrivateChatForm csrf={csrf} />, document.querySelector('#makePrivateChat')
     );
 
     ReactDOM.render(
-        <ChatList chat={[]} />, document.querySelector('#chat'),
+        <PrivateChatList chat={[]} />, document.querySelector('#privateChat'),
     );
 
     
-        loadChatFromServer();
+        loadPrivateChatFromServer();
      
 };
 
