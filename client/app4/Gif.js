@@ -1,100 +1,119 @@
+
 let csrfToken;
 
-const handleGif = (e) => {
+//Handles user interactions with the upload form.
+const handleUpload = (e) => {
     e.preventDefault();
 
-    $("#domoMessage").animate({width:'hide'}, 350);
+    $("#alertMessage").animate({width:'hide'}, 350);
 
-    if($("#gifSearch").val() == '' || $("#gifLimit").val() == ''){
-        handleError("RAWR! All fields are required.");
-        return false;
-    }
+    let formData = new FormData();
 
-    sendAjax('POST', $("#gifForm").attr("action"), $("#gifForm").serialize(), function() {
-        loadGifFromServer();
-    });
+    formData.append("sampleFile", document.getElementById("upload").files[0]);
+
+    let xhr = new XMLHttpRequest();
+
+    xhr.open('POST', $("#uploadForm").attr("action"));
+
+
+    xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+
+    xhr.onload = () => loadFilesFromServer();
+
+    xhr.send(formData);
 
     return false;
 };
 
-
-const GifForm = (props) =>{
+//upload form for users to enter images to their private account.
+const UploadForm = (props) =>{
     return (
-        <form id="gifForm" 
-        onSubmit={handleGif}
-        name="gifForm"
-        action="/search"
+        <form id="uploadForm" 
+        onSubmit={handleUpload}
+        name="uploadForm"
+        action="/upload"
         method="POST"
-        className="gifForm"
+        encType="multipart/form-data"
+        className="uploadForm"
         >
-            <label htmlFor="search">Enter a Search Term: </label>
-            <input id="gifSearch" type="text" name="search" placeholder="Enter Search Term"/>
-            <label htmlFor="limit">Enter a Search Term: </label>
-            <input id="gifLimit" type="text" name="limit" placeholder="Enter Limit to search"/>
+             <label htmlFor="image">Enter a image to upload: </label>
+            <input id='upload' type="file" name="sampleFile" placeholder="Enter a file here"/>
+            
             <input type="hidden" name="_csrf" value={props.csrf} />
-            <input id='submits' className="makeChatSubmit" type="submit" value="Make Chat" />
+            <input id='submits' className='makeUploadSubmit' type='submit' value='Upload!' />
 
         </form>
     );
 };
 
-
-const GifList = function(props){
+//Creates the image list to store images to be viewed by the user that entered the image.
+const FileList = function(props){
     if(props.search.length === 0) {
         return (
-            <div className="searchList">
-                <h3 className="emptySearch">No Responses Yet!</h3>
+            <div className="fileList">
+                <h3 className="emptyfile">No Files Yet!</h3>
             </div>
         );
     }
 
-   
-    const GifNodes = props.chat.map(function(chat) {
-        
+   //Creates the image node of a user entered image.
+    const fileNodes = props.search.map(function(file) {
+        let fileRequestURL = `/retrieve?_id=${file._id}`;
+        const handleDelete = (e) => {
+            e.preventDefault();
+           
+            let xhr = new XMLHttpRequest();
+
+            xhr.open('DELETE', `/deleteMeme?_id=${file._id}`);
+
+            xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+
+            xhr.send();
+        }
+      
+        //Content viewable on file list page.
         return (
-            <div key={chat._id} className="chat">
-                <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-                <h3 className="chatUser"> User: {chat.username} </h3>
-                <h3 className="chatResponse"> Response: {chat.response} </h3>
-                <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" onClick={handleDelete}/>
-                <input id='submits' className="makeFriendSubmit" type="submit" value="Add Friend!" onClick={handleFriend} />
+            <div key={file._id} className="search">
+                <img src={fileRequestURL} alt="image" className="image" />
+                <input id='submitMeme' className="makeDeleteMeme" type="submit" value="Delete Image!" onClick={handleDelete}  />
             </div>
             
         );
         
     });
 
-    
-    
+    //file list to display nodes.
     return (
-        <div className="chatList">
-            {chatNodes}
+        <div className="fileList">
+            {fileNodes}
         </div>
     );
 };
 
-const loadChatFromServer = () => {
-    sendAjax('GET', '/getChat', null, (data) => {
+//Loads the incoming files from the server.
+const loadFilesFromServer = () => {
+    sendAjax('GET', '/getFileIds', null, (data) => {
         ReactDOM.render(
-            <ChatList chat={data.chat} />, document.querySelector("#chat")
+            <FileList search={data} />, document.querySelector("#search")
         );
     });
 };
 
+//Sets up the react render calls.
 const setup = function(csrf){
     ReactDOM.render(
-        <ChatForm csrf={csrf} />, document.querySelector('#makeChat')
+        <UploadForm csrf={csrf} />, document.querySelector('#makeSearch')
     );
 
     ReactDOM.render(
-        <ChatList chat={[]} />, document.querySelector('#chat'),
+        <FileList search={[]} />, document.querySelector('#search'),
     );
-    setInterval(() => {
-        
-        loadChatFromServer();
-      }, 100);
+    
+    loadFilesFromServer();
+  
 };
 
+//Gains a csrf token per user interaction.
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
        csrfToken = result.csrfToken; 

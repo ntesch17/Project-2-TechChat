@@ -13,6 +13,7 @@ const handleChat = (e) => {
 
     sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function() {
         //document.querySelector('#advertisments').remove()
+       
         loadChatFromServer();
     });
 
@@ -26,10 +27,11 @@ const ChatForm = (props) =>{
     const handleSubsribe = (e) => {
            
         e.preventDefault();
-        
+    
          let xhr = new XMLHttpRequest();
 
          xhr.open('POST', `/makePremium?subscribed=true`);
+         
 
          xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
 
@@ -87,24 +89,25 @@ const ChatList = function(props){
             xhr.send();
         }
 
-        // //Creates a private chat with user selected
-        const handlePrivate = (e) => {
+        // // //Creates a private chat with user selected
+        // const handlePrivate = (e) => {
            
-            e.preventDefault();
+        //     e.preventDefault();
             
-             let xhr = new XMLHttpRequest();
+        //      let xhr = new XMLHttpRequest();
  
-             xhr.open('POST', `/privateChat?_id=${chat._id}&username=${chat.username}`);
+        //      xhr.open('POST', `/privateChat?_id=${chat._id}&username=${chat.username}`);
  
-             xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+        //      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
  
-             xhr.send();
-         }
+        //      xhr.send();
+        //  }
         
         //Content viewable on chat page.
         return (
             
             <div key={chat._id} className="chat">
+                
                 <img src="/assets/img/chatIcon.png" alt="Chat Icon" className="chatIcon" />
                
                 <h3 className="chatUser"> User: {chat.username} </h3>
@@ -112,14 +115,16 @@ const ChatList = function(props){
                 <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" onClick={handleDelete}/>
                 <input type="hidden" name="_csrf" value={props.csrf} />
                 <input id='submitFriend' className="makeFriendSubmit" type="submit" value="Add Friend!" onClick={handleFriend} />
-                
+                {/* <img id='ad' src="/assets/img/advertisement3.png" alt="advertisement" className="advertisement" /> */}
+               
                 {props.subscribed
-                    //document.querySelector('#advertisments').remove()
-                    ? <input id='submitPrivateChat' className="makePrivateSubmit" type="button" value="Make Private Chat with User!" onClick={handlePrivate}/>
-                    : <span/>
+                    // ? $("#submitsP").hide()
+                    
+                    // // ? <input id='submitPrivateChat' className="makePrivateSubmit" type="button" value="Make Private Chat with User!" onClick={handlePrivate}/>
+                      //: <span/>
                     
                 }
-            
+             
             </div>
             
         );
@@ -140,10 +145,11 @@ const ChatList = function(props){
 const loadChatFromServer = () => {
    
     sendAjax('GET', '/getPremium', null, (result) => {
+        
     sendAjax('GET', '/getChat', null, (data) => {
         ReactDOM.render(
-            <ChatList chat={data.chat} subscribed={result.subscribed}/>, document.querySelector("#chat")
-            // /document.querySelector('#advertisments').remove()
+            <ChatList chat={data.chat} subscribed={result.subscribed}/>, document.querySelector("#chat"), 
+           
         );
     });
     });
@@ -162,7 +168,7 @@ const setup = function(csrf){
     ReactDOM.render(
         <ChatList chat={[]} />, document.querySelector('#chat'),
     );
-
+    
     
         loadChatFromServer();
      

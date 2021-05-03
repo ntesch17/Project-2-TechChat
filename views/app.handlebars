@@ -33,11 +33,20 @@
 
   <h1 id='content'>Chat:</h1>
 
-  <section id='advertisements'>
+{{#if subscribed}}
+  <section id='advertisments'>
+   
+  </section>
+
+{{else}}
+<section id='advertisments'>
    <img class='ad' src="/assets/img/advertisement3.png" alt="advertisement" className="advertisement" />
    <img class='ad' src="/assets/img/advertisement2.jpg" alt="advertisement" className="advertisement" />
   <img class='ad' src="/assets/img/advertisement4.jpg" alt="advertisement" className="advertisement" />
   </section>
+{{/if}}
+
+
   <section id="chat">
     
   </section>

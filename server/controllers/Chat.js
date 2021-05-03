@@ -147,8 +147,8 @@ const chatPage = (req, res) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred.' });
     }
-
-    return res.render('app', { csrfToken: req.csrfToken(), chat: docs });
+    console.log(req.session.account.subscribed)
+    return res.render('app', { csrfToken: req.csrfToken(), chat: docs, subscribed: req.session.account.subscribed });
   });
 };
 
@@ -202,7 +202,7 @@ const friendsPage = (req, res) => {
       return res.status(400).json({ error: 'An error occurred.' });
     }
 
-    return res.render('app3', { csrfToken: req.csrfToken(), account: docs });
+    return res.render('app3', { csrfToken: req.csrfToken(), account: docs, subscribed: req.session.account.subscribed });
   });
 };
 
