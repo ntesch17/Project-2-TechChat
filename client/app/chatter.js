@@ -17,6 +17,12 @@ const handleChat = (e) => {
         loadChatFromServer();
     });
 
+    sendAjax('POST', $("#submitsP").attr("action"), $("#submitsP").serialize(), function() {
+        //document.querySelector('#advertisments').remove()
+       
+        loadChatFromServer();
+    });
+
     return false;
 };
 
@@ -28,6 +34,9 @@ const ChatForm = (props) =>{
            
         e.preventDefault();
     
+        
+        
+
          let xhr = new XMLHttpRequest();
 
          xhr.open('POST', `/makePremium?subscribed=true`);
@@ -49,7 +58,7 @@ const ChatForm = (props) =>{
             <input id="chatResponse" type="text" name="response" placeholder="Enter Response"/>
             <input type="hidden" name="_csrf" value={props.csrf} />
             <input id='submits' className="makeChatSubmit" type="submit" value="Make Chat" />
-            <input id='submitsP' className="makeSubscribeSubmit" type="submit" value="Subscribe to Premium" onClick={handleSubsribe}/>
+            <input id='submitsP' className="makeSubscribeSubmit" type="submit" value="Subscribe to Premium" onClick={handleSubsribe}/> 
             
         </form>
     );
@@ -89,19 +98,19 @@ const ChatList = function(props){
             xhr.send();
         }
 
-        // // //Creates a private chat with user selected
-        // const handlePrivate = (e) => {
+        // //Creates a private chat with user selected
+        const handlePrivate = (e) => {
            
-        //     e.preventDefault();
+            e.preventDefault();
             
-        //      let xhr = new XMLHttpRequest();
+             let xhr = new XMLHttpRequest();
  
-        //      xhr.open('POST', `/privateChat?_id=${chat._id}&username=${chat.username}`);
+             xhr.open('POST', `/privateChat?_id=${chat._id}&username=${chat.username}`);
  
-        //      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+             xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
  
-        //      xhr.send();
-        //  }
+             xhr.send();
+         }
         
         //Content viewable on chat page.
         return (
@@ -115,6 +124,7 @@ const ChatList = function(props){
                 <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" onClick={handleDelete}/>
                 <input type="hidden" name="_csrf" value={props.csrf} />
                 <input id='submitFriend' className="makeFriendSubmit" type="submit" value="Add Friend!" onClick={handleFriend} />
+                
                 {/* <img id='ad' src="/assets/img/advertisement3.png" alt="advertisement" className="advertisement" /> */}
                
                 {props.subscribed

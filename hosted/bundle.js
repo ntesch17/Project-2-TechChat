@@ -15,6 +15,10 @@ const handleChat = e => {
     //document.querySelector('#advertisments').remove()
     loadChatFromServer();
   });
+  sendAjax('POST', $("#submitsP").attr("action"), $("#submitsP").serialize(), function () {
+    //document.querySelector('#advertisments').remove()
+    loadChatFromServer();
+  });
   return false;
 }; //Chat form for users to enter responses to each other.
 
@@ -88,15 +92,16 @@ const ChatList = function (props) {
       xhr.open('POST', `/addFriend?username=${chat.username}`);
       xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
       xhr.send();
-    }; // // //Creates a private chat with user selected
-    // const handlePrivate = (e) => {
-    //     e.preventDefault();
-    //      let xhr = new XMLHttpRequest();
-    //      xhr.open('POST', `/privateChat?_id=${chat._id}&username=${chat.username}`);
-    //      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
-    //      xhr.send();
-    //  }
-    //Content viewable on chat page.
+    }; // //Creates a private chat with user selected
+
+
+    const handlePrivate = e => {
+      e.preventDefault();
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST', `/privateChat?_id=${chat._id}&username=${chat.username}`);
+      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+      xhr.send();
+    }; //Content viewable on chat page.
 
 
     return /*#__PURE__*/React.createElement("div", {

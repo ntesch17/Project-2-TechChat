@@ -271,4 +271,3 @@ module.exports.makeFriend = makeFriend;
 module.exports.deleteFriend = deleteFriend;
 module.exports.makePremium = makePremium;
 module.exports.getPremium = getPremium;
-
