@@ -12,6 +12,7 @@ const handleChat = (e) => {
     }
 
     sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function() {
+        //document.querySelector('#advertisments').remove()
         loadChatFromServer();
     });
 
@@ -46,8 +47,8 @@ const ChatForm = (props) =>{
             <input id="chatResponse" type="text" name="response" placeholder="Enter Response"/>
             <input type="hidden" name="_csrf" value={props.csrf} />
             <input id='submits' className="makeChatSubmit" type="submit" value="Make Chat" />
-            <input id='submits' className="makeSubscribeSubmit" type="submit" value="Subscribe to Premium" onClick={handleSubsribe}/>
-
+            <input id='submitsP' className="makeSubscribeSubmit" type="submit" value="Subscribe to Premium" onClick={handleSubsribe}/>
+            
         </form>
     );
 };
@@ -78,7 +79,7 @@ const ChatList = function(props){
            e.preventDefault();
            
             let xhr = new XMLHttpRequest();
-
+            //document.querySelector('#advertisments').remove()
             xhr.open('POST', `/addFriend?username=${chat.username}`);
 
             xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
@@ -99,11 +100,13 @@ const ChatList = function(props){
  
              xhr.send();
          }
-
+        
         //Content viewable on chat page.
         return (
+            
             <div key={chat._id} className="chat">
                 <img src="/assets/img/chatIcon.png" alt="Chat Icon" className="chatIcon" />
+               
                 <h3 className="chatUser"> User: {chat.username} </h3>
                 <h3 className="chatResponse"> Response: {chat.response} </h3>
                 <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" onClick={handleDelete}/>
@@ -111,8 +114,10 @@ const ChatList = function(props){
                 <input id='submitFriend' className="makeFriendSubmit" type="submit" value="Add Friend!" onClick={handleFriend} />
                 
                 {props.subscribed
-                    ? <input id='submitPrivateChat' className="makePrivateSubmit" type="button" value="Make Private Chat with User!" onClick={handlePrivate}/> 
+                    //document.querySelector('#advertisments').remove()
+                    ? <input id='submitPrivateChat' className="makePrivateSubmit" type="button" value="Make Private Chat with User!" onClick={handlePrivate}/>
                     : <span/>
+                    
                 }
             
             </div>
@@ -133,10 +138,12 @@ const ChatList = function(props){
 
 //Loads the incoming reponses from the server.
 const loadChatFromServer = () => {
+   
     sendAjax('GET', '/getPremium', null, (result) => {
     sendAjax('GET', '/getChat', null, (data) => {
         ReactDOM.render(
             <ChatList chat={data.chat} subscribed={result.subscribed}/>, document.querySelector("#chat")
+            // /document.querySelector('#advertisments').remove()
         );
     });
     });

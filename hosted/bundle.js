@@ -12,6 +12,7 @@ const handleChat = e => {
   }
 
   sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function () {
+    //document.querySelector('#advertisments').remove()
     loadChatFromServer();
   });
   return false;
@@ -52,7 +53,7 @@ const ChatForm = props => {
     type: "submit",
     value: "Make Chat"
   }), /*#__PURE__*/React.createElement("input", {
-    id: "submits",
+    id: "submitsP",
     className: "makeSubscribeSubmit",
     type: "submit",
     value: "Subscribe to Premium",
@@ -82,7 +83,8 @@ const ChatList = function (props) {
 
     const handleFriend = e => {
       e.preventDefault();
-      let xhr = new XMLHttpRequest();
+      let xhr = new XMLHttpRequest(); //document.querySelector('#advertisments').remove()
+
       xhr.open('POST', `/addFriend?username=${chat.username}`);
       xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
       xhr.send();
@@ -125,7 +127,10 @@ const ChatList = function (props) {
       type: "submit",
       value: "Add Friend!",
       onClick: handleFriend
-    }), props.subscribed ? /*#__PURE__*/React.createElement("input", {
+    }), props.subscribed //document.querySelector('#advertisments').remove()
+    ?
+    /*#__PURE__*/
+    React.createElement("input", {
       id: "submitPrivateChat",
       className: "makePrivateSubmit",
       type: "button",
@@ -146,7 +151,8 @@ const loadChatFromServer = () => {
       ReactDOM.render( /*#__PURE__*/React.createElement(ChatList, {
         chat: data.chat,
         subscribed: result.subscribed
-      }), document.querySelector("#chat"));
+      }), document.querySelector("#chat") // /document.querySelector('#advertisments').remove()
+      );
     });
   });
 }; //Sets up the react render calls.
