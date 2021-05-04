@@ -27,21 +27,11 @@ const ChatForm = props => {
     xhr.open('POST', `/makePremium?subscribed=true`);
 
     xhr.onload = () => {
-      console.log(xhr.response);
-
       if (xhr.response) {
         let obj = JSON.parse(xhr.response);
-        console.log(obj);
 
         if (obj.redirect) {
           window.location = obj.redirect;
-          let x = document.getElementById("submitsP");
-
-          if (x.style.display === "none") {
-            x.style.display = "block";
-          } else {
-            x.style.display = "none";
-          }
         }
       }
     };
@@ -73,11 +63,11 @@ const ChatForm = props => {
     className: "makeChatSubmit",
     type: "submit",
     value: "Make Chat"
-  }), /*#__PURE__*/React.createElement("input", {
+  }), props.subscribed ? document.getElementById('submitsP').disabled = 'true' : /*#__PURE__*/React.createElement("input", {
     id: "submitsP",
     className: "makeSubscribeSubmit",
     type: "submit",
-    value: "Subscribe to Premium",
+    value: "Subscribe to Premium (No Ads)",
     onClick: handleSubsribe
   }));
 }; //Creates the chat list to store reponses to be viewed.
@@ -147,10 +137,7 @@ const ChatList = function (props) {
       type: "submit",
       value: "Add Friend!",
       onClick: handleFriend
-    }), props.subscribed // ? $("#submitsP").hide()
-    // // ? <input id='submitPrivateChat' className="makePrivateSubmit" type="button" value="Make Private Chat with User!" onClick={handlePrivate}/>
-    //: <span/>
-    );
+    }));
   }); //Chat list to display nodes.
 
   return /*#__PURE__*/React.createElement("div", {

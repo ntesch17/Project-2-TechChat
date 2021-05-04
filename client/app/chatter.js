@@ -41,17 +41,14 @@ const ChatForm = (props) =>{
               
                if(obj.redirect) {
                    window.location = obj.redirect;
+
                    
-                   let x = document.getElementById("submitsP");
-                   if (x.style.display === "none") {
-                     x.style.display = "block";
-                   } else {
-                     x.style.display = "none";
-                   }
                  
                  
                }
+               
            }
+           
        }
         
          xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
@@ -70,8 +67,15 @@ const ChatForm = (props) =>{
             <input id="chatResponse" type="text" name="response" placeholder="Enter Response"/>
             <input type="hidden" name="_csrf" value={props.csrf} />
             <input id='submits' className="makeChatSubmit" type="submit" value="Make Chat" />
-            <input id='submitsP' className="makeSubscribeSubmit" type="submit" value="Subscribe to Premium" onClick={handleSubsribe}/> 
             
+            
+             {props.subscribed
+                     ? document.getElementById('submitsP').disabled = 'true'
+                    
+                   
+                      : <input id='submitsP'  className="makeSubscribeSubmit" type="submit" value="Subscribe to Premium (No Ads)" onClick={handleSubsribe}/>
+                    
+                }
         </form>
     );
 };
@@ -139,13 +143,7 @@ const ChatList = function(props){
                 
                 {/* <img id='ad' src="/assets/img/advertisement3.png" alt="advertisement" className="advertisement" /> */}
                
-                {props.subscribed
-                    // ? $("#submitsP").hide()
-                    
-                    // // ? <input id='submitPrivateChat' className="makePrivateSubmit" type="button" value="Make Private Chat with User!" onClick={handlePrivate}/>
-                      //: <span/>
-                    
-                }
+               
              
             </div>
             
@@ -170,11 +168,13 @@ const loadChatFromServer = () => {
         
     sendAjax('GET', '/getChat', null, (data) => {
         ReactDOM.render(
-            <ChatList chat={data.chat} subscribed={result.subscribed}/>, document.querySelector("#chat"), 
+            <ChatList chat={data.chat} subscribed={result.subscribed}/>, document.querySelector("#chat")
            
         );
+        
     });
     });
+    
 
    
 };
