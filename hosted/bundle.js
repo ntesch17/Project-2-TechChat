@@ -25,21 +25,28 @@ const ChatForm = props => {
     e.preventDefault();
     let xhr = new XMLHttpRequest();
     xhr.open('POST', `/makePremium?subscribed=true`);
-    xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
 
     xhr.onload = () => {
       console.log(xhr.response);
 
-      if (xhr.response && xhr.getResponseHeader("Content-Type") === "application/json") {
+      if (xhr.response) {
         let obj = JSON.parse(xhr.response);
         console.log(obj);
 
         if (obj.redirect) {
           window.location = obj.redirect;
+          let x = document.getElementById("submitsP");
+
+          if (x.style.display === "none") {
+            x.style.display = "block";
+          } else {
+            x.style.display = "none";
+          }
         }
       }
     };
 
+    xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
     xhr.send();
   };
 
