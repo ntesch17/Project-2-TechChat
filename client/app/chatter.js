@@ -17,11 +17,7 @@ const handleChat = (e) => {
         loadChatFromServer();
     });
 
-    sendAjax('POST', $("#submitsP").attr("action"), $("#submitsP").serialize(), function() {
-        //document.querySelector('#advertisments').remove()
-       
-        loadChatFromServer();
-    });
+    
 
     return false;
 };
@@ -41,6 +37,7 @@ const ChatForm = (props) =>{
 
          xhr.open('POST', `/makePremium?subscribed=true`);
          
+         xhr.onload = () => sendAjax('POST', '/chat', null, redirect);
 
          xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
 

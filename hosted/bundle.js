@@ -15,10 +15,6 @@ const handleChat = e => {
     //document.querySelector('#advertisments').remove()
     loadChatFromServer();
   });
-  sendAjax('POST', $("#submitsP").attr("action"), $("#submitsP").serialize(), function () {
-    //document.querySelector('#advertisments').remove()
-    loadChatFromServer();
-  });
   return false;
 }; //Chat form for users to enter responses to each other.
 
@@ -29,6 +25,9 @@ const ChatForm = props => {
     e.preventDefault();
     let xhr = new XMLHttpRequest();
     xhr.open('POST', `/makePremium?subscribed=true`);
+
+    xhr.onload = () => sendAjax('POST', '/chat', null, redirect);
+
     xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
     xhr.send();
   };
