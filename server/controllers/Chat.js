@@ -3,7 +3,6 @@ const models = require('../models');
 const { Chat } = models;
 const { Account } = models;
 
-
 const privateChatPage = (req, res) => {
   Chat.ChatModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
@@ -16,7 +15,7 @@ const privateChatPage = (req, res) => {
 };
 
 const getPrivateChat = (req, res) => {
-  console.log(req.query._id)
+  console.log(req.query._id);
   return Chat.ChatModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
@@ -53,18 +52,18 @@ const getPrivateChat = (req, res) => {
 const makePrivateChat = (req, res) => {
   console.log(req.query._id);
   console.log(req.session.account._id);
-  Account.AccountModel.findOne({ _id: req.query._id }, (err, doc) => {
+  Account.AccountModel.findOne({ _id: req.query._id }, (err) => {
     // Error Handling Here
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred.' });
     }
     const chatData = {
-      
+
       username: req.query.username,
       owner: req.query._id,
     };
-    //doc.friendsList.push(req.query.username);
+    // doc.friendsList.push(req.query.username);
     const newChat = new Chat.ChatModel(chatData);
     const savePromise = newChat.save();
 
@@ -79,7 +78,7 @@ const makePrivateChat = (req, res) => {
 };
 
 const deletePrivateMessage = (req, res) => {
-  console.log(req.query._id)
+  console.log(req.query._id);
   if (req.query._id) {
     Chat.ChatModel.deleteOne({ _id: req.query._id }, (err) => {
       console.log('Data deleted'); // Success
@@ -94,14 +93,14 @@ const deletePrivateMessage = (req, res) => {
   }
 };
 
-const makePremium = (req,res) => {
+const makePremium = (req, res) => {
   Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
     // Error Handling Here
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred.' });
     }
-    let account = doc;
+    const account = doc;
     account.subscribed = true;
 
     req.session.account.subscribed = true;
@@ -109,7 +108,7 @@ const makePremium = (req,res) => {
     const savePromise = account.save();
 
     savePromise.then(() => res.status(200).json({
-      redirect: '/chat'
+      redirect: '/chat',
     }));
 
     savePromise.catch((err2) => {
@@ -118,18 +117,15 @@ const makePremium = (req,res) => {
     });
     return savePromise;
   });
-  
-}
+};
 
-const getPremium = (req,res) => {
-  if(req.session.account.subscribed) {
-    return res.status(200).json({ subscribed: true});
+const getPremium = (req, res) => {
+  if (req.session.account.subscribed) {
+    return res.status(200).json({ subscribed: true });
   }
-  else {
-    return res.status(200).json({ subscribed: false});
-  }
-  
-}
+
+  return res.status(200).json({ subscribed: false });
+};
 
 // Gathers chat responses from all users.
 const getAllChats = (req, res) => {
@@ -149,7 +145,7 @@ const chatPage = (req, res) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred.' });
     }
-    console.log(req.session.account.subscribed)
+    console.log(req.session.account.subscribed);
     return res.render('app', { csrfToken: req.csrfToken(), chat: docs, subscribed: req.session.account.subscribed });
   });
 };

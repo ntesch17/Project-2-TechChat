@@ -16,6 +16,46 @@ html, body {
     float:left;
     border-radius: 8px;
 }
+#submitsP {
+    transition: background-color 0.4s ease;
+    height:50px;
+    width: 300px;
+    font-size: 20px;
+    display: inline;
+    background-color: #E66063;
+    border-radius: 2px;
+    border-color: #E66063;
+    color: black;
+    text-decoration: none;
+}
+
+#submitsP:link, #submitsP:visited, #submitsP:hover, #submitsP:active {
+    color: black;
+}
+
+#submitsP:hover {
+    transition: background-color 0.4s ease;
+    background-color: #F1A7A9;
+}
+
+#downloadButton {
+    transition: background-color 0.4s ease;
+    display: inline;
+    background-color: #E66063;
+    border-radius: 2px;
+    border-color: #E66063;
+    color: black;
+    text-decoration: none;
+}
+
+#downloadButton:link, #downloadButton:visited, #downloadButton:hover, #downloadButton:active {
+    color: black;
+}
+
+#downloadButton:hover {
+    transition: background-color 0.4s ease;
+    background-color: #F1A7A9;
+}
 
 #title {
     margin: 0 auto;

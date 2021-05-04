@@ -2,18 +2,11 @@ const models = require('../models');
 
 const { Account } = models;
 
-
-
-
 // Creates the login page.
-const loginPage = (req, res) => {
-  res.status(200).render('login', { csrfToken: req.csrfToken() });
-};
+const loginPage = (req, res) => res.status(200).render('login', { csrfToken: req.csrfToken() });
 
 // Creates the password change page.
-const changePage = (req, res) => {
-  res.status(200).render('changelogin', { csrfToken: req.csrfToken() });
-};
+const changePage = (req, res) => res.status(200).render('changelogin', { csrfToken: req.csrfToken() });
 
 // Password change function then redirecting them to login page.
 const changeLogin = (request, response) => {
@@ -24,9 +17,9 @@ const changeLogin = (request, response) => {
   req.body.oldPass = `${req.body.oldPass}`;
   req.body.newPass = `${req.body.newPass}`;
   req.body.newPass2 = `${req.body.newPass2}`;
- 
+
   const username = `${req.session.account.username}`;
-  
+
   if (!req.body.oldPass || !req.body.newPass || !req.body.newPass2) {
     return res.status(400).json({ error: 'All fields are required! ' });
   }
@@ -36,48 +29,29 @@ const changeLogin = (request, response) => {
   }
 
   Account.AccountModel.authenticate(username, req.body.oldPass, (err, account) => {
-
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred.' });
     }
-    
+
     Account.AccountModel.generateHash(req.body.newPass, (salt, hash) => {
-
-      //In here you can update the "account" from authenticate, instead of finding it again with findOne.
-
-      let updateAccount = account;
+      const updateAccount = account;
 
       updateAccount.password = hash;
 
       updateAccount.salt = salt;
 
-
-
       const savePromise = updateAccount.save();
 
-  
+      savePromise.then(() => res.status(200).json({ redirect: '/login' }));
 
-      savePromise.then(() => {
-
-        res.status(200).json({ redirect: '/login' });
-
-      });
-
-  
-
-      savePromise.catch((err) => {
-
+      savePromise.catch(() => {
         console.log(err);
 
-  
-
         return res.status(400).json({ error: 'An error occured!' });
-
       });
-
+    });
   });
-});
 };
 
 // Logs the user out and destroys there session.
@@ -143,7 +117,7 @@ const signup = (request, response) => {
 
     savePromise.then(() => {
       req.session.account = Account.AccountModel.toAPI(newAccount);
-      res.status(200).json({ redirect: '/chat' });
+      return res.status(200).json({ redirect: '/chat' });
     });
 
     savePromise.catch((err) => {

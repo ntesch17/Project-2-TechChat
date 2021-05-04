@@ -22,7 +22,7 @@ const memePage = (req, res) => {
       return res.status(400).json({ error: 'An error occurred.' });
     }
 
-    return res.render('app5', { csrfToken: req.csrfToken(), search: docs });
+    return res.render('app5', { csrfToken: req.csrfToken(), search: docs, subscribed: req.session.account.subscribed });
   });
 };
 
@@ -34,7 +34,7 @@ const uploadPage = (req, res) => {
       return res.status(400).json({ error: 'An error occurred.' });
     }
 
-    return res.render('app4', { csrfToken: req.csrfToken(), search: docs });
+    return res.render('app4', { csrfToken: req.csrfToken(), search: docs, subscribed: req.session.account.subscribed });
   });
 };
 

@@ -17,44 +17,14 @@ const handleChat = (e) => {
         loadChatFromServer();
     });
 
-   
-
+  
     return false;
 };
 
 //Chat form for users to enter responses to each other.
 const ChatForm = (props) =>{
 
-    //Adds a friend to the user signed in.
-    const handleSubsribe = (e) => {
-           
-        e.preventDefault();
-
-         let xhr = new XMLHttpRequest();
-        
-         xhr.open('POST', `/makePremium?subscribed=true`);
-         
-         xhr.onload = () => {
-            
-           if(xhr.response) {
-               let obj = JSON.parse(xhr.response);
-              
-               if(obj.redirect) {
-                   window.location = obj.redirect;
-
-                   
-                 
-                 
-               }
-               
-           }
-           
-       }
-        
-         xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
-        
-         xhr.send();
-     }
+    
     return (
         <form id="chatForm" 
         onSubmit={handleChat}
@@ -67,15 +37,8 @@ const ChatForm = (props) =>{
             <input id="chatResponse" type="text" name="response" placeholder="Enter Response"/>
             <input type="hidden" name="_csrf" value={props.csrf} />
             <input id='submits' className="makeChatSubmit" type="submit" value="Make Chat" />
+            {/* <input id='submitsP' className="makeSubscribeSubmit" type="submit" value="Subscribe to Premium" onClick={handleSubsribe}/>  */}
             
-            
-             {props.subscribed
-                     ? document.getElementById('submitsP').disabled = 'true'
-                    
-                   
-                      : <input id='submitsP'  className="makeSubscribeSubmit" type="submit" value="Subscribe to Premium (No Ads)" onClick={handleSubsribe}/>
-                    
-                }
         </form>
     );
 };
@@ -97,6 +60,17 @@ const ChatList = function(props){
         const handleDelete = (e) => {
             let xhr = new XMLHttpRequest();
             xhr.open('DELETE', `/deleteMessage?_id=${chat._id}&_csrf=${csrfToken}`);
+            xhr.onload = () => {
+                console.log(xhr.response)
+                if(xhr.response) {
+                    let obj = JSON.parse(xhr.response);
+                   
+                    if(obj.redirect) {
+                        window.location = obj.redirect;
+                    }
+                    
+                }
+            }
             xhr.send();
         }
 
@@ -114,6 +88,8 @@ const ChatList = function(props){
             xhr.send();
         }
 
+
+     
         // //Creates a private chat with user selected
         // const handlePrivate = (e) => {
            
@@ -129,6 +105,7 @@ const ChatList = function(props){
         //  }
         
         //Content viewable on chat page.
+        console.log(props.friend);
         return (
             
             <div key={chat._id} className="chat">
@@ -141,22 +118,49 @@ const ChatList = function(props){
                 <input type="hidden" name="_csrf" value={props.csrf} />
                 <input id='submitFriend' className="makeFriendSubmit" type="submit" value="Add Friend!" onClick={handleFriend} />
                 
-                {/* <img id='ad' src="/assets/img/advertisement3.png" alt="advertisement" className="advertisement" /> */}
-               
-               
-             
+                
             </div>
+            
             
         );
         
     });
 
+   //Adds a friend to the user signed in.
+   const handleSubsribe = (e) => {
+           
+    e.preventDefault();
 
+    
+    
+
+     let xhr = new XMLHttpRequest();
+
+     xhr.open('POST', `/makePremium?subscribed=true`);
+     
+     xhr.onload = () => {
+        
+        if(xhr.response) {
+            let obj = JSON.parse(xhr.response);
+           
+            if(obj.redirect) {
+                window.location = obj.redirect;
+            }
+            
+        }
+    }
+     xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+
+     xhr.send();
+ }
     
     //Chat list to display nodes.
     return (
         <div className="chatList">
-            {chatNodes}
+            {chatNodes},
+                  {props.subscribed == false &&
+                    <input id='submitsP' className="makeSubscribeSubmit" type="submit" value="Subscribe to Premium" onClick={handleSubsribe}/> 
+                }
         </div>
     );
 };
@@ -168,13 +172,11 @@ const loadChatFromServer = () => {
         
     sendAjax('GET', '/getChat', null, (data) => {
         ReactDOM.render(
-            <ChatList chat={data.chat} subscribed={result.subscribed}/>, document.querySelector("#chat")
+            <ChatList chat={data.chat} subscribed={result.subscribed}/>, document.querySelector("#chat"), 
            
         );
-        
     });
     });
-    
 
    
 };

@@ -70,12 +70,28 @@ const FileList = function(props){
 
             xhr.send();
         }
+
+        // const handleMeme = (e) => {
+        //     e.preventDefault();
+           
+        //     let xhr = new XMLHttpRequest();
+
+        //     xhr.open('POST', `/makeMemeChat?_id=${file._id}`);
+
+        //     xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+
+        //     xhr.send();
+        // }
       
         //Content viewable on file list page.
         return (
             <div key={file._id} className="search">
                 <img src={fileRequestURL} alt="image" className="image" />
                 <input id='submitMeme' className="makeDeleteMeme" type="submit" value="Delete Image!" onClick={handleDelete}  />
+                {/* <input id='submitMeme' className="makeDeleteMeme" type="submit" value="Send to meme chat!" onClick={handleMeme}  /> */}
+                <a href={fileRequestURL} download="Your_Image">
+                <button id="downloadButton" type="button">Download Image!</button>
+                </a>
             </div>
             
         );

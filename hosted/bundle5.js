@@ -19,7 +19,13 @@ const MemeList = function (props) {
       src: fileRequestURL,
       alt: "image",
       className: "image"
-    }));
+    }), /*#__PURE__*/React.createElement("a", {
+      href: fileRequestURL,
+      download: "Your_Image"
+    }, /*#__PURE__*/React.createElement("button", {
+      id: "downloadButton",
+      type: "button"
+    }, "Download Image!")));
   }); //meme list to display nodes.
 
   return /*#__PURE__*/React.createElement("div", {

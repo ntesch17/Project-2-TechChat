@@ -66,7 +66,14 @@ const FileList = function (props) {
       xhr.open('DELETE', `/deleteMeme?_id=${file._id}`);
       xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
       xhr.send();
-    }; //Content viewable on file list page.
+    }; // const handleMeme = (e) => {
+    //     e.preventDefault();
+    //     let xhr = new XMLHttpRequest();
+    //     xhr.open('POST', `/makeMemeChat?_id=${file._id}`);
+    //     xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+    //     xhr.send();
+    // }
+    //Content viewable on file list page.
 
 
     return /*#__PURE__*/React.createElement("div", {
@@ -82,7 +89,13 @@ const FileList = function (props) {
       type: "submit",
       value: "Delete Image!",
       onClick: handleDelete
-    }));
+    }), /*#__PURE__*/React.createElement("a", {
+      href: fileRequestURL,
+      download: "Your_Image"
+    }, /*#__PURE__*/React.createElement("button", {
+      id: "downloadButton",
+      type: "button"
+    }, "Download Image!")));
   }); //file list to display nodes.
 
   return /*#__PURE__*/React.createElement("div", {

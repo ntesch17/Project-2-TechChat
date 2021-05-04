@@ -18,6 +18,9 @@ const MemeList = function(props){
         return (
             <div key={file._id} className="meme">
                 <img src={fileRequestURL} alt="image" className="image" />
+                <a href={fileRequestURL} download="Your_Image">
+                <button id="downloadButton" type="button">Download Image!</button>
+                </a>
             </div>
         );
     });   
