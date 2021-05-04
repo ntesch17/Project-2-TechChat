@@ -17,7 +17,7 @@ const handleChat = (e) => {
         loadChatFromServer();
     });
 
-    
+   
 
     return false;
 };
@@ -29,18 +29,24 @@ const ChatForm = (props) =>{
     const handleSubsribe = (e) => {
            
         e.preventDefault();
-    
-        
-        
 
          let xhr = new XMLHttpRequest();
-
+        
          xhr.open('POST', `/makePremium?subscribed=true`);
          
-         xhr.onload = () => sendAjax('POST', '/chat', null, redirect);
-
+         xhr.onload = () => {
+            console.log(xhr.response)
+           if(xhr.response && xhr.getResponseHeader("Content-Type") === "application/json") {
+               let obj = JSON.parse(xhr.response);
+               console.log(obj)
+               if(obj.redirect) {
+                   window.location = obj.redirect;
+               }
+           }
+       }
+        
          xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
-
+        
          xhr.send();
      }
     return (
@@ -96,18 +102,18 @@ const ChatList = function(props){
         }
 
         // //Creates a private chat with user selected
-        const handlePrivate = (e) => {
+        // const handlePrivate = (e) => {
            
-            e.preventDefault();
+        //     e.preventDefault();
             
-             let xhr = new XMLHttpRequest();
+        //      let xhr = new XMLHttpRequest();
  
-             xhr.open('POST', `/privateChat?_id=${chat._id}&username=${chat.username}`);
+        //      xhr.open('POST', `/privateChat?_id=${chat._id}&username=${chat.username}`);
  
-             xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
+        //      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
  
-             xhr.send();
-         }
+        //      xhr.send();
+        //  }
         
         //Content viewable on chat page.
         return (

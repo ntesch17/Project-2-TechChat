@@ -108,7 +108,9 @@ const makePremium = (req,res) => {
 
     const savePromise = account.save();
 
-    savePromise.then(() => res.status(200).send());
+    savePromise.then(() => res.status(200).json({
+      redirect: '/chat'
+    }));
 
     savePromise.catch((err2) => {
       console.log(err2);
