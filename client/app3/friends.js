@@ -11,13 +11,23 @@ const FriendsList = function(props){
     }
 
     //Creates the friend node of the user added as a friend.
-    const friendNodes = props.friend.map(function(friend) { 
+const friendNodes = props.friend.map(function(friend) { 
 
 //Deletes the response from the database.
 const handleRemove = (e) => {
-
     let xhr = new XMLHttpRequest();
+   
     xhr.open('DELETE', `/deleteFriend?friend=${friend}&_csrf=${csrfToken}`);
+    
+    xhr.onload = () => { 
+        if(xhr.response) {
+            let obj = JSON.parse(xhr.response);
+            if(obj.redirect) {
+                window.location = obj.redirect;
+                window.alert("Friend Deleted!");
+            }
+        }
+    }
     xhr.send();
 }
 

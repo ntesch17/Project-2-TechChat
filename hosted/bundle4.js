@@ -64,6 +64,20 @@ const FileList = function (props) {
       e.preventDefault();
       let xhr = new XMLHttpRequest();
       xhr.open('DELETE', `/deleteMeme?_id=${file._id}`);
+
+      xhr.onload = () => {
+        console.log(xhr.response);
+
+        if (xhr.response) {
+          let obj = JSON.parse(xhr.response);
+
+          if (obj.redirect) {
+            window.alert("Meme Deleted!");
+            window.location = obj.redirect;
+          }
+        }
+      };
+
       xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
       xhr.send();
     }; // const handleMeme = (e) => {

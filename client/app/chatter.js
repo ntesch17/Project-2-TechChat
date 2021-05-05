@@ -12,19 +12,14 @@ const handleChat = (e) => {
     }
 
     sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function() {
-        //document.querySelector('#advertisments').remove()
-       
         loadChatFromServer();
     });
 
-  
     return false;
 };
 
 //Chat form for users to enter responses to each other.
 const ChatForm = (props) =>{
-
-    
     return (
         <form id="chatForm" 
         onSubmit={handleChat}
@@ -37,8 +32,6 @@ const ChatForm = (props) =>{
             <input id="chatResponse" type="text" name="response" placeholder="Enter Response"/>
             <input type="hidden" name="_csrf" value={props.csrf} />
             <input id='submits' className="makeChatSubmit" type="submit" value="Make Chat" />
-            {/* <input id='submitsP' className="makeSubscribeSubmit" type="submit" value="Subscribe to Premium" onClick={handleSubsribe}/>  */}
-            
         </form>
     );
 };
@@ -55,17 +48,17 @@ const ChatList = function(props){
 
    //Creates the chat node of a user response.
     const chatNodes = props.chat.map(function(chat) {
-
         //Deletes the response from the database.
         const handleDelete = (e) => {
             let xhr = new XMLHttpRequest();
             xhr.open('DELETE', `/deleteMessage?_id=${chat._id}&_csrf=${csrfToken}`);
             xhr.onload = () => {
-                console.log(xhr.response)
+               
                 if(xhr.response) {
                     let obj = JSON.parse(xhr.response);
                    
                     if(obj.redirect) {
+                        window.alert("Message Deleted!");
                         window.location = obj.redirect;
                     }
                     
@@ -88,7 +81,6 @@ const ChatList = function(props){
                     window.alert("User already on friends list!");
                 }
             }
-
             xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
 
             xhr.send();
@@ -111,9 +103,8 @@ const ChatList = function(props){
         //  }
         
         //Content viewable on chat page.
-        console.log(props.friendsList);
+        
         return (
-            
             <div key={chat._id} className="chat">
                 
                 <img src="/assets/img/chatIcon.png" alt="Chat Icon" className="chatIcon" />
@@ -123,22 +114,14 @@ const ChatList = function(props){
                 <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" onClick={handleDelete}/>
                 <input type="hidden" name="_csrf" value={props.csrf} />
                 <input id='submitFriend' className="makeFriendSubmit" type="submit" value="Add Friend!" onClick={handleFriend} />
-                
-                
             </div>
-            
-            
         );
-        
     });
 
    //Adds a friend to the user signed in.
    const handleSubsribe = (e) => {
            
     e.preventDefault();
-
-    
-    
 
      let xhr = new XMLHttpRequest();
 
@@ -150,6 +133,7 @@ const ChatList = function(props){
             let obj = JSON.parse(xhr.response);
            
             if(obj.redirect) {
+                window.alert("You are now subscribed, enjoy no more advertisements!");
                 window.location = obj.redirect;
             }
             
@@ -173,18 +157,15 @@ const ChatList = function(props){
 
 //Loads the incoming reponses from the server.
 const loadChatFromServer = () => {
-   
     sendAjax('GET', '/getPremium', null, (result) => {
         
-    sendAjax('GET', '/getChat', null, (data) => {
-        ReactDOM.render(
-            <ChatList chat={data.chat} subscribed={result.subscribed}/>, document.querySelector("#chat"), 
+        sendAjax('GET', '/getChat', null, (data) => {
+            ReactDOM.render(
+                <ChatList chat={data.chat} subscribed={result.subscribed}/>, document.querySelector("#chat"), 
            
-        );
+             );
+         });
     });
-    });
-
-   
 };
 
 
@@ -198,10 +179,7 @@ const setup = function(csrf){
     ReactDOM.render(
         <ChatList chat={[]} />, document.querySelector('#chat'),
     );
-    
-    
-        loadChatFromServer();
-     
+    loadChatFromServer();
 };
 
 //Gains a csrf token per user interaction.

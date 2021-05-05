@@ -12,7 +12,6 @@ const handleChat = e => {
   }
 
   sendAjax('POST', $("#chatForm").attr("action"), $("#chatForm").serialize(), function () {
-    //document.querySelector('#advertisments').remove()
     loadChatFromServer();
   });
   return false;
@@ -64,12 +63,11 @@ const ChatList = function (props) {
       xhr.open('DELETE', `/deleteMessage?_id=${chat._id}&_csrf=${csrfToken}`);
 
       xhr.onload = () => {
-        console.log(xhr.response);
-
         if (xhr.response) {
           let obj = JSON.parse(xhr.response);
 
           if (obj.redirect) {
+            window.alert("Message Deleted!");
             window.location = obj.redirect;
           }
         }
@@ -104,7 +102,6 @@ const ChatList = function (props) {
     //Content viewable on chat page.
 
 
-    console.log(props.friendsList);
     return /*#__PURE__*/React.createElement("div", {
       key: chat._id,
       className: "chat"
@@ -145,6 +142,7 @@ const ChatList = function (props) {
         let obj = JSON.parse(xhr.response);
 
         if (obj.redirect) {
+          window.alert("You are now subscribed, enjoy no more advertisements!");
           window.location = obj.redirect;
         }
       }

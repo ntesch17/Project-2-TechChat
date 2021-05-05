@@ -55,16 +55,18 @@ const getNote = (request, response) => {
 };
 
 // Deletes the note from the database.
-const deleteNote = (req) => {
-  if (req.query._id) {
-    Note.NoteModel.deleteOne({ _id: req.query._id }, (err) => {
-      console.log('Data deleted'); // Success
-
-      if (err) {
-        console.log(err);
-      }
-    });
+const deleteNote = (req, res) => {
+  if (!req.query._id) {
+    return res.status(400).json({ error: 'Note ID Required.' });
   }
+  return Note.NoteModel.deleteOne({ _id: req.query._id }, (err) => {
+    console.log('Data deleted'); // Success
+
+    if (err) {
+      console.log(err);
+    }
+    return res.status(200).json({ redirect: '/note' });
+  });
 };
 
 module.exports.notePage = notePage;

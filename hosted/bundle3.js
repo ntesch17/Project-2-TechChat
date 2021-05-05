@@ -15,6 +15,18 @@ const FriendsList = function (props) {
     const handleRemove = e => {
       let xhr = new XMLHttpRequest();
       xhr.open('DELETE', `/deleteFriend?friend=${friend}&_csrf=${csrfToken}`);
+
+      xhr.onload = () => {
+        if (xhr.response) {
+          let obj = JSON.parse(xhr.response);
+
+          if (obj.redirect) {
+            window.location = obj.redirect;
+            window.alert("Friend Deleted!");
+          }
+        }
+      };
+
       xhr.send();
     };
 

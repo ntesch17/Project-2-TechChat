@@ -51,7 +51,20 @@ const NoteList = function(props){
     const noteNodes = props.note.map(function(note) {
         const handleDelete = (e) => {
             let xhr = new XMLHttpRequest();
+
             xhr.open('DELETE', `/deleteNote?_id=${note._id}&_csrf=${csrfToken}`);
+            
+            xhr.onload = () => { 
+                if(xhr.response) {
+                    let obj = JSON.parse(xhr.response);
+                    if(obj.redirect) {
+                        window.alert("Note Deleted!");
+                        window.location = obj.redirect;
+                    }
+                    
+                }
+            }
+            
             xhr.send();
         }
 

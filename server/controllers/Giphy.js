@@ -132,7 +132,7 @@ const deleteMeme = (req, res) => {
         return res.status(400).json({ error: 'An error occurred.' });
       }
 
-      return res.status(200).json({ success: 'Data Deleted.' });
+      return res.status(200).json({ redirect: '/files' });
     });
   }
 };

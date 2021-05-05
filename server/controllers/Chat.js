@@ -186,7 +186,7 @@ const deleteMessage = (req, res) => {
       return res.status(400).json({ error: 'An error occurred.' });
     }
 
-    return res.status(200).json({ success: 'Data Deleted.' });
+    return res.status(200).json({ redirect: '/chat' });
   });
 };
 
@@ -259,7 +259,7 @@ const deleteFriend = (req, res) => {
 
     doc.friendsList.pull(req.query.friend);
     const savePromise = doc.save();
-    savePromise.then(() => res.status(200).json({ success: 'Friend Deleted!' }));
+    savePromise.then(() => res.status(200).json({ redirect: '/friends' }));
 
     savePromise.catch((err2) => {
       console.log(err2);
