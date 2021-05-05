@@ -3,95 +3,94 @@ const models = require('../models');
 const { Chat } = models;
 const { Account } = models;
 
-const privateChatPage = (req, res) => {
-  Chat.ChatModel.findByOwner(req.session.account._id, (err, docs) => {
-    if (err) {
-      console.log(err);
-      return res.status(400).json({ error: 'An error occurred.' });
-    }
+// const privateChatPage = (req, res) =>
+// Chat.ChatModel.findByOwner(req.session.account._id, (err, docs) => {
+//   if (err) {
+//     console.log(err);
+//     return res.status(400).json({ error: 'An error occurred.' });
+//   }
 
-    return res.render('app6', { csrfToken: req.csrfToken(), chat: docs });
-  });
-};
+//   return res.render('app6', { csrfToken: req.csrfToken(), chat: docs });
+// });
 
-const getPrivateChat = (req, res) => {
-  console.log(req.query._id);
-  return Chat.ChatModel.findByOwner(req.session.account._id, (err, docs) => {
-    if (err) {
-      console.log(err);
-      return res.status(400).json({ error: 'An error occured.' });
-    }
+// const getPrivateChat = (req, res) => {
+//   console.log(req.query._id);
+//   return Chat.ChatModel.findByOwner(req.session.account._id, (err, docs) => {
+//     if (err) {
+//       console.log(err);
+//       return res.status(400).json({ error: 'An error occured.' });
+//     }
 
-    return res.json({ chat: docs });
-  });
-  // Chat.ChatModel.findOne({ _id: req.session.account._id }, (err, doc) => {
-  //   // Error Handling Here
-  //   if (err) {
-  //     console.log(err);
-  //     return res.status(400).json({ error: 'An error occurred.' });
-  //   }
-  //   let updatePrivate = doc;
+//     return res.json({ chat: docs });
+//   });
+// Chat.ChatModel.findOne({ _id: req.session.account._id }, (err, doc) => {
+//   // Error Handling Here
+//   if (err) {
+//     console.log(err);
+//     return res.status(400).json({ error: 'An error occurred.' });
+//   }
+//   let updatePrivate = doc;
 
-  //   updatePrivate.owner = req.query._id;
+//   updatePrivate.owner = req.query._id;
 
-  //   updatePrivate.username = req.session.account.username;
+//   updatePrivate.username = req.session.account.username;
 
-  //   // doc.friendsList.push(req.query.username);
-  //   const savePromise = updatePrivate.save();
+//   // doc.friendsList.push(req.query.username);
+//   const savePromise = updatePrivate.save();
 
-  //   savePromise.then(() => res.status(200).json({ redirect: '/getPrivateChat' }));
+//   savePromise.then(() => res.status(200).json({ redirect: '/getPrivateChat' }));
 
-  //   savePromise.catch((err2) => {
-  //     console.log(err2);
-  //     return res.status(400).json({ error: 'An error occurred.' });
-  //   });
-  //   return savePromise;
-  // });
-};
+//   savePromise.catch((err2) => {
+//     console.log(err2);
+//     return res.status(400).json({ error: 'An error occurred.' });
+//   });
+//   return savePromise;
+// });
+// };
 
-const makePrivateChat = (req, res) => {
-  console.log(req.query._id);
-  console.log(req.session.account._id);
-  Account.AccountModel.findOne({ _id: req.query._id }, (err) => {
-    // Error Handling Here
-    if (err) {
-      console.log(err);
-      return res.status(400).json({ error: 'An error occurred.' });
-    }
-    const chatData = {
+// const makePrivateChat = (req, res) => {
+//   console.log(req.query._id);
+//   console.log(req.session.account._id);
+//   return Account.AccountModel.findOne({ _id: req.query._id }, (err) => {
+//     // Error Handling Here
+//     if (err) {
+//       console.log(err);
+//       return res.status(400).json({ error: 'An error occurred.' });
+//     }
+//     const chatData = {
 
-      username: req.query.username,
-      owner: req.query._id,
-    };
-    // doc.friendsList.push(req.query.username);
-    const newChat = new Chat.ChatModel(chatData);
-    const savePromise = newChat.save();
+//       username: req.query.username,
+//       owner: req.query._id,
+//     };
+//     // doc.friendsList.push(req.query.username);
+//     const newChat = new Chat.ChatModel(chatData);
+//     const savePromise = newChat.save();
 
-    savePromise.then(() => res.status(200).json({ redirect: '/privateChat' }));
+//     savePromise.then(() => res.status(200).json({ redirect: '/privateChat' }));
 
-    savePromise.catch((err2) => {
-      console.log(err2);
-      return res.status(400).json({ error: 'An error occurred.' });
-    });
-    return savePromise;
-  });
-};
+//     savePromise.catch((err2) => {
+//       console.log(err2);
+//       return res.status(400).json({ error: 'An error occurred.' });
+//     });
+//     return savePromise;
+//   });
+// };
 
-const deletePrivateMessage = (req, res) => {
-  console.log(req.query._id);
-  if (req.query._id) {
-    Chat.ChatModel.deleteOne({ _id: req.query._id }, (err) => {
-      console.log('Data deleted'); // Success
+// const deletePrivateMessage = (req, res) => {
+//   console.log(req.query._id);
+//   if (req.query._id) {
+//     Chat.ChatModel.deleteOne({ _id: req.query._id }, (err) => {
+//       console.log('Data deleted'); // Success
 
-      if (err) {
-        console.log(err);
-        return res.status(400).json({ error: 'An error occurred.' });
-      }
+//       if (err) {
+//         console.log(err);
+//         return res.status(400).json({ error: 'An error occurred.' });
+//       }
 
-      return res.status(200).json({ success: 'Data Deleted.' });
-    });
-  }
-};
+//       return res.status(200).json({ success: 'Data Deleted.' });
+//     });
+//   }
+// };
 
 const makePremium = (req, res) => {
   Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
@@ -139,16 +138,14 @@ const getAllChats = (req, res) => {
 };
 
 // Renders chatting page.
-const chatPage = (req, res) => {
-  Chat.ChatModel.findByOwner(req.session.account._id, (err, docs) => {
-    if (err) {
-      console.log(err);
-      return res.status(400).json({ error: 'An error occurred.' });
-    }
-    console.log(req.session.account.subscribed);
-    return res.render('app', { csrfToken: req.csrfToken(), chat: docs, subscribed: req.session.account.subscribed });
-  });
-};
+const chatPage = (req, res) => Chat.ChatModel.findByOwner(req.session.account._id, (err, docs) => {
+  if (err) {
+    console.log(err);
+    return res.status(400).json({ error: 'An error occurred.' });
+  }
+  console.log(req.session.account.subscribed);
+  return res.render('app', { csrfToken: req.csrfToken(), chat: docs, subscribed: req.session.account.subscribed });
+});
 
 // Creates chats between users based on responses entered.
 const makeChat = (req, res) => {
@@ -178,18 +175,19 @@ const makeChat = (req, res) => {
 
 // Deletes the message from the database.
 const deleteMessage = (req, res) => {
-  if (req.query._id) {
-    Chat.ChatModel.deleteOne({ _id: req.query._id }, (err) => {
-      console.log('Data deleted'); // Success
-
-      if (err) {
-        console.log(err);
-        return res.status(400).json({ error: 'An error occurred.' });
-      }
-
-      return res.status(200).json({ success: 'Data Deleted.' });
-    });
+  if (!req.query._id) {
+    return res.status(400).json({ error: 'Message ID Required.' });
   }
+  return Chat.ChatModel.deleteOne({ _id: req.query._id }, (err) => {
+    console.log('Data deleted'); // Success
+
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred.' });
+    }
+
+    return res.status(200).json({ success: 'Data Deleted.' });
+  });
 };
 
 // Renders the friends page for a user.
@@ -214,6 +212,13 @@ const makeFriend = (req, res) => {
       return res.status(400).json({ error: 'An error occurred.' });
     }
 
+    // console.dir(doc.friendsList.toObject());
+
+    if (doc.friendsList.toObject().includes(req.query.username)
+    || doc.friendsList.toObject().includes(req.session.account.username)) {
+      return res.status(204).send();
+    }
+
     doc.friendsList.push(req.query.username);
     const savePromise = doc.save();
 
@@ -228,41 +233,50 @@ const makeFriend = (req, res) => {
 };
 
 // Creates the friends list based on users ids.
-const getFriendsList = (req, res) => {
-  Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
+const getFriendsList = (req, res) => Account.AccountModel.findOne(
+  { _id: req.session.account._id }, (err, doc) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred.' });
     }
     return res.status(200).json({ friend: doc.friendsList });
-  }).lean();
-};
+  },
+).lean();
 
 // Deletes the message from the database.
 const deleteFriend = (req, res) => {
-  if (req.query.friend) {
-    console.log('here');
-    Account.AccountModel.deleteOne({ friend: req.query.friend }, (err) => {
-      console.log('Data deleted'); // Success
-
-      if (err) {
-        console.log(err);
-        return res.status(400).json({ error: 'An error occurred.' });
-      }
-
-      return res.status(200).json({ success: 'Data Deleted.' });
-    });
+  if (!req.query.friend) {
+    return res.status(400).json({ error: 'Username is required' });
   }
+
+  return Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
+    console.log('Data deleted'); // Success
+
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred.' });
+    }
+
+    doc.friendsList.pull(req.query.friend);
+    const savePromise = doc.save();
+    savePromise.then(() => res.status(200).json({ success: 'Friend Deleted!' }));
+
+    savePromise.catch((err2) => {
+      console.log(err2);
+      return res.status(400).json({ error: 'An error occurred.' });
+    });
+    return savePromise;
+  });
 };
 
 module.exports.chatPage = chatPage;
 module.exports.getChat = getAllChats;
 module.exports.make = makeChat;
 module.exports.deleteMessage = deleteMessage;
-module.exports.privateChatPage = privateChatPage;
-module.exports.getPrivateChat = getPrivateChat;
-module.exports.makePrivate = makePrivateChat;
-module.exports.deletePrivateMessage = deletePrivateMessage;
+// module.exports.privateChatPage = privateChatPage;
+// module.exports.getPrivateChat = getPrivateChat;
+// module.exports.makePrivate = makePrivateChat;
+// module.exports.deletePrivateMessage = deletePrivateMessage;
 module.exports.getFriendsList = getFriendsList;
 module.exports.friendsPage = friendsPage;
 module.exports.makeFriend = makeFriend;

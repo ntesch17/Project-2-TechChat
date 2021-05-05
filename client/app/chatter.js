@@ -82,6 +82,12 @@ const ChatList = function(props){
             let xhr = new XMLHttpRequest();
             //document.querySelector('#advertisments').remove()
             xhr.open('POST', `/addFriend?username=${chat.username}`);
+            
+            xhr.onload = () => {
+                if(xhr.status === 204){
+                    window.alert("User already on friends list!");
+                }
+            }
 
             xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
 
@@ -105,7 +111,7 @@ const ChatList = function(props){
         //  }
         
         //Content viewable on chat page.
-        console.log(props.friend);
+        console.log(props.friendsList);
         return (
             
             <div key={chat._id} className="chat">

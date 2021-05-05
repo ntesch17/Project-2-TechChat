@@ -28,13 +28,13 @@ const changeLogin = (request, response) => {
     return res.status(400).json({ error: 'Passwords do not match!' });
   }
 
-  Account.AccountModel.authenticate(username, req.body.oldPass, (err, account) => {
+  return Account.AccountModel.authenticate(username, req.body.oldPass, (err, account) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred.' });
     }
 
-    Account.AccountModel.generateHash(req.body.newPass, (salt, hash) => {
+    return Account.AccountModel.generateHash(req.body.newPass, (salt, hash) => {
       const updateAccount = account;
 
       updateAccount.password = hash;
