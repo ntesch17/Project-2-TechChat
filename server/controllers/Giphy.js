@@ -22,7 +22,12 @@ const memePage = (req, res) => {
       return res.status(400).json({ error: 'An error occurred with the meme page.' });
     }
 
-    return res.render('app5', { csrfToken: req.csrfToken(), search: docs, subscribed: req.session.account.subscribed, username: req.session.account.username});
+    return res.render('app5', {
+      csrfToken: req.csrfToken(),
+      search: docs,
+      subscribed: req.session.account.subscribed,
+      username: req.session.account.username,
+    });
   });
 };
 
@@ -34,7 +39,12 @@ const uploadPage = (req, res) => {
       return res.status(400).json({ error: 'An error occurred with the upload page.' });
     }
 
-    return res.render('app4', { csrfToken: req.csrfToken(), search: docs, subscribed: req.session.account.subscribed, username: req.session.account.username });
+    return res.render('app4', {
+      csrfToken: req.csrfToken(),
+      search: docs,
+      subscribed: req.session.account.subscribed,
+      username: req.session.account.username,
+    });
   });
 };
 
@@ -126,16 +136,16 @@ const deleteMeme = (req, res) => {
   if (!req.query.friend) {
     return res.status(400).json({ error: 'Meme ID is required.' });
   }
-   return Search.FileModel.deleteOne({ _id: req.query._id }, (err) => {
-      console.log('Data deleted'); // Success
+  return Search.FileModel.deleteOne({ _id: req.query._id }, (err) => {
+    console.log('Data deleted'); // Success
 
-      if (err) {
-        console.log(err);
-        return res.status(400).json({ error: 'An error occurred.' });
-      }
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred.' });
+    }
 
-      return res.status(200).json({ success: 'Data Deleted.' });
-    });
+    return res.status(200).json({ success: 'Data Deleted.' });
+  });
 };
 
 // Finally, export everything.

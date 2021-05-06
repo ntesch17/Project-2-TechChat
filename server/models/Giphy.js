@@ -65,13 +65,13 @@ const FileSchema = new mongoose.Schema({
   },
 });
 
-//Sending the name and username to the API.
+// Sending the name and username to the API.
 FileSchema.statics.toAPI = (doc) => ({
   name: doc.name,
   username: doc.username,
 });
 
-//Finding by owner of the uploader.
+// Finding by owner of the uploader.
 FileSchema.statics.findByOwner = (ownerID, callback) => {
   const search = {
     owner: convertID(ownerID),

@@ -3,7 +3,7 @@ const models = require('../models');
 const { Chat } = models;
 const { Account } = models;
 
-//Switches the users account to include no advertisements.
+// Switches the users account to include no advertisements.
 const makePremium = (req, res) => {
   Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
     // Error Handling Here
@@ -30,7 +30,7 @@ const makePremium = (req, res) => {
   });
 };
 
-//Obtains if the user is subscribed or not in order to turn off advertisments.
+// Obtains if the user is subscribed or not in order to turn off advertisments.
 const getPremium = (req, res) => {
   if (req.session.account.subscribed) {
     return res.status(200).json({ subscribed: true });
@@ -57,7 +57,12 @@ const chatPage = (req, res) => Chat.ChatModel.findByOwner(req.session.account._i
     return res.status(400).json({ error: 'An error occurred with the chat page.' });
   }
   console.log(req.session.account.subscribed);
-  return res.render('app', { csrfToken: req.csrfToken(), chat: docs, subscribed: req.session.account.subscribed, username: req.session.account.username });
+  return res.render('app', {
+    csrfToken: req.csrfToken(),
+    chat: docs,
+    subscribed: req.session.account.subscribed,
+    username: req.session.account.username,
+  });
 });
 
 // Creates chats between users based on responses entered.
@@ -111,7 +116,12 @@ const friendsPage = (req, res) => {
       return res.status(400).json({ error: 'An error occurred with friends list page.' });
     }
 
-    return res.render('app3', { csrfToken: req.csrfToken(), account: docs, subscribed: req.session.account.subscribed, username: req.session.account.username });
+    return res.render('app3', {
+      csrfToken: req.csrfToken(),
+      account: docs,
+      subscribed: req.session.account.subscribed,
+      username: req.session.account.username,
+    });
   });
 };
 

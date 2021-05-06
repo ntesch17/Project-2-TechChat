@@ -10,7 +10,12 @@ const notePage = (req, res) => {
       return res.status(400).json({ error: 'An error occurred with the note page.' });
     }
 
-    return res.render('app2', { csrfToken: req.csrfToken(), note: docs, subscribed: req.session.account.subscribed, username: req.session.account.username });
+    return res.render('app2', {
+      csrfToken: req.csrfToken(),
+      note: docs,
+      subscribed: req.session.account.subscribed,
+      username: req.session.account.username,
+    });
   });
 };
 
