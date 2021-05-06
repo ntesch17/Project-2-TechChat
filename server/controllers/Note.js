@@ -7,17 +7,17 @@ const notePage = (req, res) => {
   Note.NoteModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
-      return res.status(400).json({ error: 'An error occurred.' });
+      return res.status(400).json({ error: 'An error occurred with the note page.' });
     }
 
-    return res.render('app2', { csrfToken: req.csrfToken(), note: docs, subscribed: req.session.account.subscribed });
+    return res.render('app2', { csrfToken: req.csrfToken(), note: docs, subscribed: req.session.account.subscribed, username: req.session.account.username });
   });
 };
 
 // Creates a note based on the note entered by the user.
 const makeNote = (req, res) => {
   if (!req.body.note) {
-    return res.status(400).json({ error: 'A note is required' });
+    return res.status(400).json({ error: 'A note is required!' });
   }
 
   const noteData = {
@@ -33,8 +33,7 @@ const makeNote = (req, res) => {
 
   notePromise.catch((err) => {
     console.log(err);
-
-    return res.status(400).json({ error: 'An error occured.' });
+    return res.status(400).json({ error: 'An error occured with creating note.' });
   });
   return notePromise;
 };
@@ -47,7 +46,7 @@ const getNote = (request, response) => {
   return Note.NoteModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
-      return res.status(400).json({ error: 'An error occured.' });
+      return res.status(400).json({ error: 'An error occured with displaying note.' });
     }
 
     return res.status(200).json({ note: docs });
@@ -59,11 +58,13 @@ const deleteNote = (req, res) => {
   if (!req.query._id) {
     return res.status(400).json({ error: 'Note ID Required.' });
   }
+
   return Note.NoteModel.deleteOne({ _id: req.query._id }, (err) => {
     console.log('Data deleted'); // Success
 
     if (err) {
       console.log(err);
+      return res.status(400).json({ error: 'An error occurred with deleting a note.' });
     }
     return res.status(200).json({ redirect: '/note' });
   });

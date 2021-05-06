@@ -16,12 +16,15 @@
   <h1 id='title'>Tech Chat</h1>
   <h1 id='author'>By: Nicholas Tesch</h1>
   <nav><a href="/login"><img id="logo" src="/assets/img/TechChatLogo.png" alt="face logo"/></a>
+  {{#if username}}
+    <div class='navlink'><b>Welcome: {{this.username}}!</b></div>
+  {{/if}}
     <div class="navlink"><a href="/logout">Log out</a></div>
-    <div class="navlink"><a href="/chat">Chat Page</a></div>
-    <div class="navlink"><a href="/note">Notes Page</a></div>
-    <div class="navlink"><a href="/friends">Friends List Page</a></div>
-    <div class="navlink"><a href="/memes">Meme Chat Page</a></div>
-    <div class="navlink"><a href="/change">Change Password Page</a></div>
+    <div class="navlink"><a href="/chat">Chat</a></div>
+    <div class="navlink"><a href="/note">Notes</a></div>
+    <div class="navlink"><a href="/friends">Friends List</a></div>
+    <div class="navlink"><a href="/memes">Meme Chat</a></div>
+    <div class="navlink"><a href="/change">Change Password</a></div>
   </nav>
 
   <h1 id='contentTitle'>Tech Imager:</h1>

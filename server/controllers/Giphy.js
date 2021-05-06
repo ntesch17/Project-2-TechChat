@@ -7,7 +7,7 @@ const getAllFiles = (req, res) => {
   Search.FileModel.find({}, (err, docs) => {
     if (err) {
       console.log(err);
-      return res.status(400).json({ error: 'An error occurred.' });
+      return res.status(400).json({ error: 'An error occurred with gaining all IDs.' });
     }
 
     return res.status(200).json({ search: docs });
@@ -19,10 +19,10 @@ const memePage = (req, res) => {
   Search.FileModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
-      return res.status(400).json({ error: 'An error occurred.' });
+      return res.status(400).json({ error: 'An error occurred with the meme page.' });
     }
 
-    return res.render('app5', { csrfToken: req.csrfToken(), search: docs, subscribed: req.session.account.subscribed });
+    return res.render('app5', { csrfToken: req.csrfToken(), search: docs, subscribed: req.session.account.subscribed, username: req.session.account.username});
   });
 };
 
@@ -31,17 +31,17 @@ const uploadPage = (req, res) => {
   Search.FileModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
-      return res.status(400).json({ error: 'An error occurred.' });
+      return res.status(400).json({ error: 'An error occurred with the upload page.' });
     }
 
-    return res.render('app4', { csrfToken: req.csrfToken(), search: docs, subscribed: req.session.account.subscribed });
+    return res.render('app4', { csrfToken: req.csrfToken(), search: docs, subscribed: req.session.account.subscribed, username: req.session.account.username });
   });
 };
 
 // Our upload handler.
 const uploadFile = (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).json({ error: 'No files were uploaded' });
+    return res.status(400).json({ error: 'No files were uploaded.' });
   }
 
   const { sampleFile } = req.files;
@@ -123,8 +123,10 @@ const getFileIDs = (req, res) => {
 
 // Deletes the message from the database.
 const deleteMeme = (req, res) => {
-  if (req.query._id) {
-    Search.FileModel.deleteOne({ _id: req.query._id }, (err) => {
+  if (!req.query.friend) {
+    return res.status(400).json({ error: 'Meme ID is required.' });
+  }
+   return Search.FileModel.deleteOne({ _id: req.query._id }, (err) => {
       console.log('Data deleted'); // Success
 
       if (err) {
@@ -132,9 +134,8 @@ const deleteMeme = (req, res) => {
         return res.status(400).json({ error: 'An error occurred.' });
       }
 
-      return res.status(200).json({ redirect: '/files' });
+      return res.status(200).json({ success: 'Data Deleted.' });
     });
-  }
 };
 
 // Finally, export everything.

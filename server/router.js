@@ -9,12 +9,6 @@ const router = (app) => {
   app.get('/getPremium', mid.requiresLogin, controllers.Chat.getPremium);
   app.post('/makePremium', mid.requiresLogin, controllers.Chat.makePremium);
 
-  // Private Chat (Premium Feature)
-  // app.get('/getPrivateChat', mid.requiresLogin, controllers.Chat.getPrivateChat);
-  // app.get('/privateChat', mid.requiresLogin, controllers.Chat.privateChatPage);
-  // app.post('/privateChat', mid.requiresLogin, controllers.Chat.makePrivate);
-  // app.delete('/deleteMessage', mid.requiresLogin, controllers.Chat.deletePrivateMessage);
-
   // Setup Notes page.
   app.get('/getNote', mid.requiresLogin, controllers.Note.getNote);
   app.get('/note', mid.requiresLogin, controllers.Note.notePage);
@@ -52,7 +46,6 @@ const router = (app) => {
   app.get('/memes', mid.requiresLogin, controllers.Search.memePage);
   app.get('/getFileIds', mid.requiresLogin, controllers.Search.getFileIDs);
   app.get('/getFileAllIds', mid.requiresLogin, controllers.Search.getAllFiles);
-  // app.post('/makeMemeChat', mid.requiresLogin, controllers.Search.makeMemeChat);
   app.delete('/deleteMeme', mid.requiresLogin, controllers.Search.deleteMeme);
 
   // Setup post requests to /upload.

@@ -31,7 +31,7 @@ const changeLogin = (request, response) => {
   return Account.AccountModel.authenticate(username, req.body.oldPass, (err, account) => {
     if (err) {
       console.log(err);
-      return res.status(400).json({ error: 'An error occurred.' });
+      return res.status(400).json({ error: 'An error occurred with authenicating password.' });
     }
 
     return Account.AccountModel.generateHash(req.body.newPass, (salt, hash) => {
@@ -47,8 +47,7 @@ const changeLogin = (request, response) => {
 
       savePromise.catch(() => {
         console.log(err);
-
-        return res.status(400).json({ error: 'An error occured!' });
+        return res.status(400).json({ error: 'An error occured with generating hash for password!' });
       });
     });
   });
@@ -79,7 +78,6 @@ const login = (request, response) => {
     }
 
     req.session.account = Account.AccountModel.toAPI(account);
-
     return res.status(200).json({ redirect: '/chat' });
   });
 };
@@ -127,7 +125,7 @@ const signup = (request, response) => {
         return res.status(400).json({ error: 'Username already in use.' });
       }
 
-      return res.status(400).json({ error: 'An error occured!' });
+      return res.status(400).json({ error: 'An error occured with creating password hash!' });
     });
   });
 };
