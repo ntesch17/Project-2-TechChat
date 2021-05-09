@@ -73,37 +73,24 @@ const ChatList = function(props){
            e.preventDefault();
            
             let xhr = new XMLHttpRequest();
-            //document.querySelector('#advertisments').remove()
+           
             xhr.open('POST', `/addFriend?username=${chat.username}`);
             
             xhr.onload = () => {
                 if(xhr.status === 204){
                     window.alert("User already on friends list!");
                 }
+
+                if(xhr.status === 200){
+                    window.alert("Friend Added!");
+                }
             }
             xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
 
             xhr.send();
         }
-
-
-     
-        // //Creates a private chat with user selected
-        // const handlePrivate = (e) => {
-           
-        //     e.preventDefault();
-            
-        //      let xhr = new XMLHttpRequest();
- 
-        //      xhr.open('POST', `/privateChat?_id=${chat._id}&username=${chat.username}`);
- 
-        //      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
- 
-        //      xhr.send();
-        //  }
-        
+      
         //Content viewable on chat page.
-        
         return (
             <div key={chat._id} className="chat">
                 
@@ -118,7 +105,7 @@ const ChatList = function(props){
         );
     });
 
-   //Adds a friend to the user signed in.
+   //Adds subscription to the user signed in.
    const handleSubsribe = (e) => {
            
     e.preventDefault();
@@ -128,7 +115,6 @@ const ChatList = function(props){
      xhr.open('POST', `/makePremium?subscribed=true`);
      
      xhr.onload = () => {
-        
         if(xhr.response) {
             let obj = JSON.parse(xhr.response);
            
@@ -136,7 +122,6 @@ const ChatList = function(props){
                 window.alert("You are now subscribed, enjoy no more advertisements!");
                 window.location = obj.redirect;
             }
-            
         }
     }
      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
@@ -167,8 +152,6 @@ const loadChatFromServer = () => {
          });
     });
 };
-
-
 
 //Sets up the react render calls.
 const setup = function(csrf){

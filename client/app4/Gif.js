@@ -59,6 +59,8 @@ const FileList = function(props){
    //Creates the image node of a user entered image.
     const fileNodes = props.search.map(function(file) {
         let fileRequestURL = `/retrieve?_id=${file._id}`;
+
+        //Handles deleting of a meme.
         const handleDelete = (e) => {
             e.preventDefault();
            
@@ -75,7 +77,6 @@ const FileList = function(props){
                         window.alert("Meme Deleted!");
                         window.location = obj.redirect;
                     }
-                    
                 }
             }
 
@@ -84,18 +85,6 @@ const FileList = function(props){
             xhr.send();
         }
 
-        // const handleMeme = (e) => {
-        //     e.preventDefault();
-           
-        //     let xhr = new XMLHttpRequest();
-
-        //     xhr.open('POST', `/makeMemeChat?_id=${file._id}`);
-
-        //     xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
-
-        //     xhr.send();
-        // }
-      
         //Content viewable on file list page.
         return (
             <div key={file._id} className="search">
@@ -106,9 +95,7 @@ const FileList = function(props){
                 <button id="downloadButton" type="button">Download Image!</button>
                 </a>
             </div>
-            
         );
-        
     });
 
     //file list to display nodes.
@@ -139,7 +126,6 @@ const setup = function(csrf){
     );
     
     loadFilesFromServer();
-  
 };
 
 //Gains a csrf token per user interaction.

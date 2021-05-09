@@ -28,7 +28,8 @@ const FriendsList = function (props) {
       };
 
       xhr.send();
-    };
+    }; //Viewable friends list.
+
 
     return /*#__PURE__*/React.createElement("div", {
       key: friend,

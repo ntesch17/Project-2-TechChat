@@ -49,6 +49,8 @@ const NoteList = function(props){
 
     //Creates the note node of a user note.
     const noteNodes = props.note.map(function(note) {
+        
+        //Handles deleting a note on user account.
         const handleDelete = (e) => {
             let xhr = new XMLHttpRequest();
 
@@ -61,7 +63,6 @@ const NoteList = function(props){
                         window.alert("Note Deleted!");
                         window.location = obj.redirect;
                     }
-                    
                 }
             }
             
@@ -76,7 +77,6 @@ const NoteList = function(props){
                 <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Note" onClick={handleDelete}/>
             </div>
         );
-        
     });
     
     //note list to display nodes.

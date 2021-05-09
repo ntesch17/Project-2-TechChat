@@ -58,7 +58,7 @@ const FileList = function (props) {
 
 
   const fileNodes = props.search.map(function (file) {
-    let fileRequestURL = `/retrieve?_id=${file._id}`;
+    let fileRequestURL = `/retrieve?_id=${file._id}`; //Handles deleting of a meme.
 
     const handleDelete = e => {
       e.preventDefault();
@@ -80,14 +80,7 @@ const FileList = function (props) {
 
       xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
       xhr.send();
-    }; // const handleMeme = (e) => {
-    //     e.preventDefault();
-    //     let xhr = new XMLHttpRequest();
-    //     xhr.open('POST', `/makeMemeChat?_id=${file._id}`);
-    //     xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
-    //     xhr.send();
-    // }
-    //Content viewable on file list page.
+    }; //Content viewable on file list page.
 
 
     return /*#__PURE__*/React.createElement("div", {

@@ -79,27 +79,22 @@ const ChatList = function (props) {
 
     const handleFriend = e => {
       e.preventDefault();
-      let xhr = new XMLHttpRequest(); //document.querySelector('#advertisments').remove()
-
+      let xhr = new XMLHttpRequest();
       xhr.open('POST', `/addFriend?username=${chat.username}`);
 
       xhr.onload = () => {
         if (xhr.status === 204) {
           window.alert("User already on friends list!");
         }
+
+        if (xhr.status === 200) {
+          window.alert("Friend Added!");
+        }
       };
 
       xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
       xhr.send();
-    }; // //Creates a private chat with user selected
-    // const handlePrivate = (e) => {
-    //     e.preventDefault();
-    //      let xhr = new XMLHttpRequest();
-    //      xhr.open('POST', `/privateChat?_id=${chat._id}&username=${chat.username}`);
-    //      xhr.setRequestHeader('CSRF-TOKEN', csrfToken);
-    //      xhr.send();
-    //  }
-    //Content viewable on chat page.
+    }; //Content viewable on chat page.
 
 
     return /*#__PURE__*/React.createElement("div", {
@@ -130,7 +125,7 @@ const ChatList = function (props) {
       value: "Add Friend!",
       onClick: handleFriend
     }));
-  }); //Adds a friend to the user signed in.
+  }); //Adds subscription to the user signed in.
 
   const handleSubsribe = e => {
     e.preventDefault();

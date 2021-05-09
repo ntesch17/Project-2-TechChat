@@ -133,7 +133,7 @@ const getFileIDs = (req, res) => {
 
 // Deletes the message from the database.
 const deleteMeme = (req, res) => {
-  if (!req.query.friend) {
+  if (!req.query._id) {
     return res.status(400).json({ error: 'Meme ID is required.' });
   }
   return Search.FileModel.deleteOne({ _id: req.query._id }, (err) => {
@@ -144,7 +144,7 @@ const deleteMeme = (req, res) => {
       return res.status(400).json({ error: 'An error occurred.' });
     }
 
-    return res.status(200).json({ success: 'Data Deleted.' });
+    return res.status(200).json({ redirect: '/files' });
   });
 };
 

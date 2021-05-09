@@ -31,6 +31,7 @@ const handleRemove = (e) => {
     xhr.send();
 }
 
+//Viewable friends list.
     return (
             <div key={friend} className="friend">
                 <img src="/assets/img/chatIcon.png" alt="Chat Icon" className="chatIcon" />

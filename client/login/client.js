@@ -52,7 +52,6 @@ const LoginWindow = (props) =>{
             <input id="pass" type="password" name="pass" placeholder="Password"/>
             <input type="hidden" name="_csrf" value={props.csrf} />
             <input className="formSubmit" type="submit" value="sign in"/>
-
         </form>
     );
 };
@@ -74,7 +73,6 @@ const SignupWindow = (props) =>{
             <input id="pass2" type="password" name="pass2" placeholder="Retype Password"/>
             <input type="hidden" name="_csrf" value={props.csrf} />
             <input className="formSubmit" type="submit" value="sign Up" />
-
         </form>
     );
 };

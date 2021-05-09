@@ -56,7 +56,7 @@ const chatPage = (req, res) => Chat.ChatModel.findByOwner(req.session.account._i
     console.log(err);
     return res.status(400).json({ error: 'An error occurred with the chat page.' });
   }
-  console.log(req.session.account.subscribed);
+
   return res.render('app', {
     csrfToken: req.csrfToken(),
     chat: docs,
@@ -160,6 +160,7 @@ const getFriendsList = (req, res) => Account.AccountModel.findOne(
       console.log(err);
       return res.status(400).json({ error: 'An error occurred with obtaining friends list.' });
     }
+
     return res.status(200).json({ friend: doc.friendsList });
   },
 ).lean();

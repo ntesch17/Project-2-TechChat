@@ -10,14 +10,10 @@ const handleChangeLogin = (e) => {
         return false;
     }
 
-    console.log($("input[name=_csrf]").val());
-
     sendAjax('POST', $("#changeLoginForm").attr("action"), $("#changeLoginForm").serialize(), redirect);
 
     return false;
 };
-
-
 
 //change loggin form for users to change the password to the account already created.
 const ChangeLoginWindow = (props) =>{

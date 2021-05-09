@@ -57,6 +57,7 @@ const NoteList = function (props) {
 
 
   const noteNodes = props.note.map(function (note) {
+    //Handles deleting a note on user account.
     const handleDelete = e => {
       let xhr = new XMLHttpRequest();
       xhr.open('DELETE', `/deleteNote?_id=${note._id}&_csrf=${csrfToken}`);

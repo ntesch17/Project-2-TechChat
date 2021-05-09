@@ -15,6 +15,7 @@
 <body>
   <h1 id='title'>Tech Chat</h1>
   <h1 id='author'>By: Nicholas Tesch</h1>
+
   <nav><a href="/login"><img id="logo" src="/assets/img/TechChatLogo.png" alt="face logo"/></a>
   {{#if username}}
     <div class='navlink'><b>Welcome: {{this.username}}!</b></div>
@@ -30,10 +31,7 @@
   <h1 id='contentTitle'>Tech Friends:</h1>
 
 {{#if subscribed}}
-  <section id='advertisments'>
-   
-  </section>
-
+  <section id='advertisments'></section>
 {{else}}
 <section id='advertisments'>
    <img class='ad' src="/assets/img/ad8.png" alt="advertisement" className="advertisement" />
@@ -41,9 +39,7 @@
   <img class='ad' src="/assets/img/advertisement4.jpg" alt="advertisement" className="advertisement" />
   </section>
 {{/if}}
-
-  <section id="friends">
-  </section>
+  <section id="friends"></section>
 
   <div id="alertMessage"><img id="speech" src="/assets/img/speechBubble.png" alt="speech box"/>
     <h3><span id="errorMessage"></span></h3>
