@@ -90,7 +90,6 @@ const FileList = function(props){
             <div key={file._id} className="search">
                 <img src={fileRequestURL} alt="image" className="image" />
                 <input id='submitMeme' className="makeDeleteMeme" type="submit" value="Delete Image!" onClick={handleDelete}  />
-                {/* <input id='submitMeme' className="makeDeleteMeme" type="submit" value="Send to meme chat!" onClick={handleMeme}  /> */}
                 <a href={fileRequestURL} download="Your_Image">
                 <button id="downloadButton" type="button">Download Image!</button>
                 </a>

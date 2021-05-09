@@ -52,6 +52,7 @@ const ChatList = function(props){
         const handleDelete = (e) => {
             let xhr = new XMLHttpRequest();
             xhr.open('DELETE', `/deleteMessage?_id=${chat._id}&_csrf=${csrfToken}`);
+            
             xhr.onload = () => {
                
                 if(xhr.response) {
@@ -61,7 +62,6 @@ const ChatList = function(props){
                         window.alert("Message Deleted!");
                         window.location = obj.redirect;
                     }
-                    
                 }
             }
             xhr.send();
@@ -93,9 +93,7 @@ const ChatList = function(props){
         //Content viewable on chat page.
         return (
             <div key={chat._id} className="chat">
-                
                 <img src="/assets/img/chatIcon.png" alt="Chat Icon" className="chatIcon" />
-               
                 <h3 className="chatUser"> User: {chat.username} </h3>
                 <h3 className="chatResponse"> Response: {chat.response} </h3>
                 <input id='submitDelete' className="makeDeleteSubmit" type="submit" value="Delete Response" onClick={handleDelete}/>
