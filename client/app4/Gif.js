@@ -7,6 +7,10 @@ const handleUpload = (e) => {
 
     $("#alertMessage").animate({width:'hide'}, 350);
 
+    if($("#upload").val() == ''){
+        handleError("Enter file for upload.");
+        return false;
+    }
     let formData = new FormData();
 
     formData.append("sampleFile", document.getElementById("upload").files[0]);

@@ -7,7 +7,7 @@ const handleNote = (e) => {
     $("#alertMessage").animate({width:'hide'}, 350);
 
     if($("#noteResponse").val() == ''){
-        handleError("Chat fields are required.");
+        handleError("Note fields are required.");
         return false;
     }
 
@@ -49,7 +49,7 @@ const NoteList = function(props){
 
     //Creates the note node of a user note.
     const noteNodes = props.note.map(function(note) {
-        
+
         //Handles deleting a note on user account.
         const handleDelete = (e) => {
             let xhr = new XMLHttpRequest();

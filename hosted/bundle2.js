@@ -7,7 +7,7 @@ const handleNote = e => {
   }, 350);
 
   if ($("#noteResponse").val() == '') {
-    handleError("Chat fields are required.");
+    handleError("Note fields are required.");
     return false;
   }
 
